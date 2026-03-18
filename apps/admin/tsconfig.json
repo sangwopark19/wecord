@@ -1,0 +1,12 @@
+{
+  "extends": "../../tooling/typescript/nextjs.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "@wecord/shared": ["../../packages/shared/src"],
+      "@wecord/shared/*": ["../../packages/shared/src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next", ".open-next"]
+}
