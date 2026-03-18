@@ -14,13 +14,19 @@ export interface Profile {
   dateOfBirth: string | null;
 }
 
+interface OnboardingData {
+  dateOfBirth: string | null;
+}
+
 interface AuthState {
   session: Session | null;
   user: User | null;
   profile: Profile | null;
   loading: boolean;
+  onboardingData: OnboardingData | null;
   setSession: (session: Session | null) => void;
   setProfile: (profile: Profile | null) => void;
+  setOnboardingData: (data: OnboardingData) => void;
   initialize: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -97,6 +103,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   profile: null,
   loading: true,
+  onboardingData: null,
 
   setSession: (session) => {
     set({ session, user: session?.user ?? null });
@@ -104,6 +111,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   setProfile: (profile) => {
     set({ profile });
+  },
+
+  setOnboardingData: (data) => {
+    set({ onboardingData: data });
   },
 
   initialize: async () => {
@@ -136,6 +147,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signOut: async () => {
     await supabase.auth.signOut();
-    set({ session: null, user: null, profile: null });
+    set({ session: null, user: null, profile: null, onboardingData: null });
   },
 }));
