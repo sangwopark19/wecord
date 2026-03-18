@@ -1,0 +1,17 @@
+{
+  "appName": "Wecord",
+  "loading": "Loading...",
+  "cta": {
+    "join": "Join Community",
+    "confirm": "Confirm"
+  },
+  "empty": {
+    "heading": "Nothing here yet",
+    "body": "Content will appear here once it's available."
+  },
+  "error": {
+    "heading": "Something went wrong",
+    "body": "Please try again. If the problem persists, contact support.",
+    "network": "Check your connection and try again."
+  }
+}
