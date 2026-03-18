@@ -1,17 +1,17 @@
 {
   "appName": "Wecord",
-  "loading": "Loading...",
+  "loading": "로딩 중...",
   "cta": {
-    "join": "Join Community",
-    "confirm": "Confirm"
+    "join": "커뮤니티 가입",
+    "confirm": "확인"
   },
   "empty": {
-    "heading": "Nothing here yet",
-    "body": "Content will appear here once it's available."
+    "heading": "아직 아무것도 없어요",
+    "body": "콘텐츠가 등록되면 여기에 표시됩니다."
   },
   "error": {
-    "heading": "Something went wrong",
-    "body": "Please try again. If the problem persists, contact support.",
-    "network": "Check your connection and try again."
+    "heading": "문제가 발생했어요",
+    "body": "다시 시도해 주세요. 문제가 계속되면 고객센터에 문의해 주세요.",
+    "network": "연결 상태를 확인하고 다시 시도해 주세요."
   }
 }
