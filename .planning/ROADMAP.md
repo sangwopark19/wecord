@@ -32,12 +32,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. RLS policies use the `(select auth.uid())` pattern on all tables and block unauthenticated access
   4. Both apps display correctly with the dark theme (background #000000, Teal #00E5C3 accent) and i18n strings load in all 5 languages
   5. EAS Build project is registered and a CI pipeline runs on push
-**Plans**: TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 01-01: Turborepo + pnpm monorepo scaffolding (packages/db, packages/shared, packages/supabase, apps/mobile stub, apps/admin stub)
-- [ ] 01-02: Supabase project init, Drizzle schema for all core tables, RLS policies, initial migration
-- [ ] 01-03: Expo SDK 55 + Nativewind v4 dark theme setup; Next.js admin init with OpenNext/Cloudflare; i18n scaffold; EAS + CI
+- [ ] 01-01-PLAN.md — Turborepo + pnpm monorepo scaffolding with workspace packages and shared tooling
+- [ ] 01-02-PLAN.md — Supabase local init, Drizzle schema for all 14 MVP tables with RLS, migration
+- [ ] 01-03-PLAN.md — Expo SDK 55 + Nativewind v4 dark theme, i18n scaffold (5 languages, 2 namespaces)
+- [ ] 01-04-PLAN.md — Next.js admin + @opennextjs/cloudflare, shadcn/ui dark theme, EAS Build, GitHub Actions CI
 
 ### Phase 2: Auth & Onboarding
 **Goal**: Users can create an account, set their global identity, and arrive at the app with context — not a blank screen
@@ -146,7 +147,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Not started | - |
+| 1. Foundation | 0/4 | Planning complete | - |
 | 2. Auth & Onboarding | 0/2 | Not started | - |
 | 3. Community & Core Content | 0/4 | Not started | - |
 | 4. Highlights, Notices, Notifications & Translation | 0/4 | Not started | - |
