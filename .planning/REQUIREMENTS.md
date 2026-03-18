@@ -10,7 +10,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 ### Foundation
 
 - [x] **FOUN-01**: Turborepo 모노레포 구조 셋업 (apps/mobile, apps/admin, packages/db, packages/supabase, packages/shared)
-- [ ] **FOUN-02**: Supabase 프로젝트 초기화 (Auth, Storage, Realtime, Edge Functions)
+- [x] **FOUN-02**: Supabase 프로젝트 초기화 (Auth, Storage, Realtime, Edge Functions)
 - [x] **FOUN-03**: Drizzle ORM 스키마 정의 및 초기 마이그레이션 (핵심 테이블 전체)
 - [x] **FOUN-04**: RLS 정책 기본 구조 설정 (`(select auth.uid())` 패턴 적용)
 - [x] **FOUN-05**: Expo SDK 55 프로젝트 초기화 (New Architecture, expo-router v7)
@@ -21,15 +21,15 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Authentication & Onboarding
 
-- [ ] **AUTH-01**: User can sign up/login via Google OAuth
-- [ ] **AUTH-02**: User can sign up/login via Apple OAuth
-- [ ] **AUTH-03**: User can set global profile (nickname, avatar, bio, language)
-- [ ] **AUTH-04**: User session persists across app restart (SecureStore token)
+- [x] **AUTH-01**: User can sign up/login via Google OAuth
+- [x] **AUTH-02**: User can sign up/login via Apple OAuth
+- [x] **AUTH-03**: User can set global profile (nickname, avatar, bio, language)
+- [x] **AUTH-04**: User session persists across app restart (SecureStore token)
 - [ ] **AUTH-05**: User sees Terms of Service / Privacy Policy agreement flow on first signup
 - [ ] **AUTH-06**: User sees Spotify-style creator curation on first signup (random, skippable)
 - [ ] **AUTH-07**: User can set preferred language (KO/EN/TH/ZH-CN/JA) during onboarding
 - [ ] **AUTH-08**: User provides date of birth for age verification (앱스토어 심사 대비)
-- [ ] **AUTH-09**: Content rating field on posts (content_rating column for age-gated content)
+- [x] **AUTH-09**: Content rating field on posts (content_rating column for age-gated content)
 
 ### Community
 

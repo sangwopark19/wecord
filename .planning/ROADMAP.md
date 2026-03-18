@@ -53,7 +53,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Supabase client + SecureStore adapter, authStore (Zustand), TanStack Query setup, Google/Apple OAuth login screen, generate-nickname Edge Function, auth guard routing
+- [x] 02-01-PLAN.md — Supabase client + SecureStore adapter, authStore (Zustand), TanStack Query setup, Google/Apple OAuth login screen, generate-nickname Edge Function, auth guard routing
 - [ ] 02-02-PLAN.md — Onboarding flow: ToS acceptance, date of birth with age gate, language picker, Spotify-style creator curation with auto-join, onboarding completion
 
 ### Phase 3: Community & Core Content
@@ -148,7 +148,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-18 |
-| 2. Auth & Onboarding | 0/2 | Not started | - |
+| 2. Auth & Onboarding | 1/2 | In progress | - |
 | 3. Community & Core Content | 0/4 | Not started | - |
 | 4. Highlights, Notices, Notifications & Translation | 0/4 | Not started | - |
 | 5. Home Feed, Search & Community Social | 0/2 | Not started | - |

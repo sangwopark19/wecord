@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Phase 2 UI-SPEC approved
-last_updated: "2026-03-18T08:10:59.874Z"
-last_activity: "2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build registered + GitHub Actions CI"
+status: in_progress
+stopped_at: Phase 2 Plan 02-01 complete
+last_updated: "2026-03-18T17:40:00.000Z"
+last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  total_plans: 9
+  completed_plans: 5
+  percent: 56
 ---
 
 # Project State
@@ -21,36 +21,38 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-18)
 
 **Core value:** BL/GL 크리에이터와 팬이 언어 장벽 없이 소통할 수 있는 전용 커뮤니티 공간 (커뮤니티별 페르소나 분리 + 자동번역)
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 2 — Auth & Onboarding
 
 ## Current Position
 
-Phase: 1 of 7 (Foundation) — COMPLETE
-Plan: 4 of 4 in current phase (01-01, 01-02, 01-03, 01-04 complete)
-Status: Phase complete, ready for Phase 2
-Last activity: 2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build registered + GitHub Actions CI
+Phase: 2 of 7 (Auth & Onboarding) — IN PROGRESS
+Plan: 1 of 5 in current phase (02-01 complete)
+Status: Plan 02-01 complete, ready for 02-02 (Onboarding screens)
+Last activity: 2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure
 
-Progress: [██████████] 100% (4/4 plans in phase 1 complete)
+Progress: [███░░░░░░░] ~30% (5/9 total plans across all phases complete — Phase 1: 4/4, Phase 2: 1/5)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 6 min
-- Total execution time: 0.38 hours
+- Total plans completed: 5
+- Average duration: ~7 min
+- Total execution time: ~0.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation | 4 | 23 min | 6 min |
+| 02-auth-onboarding | 1 | 12 min | 12 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (10 min), 01-02 (4 min), 01-03 (4 min), 01-04 (5 min)
+- Last 5 plans: 01-01 (10 min), 01-02 (4 min), 01-03 (4 min), 01-04 (5 min), 02-01 (12 min)
 - Trend: stable
 
 *Updated after each plan completion*
 | Phase 01-foundation P01-02 | 6 | 2 tasks | 14 files |
+| Phase 02-auth-onboarding P02-01 | 12 | 3 tasks | 20 files |
 
 ## Accumulated Context
 
@@ -71,6 +73,11 @@ Recent decisions affecting current work:
 - [01-04]: EAS Build only triggers on refs/tags/v* in CI — saves build costs during active development
 - [Phase 01]: postsWithNicknameViewSql defined as raw SQL constant because pgView.as() does not accept SQL<unknown> — Drizzle type limitation
 - [Phase 01]: Supabase migration applied via db:reset to handle pre-existing tables from prior Docker state
+- [02-01]: ExpoSecureStoreAdapter passed to createClient storage — detectSessionInUrl: false is mandatory in React Native
+- [02-01]: Profile interface exported from authStore.ts to resolve TS4058 (return type visibility in external module)
+- [02-01]: react-i18next installed as direct mobile dep — useTranslation must resolve in mobile's TS compilation context
+- [02-01]: /(onboarding)/tos route cast to any until Plan 02-02 creates the route — prevents hard typecheck failure
+- [02-01]: generate-nickname uses Deno.serve() (not deprecated serve from std/http) per current Supabase Edge Function pattern
 
 ### Pending Todos
 
@@ -82,9 +89,11 @@ None yet.
 - [Pre-Phase 4]: Verify pgmq + pg_cron extensions are enabled in Supabase dashboard before starting notifications
 - [Pre-Phase 4]: DeepL vs. Google Translate quality for KO/JA not yet benchmarked — decide early in Phase 4
 - [Pre-Phase 7]: Apple OAuth requires live privacy policy URL before first TestFlight — plan URL hosting alongside Phase 7 App Store checklist
+- [02-01]: generate-nickname Edge Function needs manual deploy: `supabase functions deploy generate-nickname`
+- [02-01]: EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY env vars needed in .env.local for dev
 
 ## Session Continuity
 
-Last session: 2026-03-18T08:10:59.872Z
-Stopped at: Phase 2 UI-SPEC approved
-Resume file: .planning/phases/02-auth-onboarding/02-UI-SPEC.md
+Last session: 2026-03-18T17:40:00.000Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-auth-onboarding/02-02-PLAN.md
