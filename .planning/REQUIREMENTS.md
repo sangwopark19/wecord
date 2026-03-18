@@ -13,8 +13,8 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **FOUN-02**: Supabase 프로젝트 초기화 (Auth, Storage, Realtime, Edge Functions)
 - [x] **FOUN-03**: Drizzle ORM 스키마 정의 및 초기 마이그레이션 (핵심 테이블 전체)
 - [x] **FOUN-04**: RLS 정책 기본 구조 설정 (`(select auth.uid())` 패턴 적용)
-- [ ] **FOUN-05**: Expo SDK 55 프로젝트 초기화 (New Architecture, expo-router v7)
-- [ ] **FOUN-06**: Nativewind v4 + 다크 테마 디자인 시스템 설정
+- [x] **FOUN-05**: Expo SDK 55 프로젝트 초기화 (New Architecture, expo-router v7)
+- [x] **FOUN-06**: Nativewind v4 + 다크 테마 디자인 시스템 설정
 - [ ] **FOUN-07**: Next.js 관리자 앱 초기화 (@opennextjs/cloudflare 배포 설정)
 - [x] **FOUN-08**: i18n 인프라 설정 (expo-localization + i18next, 5개 언어 KO/EN/TH/ZH-CN/JA)
 - [ ] **FOUN-09**: EAS Build/Update 프로젝트 등록 및 CI/CD 기본 설정

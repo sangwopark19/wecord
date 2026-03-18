@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. RLS policies use the `(select auth.uid())` pattern on all tables and block unauthenticated access
   4. Both apps display correctly with the dark theme (background #000000, Teal #00E5C3 accent) and i18n strings load in all 5 languages
   5. EAS Build project is registered and a CI pipeline runs on push
-**Plans:** 1/4 plans executed
+**Plans:** 2/4 plans executed
 
 Plans:
 - [x] 01-01-PLAN.md — Turborepo + pnpm monorepo scaffolding with workspace packages, shared tooling, and test infrastructure
@@ -147,7 +147,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/4 | In Progress|  |
+| 1. Foundation | 2/4 | In Progress|  |
 | 2. Auth & Onboarding | 0/2 | Not started | - |
 | 3. Community & Core Content | 0/4 | Not started | - |
 | 4. Highlights, Notices, Notifications & Translation | 0/4 | Not started | - |
