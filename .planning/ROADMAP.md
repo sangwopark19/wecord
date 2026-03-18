@@ -50,11 +50,11 @@ Plans:
   3. After signing up, user completes the onboarding flow: ToS acceptance, date of birth, language preference, and Spotify-style creator curation (skippable)
   4. User's session persists across app restarts (SecureStore token) and the global profile (nickname, avatar, bio) is editable
   5. Post and comment schema has content_rating column; profiles schema has date_of_birth column
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 02-01: Supabase Auth (Google + Apple OAuth), authStore (Zustand), TanStack Query client setup, SecureStore session persistence
-- [ ] 02-02: Onboarding screens (ToS, date of birth, language picker, Spotify-style creator curation), `generate-nickname` Edge Function, global profile setup screen
+- [ ] 02-01-PLAN.md — Supabase client + SecureStore adapter, authStore (Zustand), TanStack Query setup, Google/Apple OAuth login screen, generate-nickname Edge Function, auth guard routing
+- [ ] 02-02-PLAN.md — Onboarding flow: ToS acceptance, date of birth with age gate, language picker, Spotify-style creator curation with auto-join, onboarding completion
 
 ### Phase 3: Community & Core Content
 **Goal**: Users can discover and join communities with a per-community persona, then post, react, and engage within those communities
