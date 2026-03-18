@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: completed
 stopped_at: "Checkpoint: 01-02 Task 3 — awaiting Supabase Cloud project-ref from user"
-last_updated: "2026-03-18T05:18:39.416Z"
+last_updated: "2026-03-18T05:55:56.299Z"
 last_activity: "2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build registered + GitHub Actions CI"
 progress:
   total_phases: 7
