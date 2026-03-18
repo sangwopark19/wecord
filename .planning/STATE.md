@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: "Completed 01-04-PLAN.md"
-last_updated: "2026-03-18T05:15:28Z"
-last_activity: "2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build + GitHub Actions CI"
+status: completed
+stopped_at: "Checkpoint: 01-02 Task 3 — awaiting Supabase Cloud project-ref from user"
+last_updated: "2026-03-18T05:18:39.416Z"
+last_activity: "2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build registered + GitHub Actions CI"
 progress:
   total_phases: 7
   completed_phases: 1
@@ -50,6 +50,7 @@ Progress: [██████████] 100% (4/4 plans in phase 1 complete)
 - Trend: stable
 
 *Updated after each plan completion*
+| Phase 01-foundation P01-02 | 6 | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Nativewind v4.2.3 on Expo SDK 55: typecheck passes; expo export smoke test deferred to manual validation before first EAS build
 - [01-04]: Use defineCloudflareConfig (not defineConfig) in open-next.config.ts — @opennextjs/cloudflare v1.17.1 exports this name
 - [01-04]: EAS Build only triggers on refs/tags/v* in CI — saves build costs during active development
+- [Phase 01]: postsWithNicknameViewSql defined as raw SQL constant because pgView.as() does not accept SQL<unknown> — Drizzle type limitation
+- [Phase 01]: Supabase migration applied via db:reset to handle pre-existing tables from prior Docker state
 
 ### Pending Todos
 
@@ -82,6 +85,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T05:15:28Z
-Stopped at: Completed 01-04-PLAN.md (Phase 1 complete)
-Resume file: .planning/phases/02-auth/02-01-PLAN.md
+Last session: 2026-03-18T05:18:39.413Z
+Stopped at: Checkpoint: 01-02 Task 3 — awaiting Supabase Cloud project-ref from user
+Resume file: None
