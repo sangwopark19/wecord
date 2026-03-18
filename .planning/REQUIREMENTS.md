@@ -216,26 +216,25 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUN-01~09 | Phase 1 | Pending |
-| AUTH-01~09 | Phase 2 | Pending |
-| COMM-01~07 | Phase 3 | Pending |
-| MEMB-01~04 | Phase 4 | Pending |
-| FANF-01~08 | Phase 4 | Pending |
-| CREF-01~04 | Phase 4 | Pending |
-| INTC-01~06 | Phase 4 | Pending |
-| TRAN-01~05 | Phase 5 | Pending |
-| HIGH-01~05 | Phase 5 | Pending |
-| NOTC-01~05 | Phase 5 | Pending |
-| NOTF-01~08 | Phase 6 | Pending |
-| HOME-01~05 | Phase 7 | Pending |
-| SRCH-01~03 | Phase 7 | Pending |
-| FLLW-01~04 | Phase 7 | Pending |
-| SAFE-01~06 | Phase 8 | Pending |
-| ADMN-01~11 | Phase 8 | Pending |
-| SHOP-01~02 | Phase 9 | Pending |
-| DMPL-01~02 | Phase 9 | Pending |
-| MORE-01~05 | Phase 9 | Pending |
-| AUTH-08~09 | Phase 8 | Pending |
+| FOUN-01~09 | Phase 1: Foundation | Pending |
+| AUTH-01~09 | Phase 2: Auth & Onboarding | Pending |
+| COMM-01~07 | Phase 3: Community & Core Content | Pending |
+| MEMB-01~04 | Phase 3: Community & Core Content | Pending |
+| FANF-01~08 | Phase 3: Community & Core Content | Pending |
+| CREF-01~04 | Phase 3: Community & Core Content | Pending |
+| INTC-01~06 | Phase 3: Community & Core Content | Pending |
+| HIGH-01~05 | Phase 4: Highlights, Notices, Notifications & Translation | Pending |
+| NOTC-01~05 | Phase 4: Highlights, Notices, Notifications & Translation | Pending |
+| NOTF-01~08 | Phase 4: Highlights, Notices, Notifications & Translation | Pending |
+| TRAN-01~05 | Phase 4: Highlights, Notices, Notifications & Translation | Pending |
+| HOME-01~05 | Phase 5: Home Feed, Search & Community Social | Pending |
+| SRCH-01~03 | Phase 5: Home Feed, Search & Community Social | Pending |
+| FLLW-01~04 | Phase 5: Home Feed, Search & Community Social | Pending |
+| SAFE-01~06 | Phase 6: Safety & Admin Dashboard | Pending |
+| ADMN-01~11 | Phase 6: Safety & Admin Dashboard | Pending |
+| SHOP-01~02 | Phase 7: Launch Polish | Pending |
+| DMPL-01~02 | Phase 7: Launch Polish | Pending |
+| MORE-01~05 | Phase 7: Launch Polish | Pending |
 
 **Coverage:**
 - v1 requirements: 95 total
@@ -244,4 +243,4 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ---
 *Requirements defined: 2026-03-18*
-*Last updated: 2026-03-18 after initial definition*
+*Last updated: 2026-03-18 — traceability updated to 7-phase roadmap*
