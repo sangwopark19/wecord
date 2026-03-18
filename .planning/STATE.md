@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-03-18T05:15:11.899Z"
-last_activity: "2026-03-18 — 01-03 complete: Expo SDK 55 mobile app + Nativewind v4 dark theme + i18n scaffold (5 languages, 2 namespaces)"
+stopped_at: "Completed 01-04-PLAN.md"
+last_updated: "2026-03-18T05:15:28Z"
+last_activity: "2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build + GitHub Actions CI"
 progress:
   total_phases: 7
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 2
-  percent: 50
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -25,29 +25,29 @@ See: .planning/PROJECT.md (updated 2026-03-18)
 
 ## Current Position
 
-Phase: 1 of 7 (Foundation)
-Plan: 3 of 4 in current phase (01-01, 01-03 complete)
-Status: Executing
-Last activity: 2026-03-18 — 01-03 complete: Expo SDK 55 mobile app + Nativewind v4 dark theme + i18n scaffold (5 languages)
+Phase: 1 of 7 (Foundation) — COMPLETE
+Plan: 4 of 4 in current phase (01-01, 01-02, 01-03, 01-04 complete)
+Status: Phase complete, ready for Phase 2
+Last activity: 2026-03-18 — 01-04 complete: Next.js admin app + @opennextjs/cloudflare + shadcn/ui dark theme + EAS Build registered + GitHub Actions CI
 
-Progress: [█████░░░░░] 50% (2/4 plans in phase 1 complete)
+Progress: [██████████] 100% (4/4 plans in phase 1 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 7 min
-- Total execution time: 0.23 hours
+- Total plans completed: 4
+- Average duration: 6 min
+- Total execution time: 0.38 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 2 | 14 min | 7 min |
+| 01-foundation | 4 | 23 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (10 min), 01-03 (4 min)
-- Trend: improving
+- Last 5 plans: 01-01 (10 min), 01-02 (4 min), 01-03 (4 min), 01-04 (5 min)
+- Trend: stable
 
 *Updated after each plan completion*
 
@@ -66,6 +66,8 @@ Recent decisions affecting current work:
 - [01-01]: packages/supabase kept minimal (no build scripts) — Supabase CLI manages the environment, not pnpm
 - [Phase 01-foundation]: initI18n() function pattern (not auto-init) keeps @wecord/shared platform-agnostic — apps call it with their locale at startup
 - [Phase 01-foundation]: Nativewind v4.2.3 on Expo SDK 55: typecheck passes; expo export smoke test deferred to manual validation before first EAS build
+- [01-04]: Use defineCloudflareConfig (not defineConfig) in open-next.config.ts — @opennextjs/cloudflare v1.17.1 exports this name
+- [01-04]: EAS Build only triggers on refs/tags/v* in CI — saves build costs during active development
 
 ### Pending Todos
 
@@ -80,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T05:15:11.897Z
-Stopped at: Completed 01-03-PLAN.md
-Resume file: None
+Last session: 2026-03-18T05:15:28Z
+Stopped at: Completed 01-04-PLAN.md (Phase 1 complete)
+Resume file: .planning/phases/02-auth/02-01-PLAN.md
