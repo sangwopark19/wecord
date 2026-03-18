@@ -25,10 +25,10 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [x] **AUTH-02**: User can sign up/login via Apple OAuth
 - [x] **AUTH-03**: User can set global profile (nickname, avatar, bio, language)
 - [x] **AUTH-04**: User session persists across app restart (SecureStore token)
-- [ ] **AUTH-05**: User sees Terms of Service / Privacy Policy agreement flow on first signup
-- [ ] **AUTH-06**: User sees Spotify-style creator curation on first signup (random, skippable)
-- [ ] **AUTH-07**: User can set preferred language (KO/EN/TH/ZH-CN/JA) during onboarding
-- [ ] **AUTH-08**: User provides date of birth for age verification (앱스토어 심사 대비)
+- [x] **AUTH-05**: User sees Terms of Service / Privacy Policy agreement flow on first signup
+- [x] **AUTH-06**: User sees Spotify-style creator curation on first signup (random, skippable)
+- [x] **AUTH-07**: User can set preferred language (KO/EN/TH/ZH-CN/JA) during onboarding
+- [x] **AUTH-08**: User provides date of birth for age verification (앱스토어 심사 대비)
 - [x] **AUTH-09**: Content rating field on posts (content_rating column for age-gated content)
 
 ### Community

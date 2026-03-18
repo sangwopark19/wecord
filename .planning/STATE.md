@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-stopped_at: Phase 2 Plan 02-01 complete
-last_updated: "2026-03-18T17:40:00.000Z"
+status: completed
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-18T08:48:13.355Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
-  completed_phases: 1
-  total_plans: 9
-  completed_plans: 5
-  percent: 56
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 6
+  percent: 30
 ---
 
 # Project State
@@ -53,6 +53,7 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 *Updated after each plan completion*
 | Phase 01-foundation P01-02 | 6 | 2 tasks | 14 files |
 | Phase 02-auth-onboarding P02-01 | 12 | 3 tasks | 20 files |
+| Phase 02-auth-onboarding P02-02 | 20 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,9 @@ Recent decisions affecting current work:
 - [02-01]: react-i18next installed as direct mobile dep — useTranslation must resolve in mobile's TS compilation context
 - [02-01]: /(onboarding)/tos route cast to any until Plan 02-02 creates the route — prevents hard typecheck failure
 - [02-01]: generate-nickname uses Deno.serve() (not deprecated serve from std/http) per current Supabase Edge Function pattern
+- [Phase 02-auth-onboarding]: i18n.changeLanguage imported from i18next directly (not @wecord/shared default export)
+- [Phase 02-auth-onboarding]: onboardingData stored in authStore for dateOfBirth cross-screen persistence (not expo-router params)
+- [Phase 02-auth-onboarding]: as never cast for dynamic onboarding routes not yet in expo-router type registry
 
 ### Pending Todos
 
@@ -94,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T17:40:00.000Z
-Stopped at: Completed 02-01-PLAN.md
-Resume file: .planning/phases/02-auth-onboarding/02-02-PLAN.md
+Last session: 2026-03-18T08:48:13.353Z
+Stopped at: Completed 02-02-PLAN.md
+Resume file: None

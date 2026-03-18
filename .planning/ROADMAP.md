@@ -13,7 +13,7 @@ Wecord is built in 7 phases following a strict dependency chain: the foundation 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Monorepo, Supabase project, full schema with RLS, i18n scaffold, and CI/CD (completed 2026-03-18)
-- [ ] **Phase 2: Auth & Onboarding** - Google/Apple OAuth, global profile, dual-account identity, and creator curation flow
+- [x] **Phase 2: Auth & Onboarding** - Google/Apple OAuth, global profile, dual-account identity, and creator curation flow (completed 2026-03-18)
 - [ ] **Phase 3: Community & Core Content** - Community join with per-community persona, fan/creator feeds, comments, and likes
 - [ ] **Phase 4: Highlights, Notices, Notifications & Translation** - Highlight tab, notice system, async push notifications, and in-app translation
 - [ ] **Phase 5: Home Feed, Search & Community Social** - Cross-community home feed, full-text search, community following, and community profiles
@@ -50,7 +50,7 @@ Plans:
   3. After signing up, user completes the onboarding flow: ToS acceptance, date of birth, language preference, and Spotify-style creator curation (skippable)
   4. User's session persists across app restarts (SecureStore token) and the global profile (nickname, avatar, bio) is editable
   5. Post and comment schema has content_rating column; profiles schema has date_of_birth column
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 02-01-PLAN.md — Supabase client + SecureStore adapter, authStore (Zustand), TanStack Query setup, Google/Apple OAuth login screen, generate-nickname Edge Function, auth guard routing
@@ -148,7 +148,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-18 |
-| 2. Auth & Onboarding | 1/2 | In progress | - |
+| 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
 | 3. Community & Core Content | 0/4 | Not started | - |
 | 4. Highlights, Notices, Notifications & Translation | 0/4 | Not started | - |
 | 5. Home Feed, Search & Community Social | 0/2 | Not started | - |
