@@ -88,11 +88,20 @@ All sizes in sp/px (Nativewind treats them equivalently on React Native).
 | Body | 14px | 400 (Regular) | 1.5 | Post body text, descriptions, list item labels |
 | Label | 12px | 400 (Regular) | 1.4 | Dates, member counts, captions, tab bar labels |
 | Heading | 16px | 600 (SemiBold) | 1.3 | Card titles, section headings, menu item text |
-| Display | 20px | 700 (Bold) | 1.2 | Page titles, community name in header |
+| Display | 20px | 600 (SemiBold) | 1.2 | Page titles, community name in header |
 
-Weight declarations (exactly 2 weights in use per screen):
+Weight declarations (exactly 2 weights):
 - **Regular: 400** — body text, captions, secondary info
-- **SemiBold/Bold: 600–700** — headings, CTAs, nicknames, tab titles
+- **SemiBold: 600** — headings, CTAs, nicknames, tab titles, display text
+
+The executor MUST declare only these two values in `tailwind.config.js`:
+
+```js
+fontWeight: {
+  regular: '400',
+  semibold: '600',
+},
+```
 
 Source: WEVERSE-UI-UX-GUIDE §1.2 typography table, collapsed to 4 roles with clean values.
 
@@ -204,7 +213,7 @@ The executor MUST create skeleton keys in `packages/shared/i18n/locales/{lang}/c
 | Destructive: logout label | `auth.logout.label` | "Log out" |
 | Destructive: logout confirmation | `auth.logout.confirm` | "Are you sure you want to log out?" |
 | Destructive: confirm button | `common.cta.confirm` | "Confirm" |
-| Destructive: cancel button | `common.cta.cancel` | "Cancel" |
+| Destructive: logout cancel button | `auth.logout.cancel` | "Stay logged in" |
 | Loading state | `common.loading` | "Loading..." |
 | App name | `common.appName` | "Wecord" |
 
