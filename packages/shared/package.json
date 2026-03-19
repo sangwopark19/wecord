@@ -16,7 +16,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "i18next": "^25.8.18",
+    "i18next": "^25.8.18"
+  },
+  "peerDependencies": {
     "react-i18next": "^16.5.8"
   },
   "devDependencies": {

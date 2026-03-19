@@ -1,22 +1,35 @@
 import 'react-native-url-polyfill/auto';
-import { createClient } from '@supabase/supabase-js';
-import * as SecureStore from 'expo-secure-store';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Platform } from 'react-native';
 
-const ExpoSecureStoreAdapter = {
-  getItem: (key: string) => SecureStore.getItemAsync(key),
-  setItem: (key: string, value: string) => SecureStore.setItemAsync(key, value),
-  removeItem: (key: string) => SecureStore.deleteItemAsync(key),
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+const supabasePublishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+
+// SSR-safe storage adapter: defers AsyncStorage import to avoid
+// "window is not defined" during server-side rendering
+const storage = {
+  async getItem(key: string) {
+    if (Platform.OS === 'web' && typeof window === 'undefined') return null;
+    const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
+    return AsyncStorage.getItem(key);
+  },
+  async setItem(key: string, value: string) {
+    if (Platform.OS === 'web' && typeof window === 'undefined') return;
+    const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
+    await AsyncStorage.setItem(key, value);
+  },
+  async removeItem(key: string) {
+    if (Platform.OS === 'web' && typeof window === 'undefined') return;
+    const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
+    await AsyncStorage.removeItem(key);
+  },
 };
 
-export const supabase = createClient(
-  process.env.EXPO_PUBLIC_SUPABASE_URL!,
-  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!,
-  {
-    auth: {
-      storage: ExpoSecureStoreAdapter,
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: false, // MUST be false in React Native
-    },
-  }
-);
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabasePublishableKey, {
+  auth: {
+    storage,
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: Platform.OS === 'web',
+  },
+});

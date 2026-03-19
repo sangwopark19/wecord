@@ -60,14 +60,18 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
     };
   }
 
-  // New user: generate nickname and upsert profile
+  // New user: generate nickname via Edge Function with local fallback
+  let nickname: string;
   const { data: nicknameData, error: nicknameError } = await supabase.functions.invoke(
     'generate-nickname'
   );
 
   if (nicknameError || !nicknameData?.nickname) {
-    console.error('Failed to generate nickname:', nicknameError);
-    return null;
+    console.warn('Edge Function unavailable, generating nickname locally');
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    nickname = `User#${randomNum}`;
+  } else {
+    nickname = nicknameData.nickname;
   }
 
   const language = getDeviceLanguage();
@@ -76,7 +80,7 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
     .from('profiles')
     .upsert({
       user_id: userId,
-      global_nickname: nicknameData.nickname,
+      global_nickname: nickname,
       language,
       onboarding_completed: false,
     })

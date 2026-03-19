@@ -31,6 +31,13 @@ export default function LoginScreen() {
   async function signInWithGoogle() {
     setLoadingGoogle(true);
     try {
+      if (Platform.OS === 'web') {
+        await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.origin },
+        });
+        return;
+      }
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: { redirectTo, skipBrowserRedirect: true },
@@ -39,7 +46,11 @@ export default function LoginScreen() {
       if (data.url) {
         const result = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
         if (result.type === 'success') {
-          await supabase.auth.exchangeCodeForSession(result.url);
+          const url = new URL(result.url);
+          const code = url.searchParams.get('code');
+          if (code) {
+            await supabase.auth.exchangeCodeForSession(code);
+          }
         }
       }
     } catch (err) {
@@ -77,6 +88,13 @@ export default function LoginScreen() {
   async function signInWithAppleWeb() {
     setLoadingApple(true);
     try {
+      if (Platform.OS === 'web') {
+        await supabase.auth.signInWithOAuth({
+          provider: 'apple',
+          options: { redirectTo: window.location.origin },
+        });
+        return;
+      }
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
         options: { redirectTo, skipBrowserRedirect: true },
@@ -85,7 +103,11 @@ export default function LoginScreen() {
       if (data.url) {
         const result = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
         if (result.type === 'success') {
-          await supabase.auth.exchangeCodeForSession(result.url);
+          const url = new URL(result.url);
+          const code = url.searchParams.get('code');
+          if (code) {
+            await supabase.auth.exchangeCodeForSession(code);
+          }
         }
       }
     } catch (err) {

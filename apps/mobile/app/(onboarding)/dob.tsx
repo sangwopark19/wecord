@@ -66,40 +66,67 @@ export default function DobScreen() {
           {t('dob.body')}
         </Text>
 
-        <Pressable
-          onPress={() => {
-            if (Platform.OS === 'android') {
-              setShowPicker(true);
-            }
-          }}
-          className="bg-input rounded-xl h-[52px] justify-center px-4 mt-4"
-        >
-          <Text className="text-body font-regular text-foreground">
-            {selectedDate ? formatDate(selectedDate) : 'YYYY-MM-DD'}
-          </Text>
-        </Pressable>
-
-        {Platform.OS === 'ios' && (
-          <DateTimePicker
-            value={selectedDate ?? DEFAULT_DATE}
-            mode="date"
-            display="spinner"
-            themeVariant="dark"
-            onChange={handleDateChange}
-            minimumDate={MIN_DATE}
-            maximumDate={MAX_DATE}
+        {Platform.OS === 'web' ? (
+          <input
+            type="date"
+            value={selectedDate ? formatDate(selectedDate) : ''}
+            onChange={(e) => {
+              const val = (e as any).target.value;
+              if (val) setSelectedDate(new Date(val + 'T00:00:00'));
+            }}
+            min={formatDate(MIN_DATE)}
+            max={formatDate(MAX_DATE)}
+            style={{
+              backgroundColor: '#1A1A1A',
+              color: '#FFFFFF',
+              borderRadius: 12,
+              height: 52,
+              paddingLeft: 16,
+              paddingRight: 16,
+              marginTop: 16,
+              border: 'none',
+              fontSize: 16,
+              width: '100%',
+            }}
           />
-        )}
+        ) : (
+          <>
+            <Pressable
+              onPress={() => {
+                if (Platform.OS === 'android') {
+                  setShowPicker(true);
+                }
+              }}
+              className="bg-input rounded-xl h-[52px] justify-center px-4 mt-4"
+            >
+              <Text className="text-body font-regular text-foreground">
+                {selectedDate ? formatDate(selectedDate) : 'YYYY-MM-DD'}
+              </Text>
+            </Pressable>
 
-        {Platform.OS === 'android' && showPicker && (
-          <DateTimePicker
-            value={selectedDate ?? DEFAULT_DATE}
-            mode="date"
-            display="default"
-            onChange={handleDateChange}
-            minimumDate={MIN_DATE}
-            maximumDate={MAX_DATE}
-          />
+            {Platform.OS === 'ios' && (
+              <DateTimePicker
+                value={selectedDate ?? DEFAULT_DATE}
+                mode="date"
+                display="spinner"
+                themeVariant="dark"
+                onChange={handleDateChange}
+                minimumDate={MIN_DATE}
+                maximumDate={MAX_DATE}
+              />
+            )}
+
+            {Platform.OS === 'android' && showPicker && (
+              <DateTimePicker
+                value={selectedDate ?? DEFAULT_DATE}
+                mode="date"
+                display="default"
+                onChange={handleDateChange}
+                minimumDate={MIN_DATE}
+                maximumDate={MAX_DATE}
+              />
+            )}
+          </>
         )}
 
         {isUnderAge && (
