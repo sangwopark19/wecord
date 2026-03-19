@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@wecord/shared/i18n';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PrimaryCTAButton } from '../../components/PrimaryCTAButton';
 

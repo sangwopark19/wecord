@@ -10,7 +10,7 @@ import {
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@wecord/shared/i18n';
 import { supabase } from '../../lib/supabase';
 
 WebBrowser.maybeCompleteAuthSession();

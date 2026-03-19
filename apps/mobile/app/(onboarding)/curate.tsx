@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Text, FlatList, Pressable, Image, Dimensions, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@wecord/shared/i18n';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';

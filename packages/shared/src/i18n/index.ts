@@ -37,4 +37,5 @@ export function initI18n(languageCode?: string) {
   return i18n;
 }
 
+export { useTranslation } from 'react-i18next';
 export default i18n;

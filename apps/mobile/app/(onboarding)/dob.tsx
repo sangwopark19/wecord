@@ -4,7 +4,7 @@ import DateTimePicker, {
   type DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import { useRouter } from 'expo-router';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@wecord/shared/i18n';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PrimaryCTAButton } from '../../components/PrimaryCTAButton';
 import { useAuthStore } from '../../stores/authStore';
