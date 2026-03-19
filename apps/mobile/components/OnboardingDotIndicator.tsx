@@ -18,10 +18,9 @@ function AnimatedDot({ isActive }: { isActive: boolean }) {
   }, [isActive, scaleAnim]);
 
   return (
-    <Animated.View
-      style={{ transform: [{ scale: scaleAnim }] }}
-      className={`w-2 h-2 rounded-full ${isActive ? 'bg-teal' : 'bg-input'}`}
-    />
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <View className={`w-2 h-2 rounded-full ${isActive ? 'bg-teal' : 'bg-input'}`} />
+    </Animated.View>
   );
 }
 

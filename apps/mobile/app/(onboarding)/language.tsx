@@ -64,7 +64,10 @@ export default function LanguageScreen() {
             const isSelected = item.code === selectedLanguage;
             return (
               <Pressable
-                onPress={() => setSelectedLanguage(item.code)}
+                onPress={() => {
+                  setSelectedLanguage(item.code);
+                  i18n.changeLanguage(item.code);
+                }}
                 className={`flex-row items-center justify-between h-[52px] rounded-xl px-4 bg-card ${
                   isSelected ? 'border-2 border-teal' : 'border-2 border-transparent'
                 }`}
