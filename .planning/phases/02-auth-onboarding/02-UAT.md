@@ -26,6 +26,13 @@ reported: "구글로그인 시 400 validation_failed - Unsupported provider: pro
 severity: blocker
 resolution: fixed - Supabase Dashboard에서 Google provider 활성화 + 웹 OAuth redirect flow 수정 + DB 마이그레이션 적용
 
+### 2b. Google OAuth 로그인 (iOS)
+expected: iOS 시뮬레이터에서 Google 로그인 완료 후 온보딩 화면으로 이동됨.
+result: issue
+reported: "iOS에서 구글로그인 후 무한 로딩 - Edge Function 호출이 네이티브에서 행(hang)"
+severity: blocker
+resolution: fixed - Edge Function 제거, 로컬 닉네임 생성, auth 에러 핸들링 추가 (8959b59)
+
 ### 3. Apple OAuth 로그인
 expected: Apple 버튼 탭 시 iOS에서는 네이티브 Apple 로그인 시트가 표시됨. 로그인 완료 후 앱으로 돌아옴.
 result: skipped
@@ -79,9 +86,9 @@ resolution: fixed - i18n reactivity 수정 (a1aa0df)
 
 ## Summary
 
-total: 12
+total: 13
 passed: 5
-issues: 4
+issues: 5
 pending: 0
 skipped: 3
 
