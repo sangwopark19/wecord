@@ -28,6 +28,7 @@ const storage = {
 export const supabase: SupabaseClient = createClient(supabaseUrl, supabasePublishableKey, {
   auth: {
     storage,
+    flowType: 'pkce',
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: Platform.OS === 'web',

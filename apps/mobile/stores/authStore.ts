@@ -42,12 +42,16 @@ function getDeviceLanguage(): SupportedLanguage {
 }
 
 async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
+  console.log('[Profile] Fetching profile for:', userId);
+
   // Try fetching existing profile
   const { data: existingProfile, error: fetchError } = await supabase
     .from('profiles')
     .select('user_id, global_nickname, avatar_url, language, onboarding_completed, date_of_birth')
     .eq('user_id', userId)
     .single();
+
+  console.log('[Profile] Fetch result:', { found: !!existingProfile, error: fetchError?.message });
 
   if (existingProfile && !fetchError) {
     return {
@@ -60,20 +64,10 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
     };
   }
 
-  // New user: generate nickname via Edge Function with local fallback
-  let nickname: string;
-  const { data: nicknameData, error: nicknameError } = await supabase.functions.invoke(
-    'generate-nickname'
-  );
-
-  if (nicknameError || !nicknameData?.nickname) {
-    console.warn('Edge Function unavailable, generating nickname locally');
-    const randomNum = Math.floor(1000 + Math.random() * 9000);
-    nickname = `User#${randomNum}`;
-  } else {
-    nickname = nicknameData.nickname;
-  }
-
+  // New user: generate nickname locally (skip Edge Function for reliability)
+  console.log('[Profile] Creating new profile...');
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  const nickname = `User#${randomNum}`;
   const language = getDeviceLanguage();
 
   const { data: newProfile, error: upsertError } = await supabase
@@ -88,10 +82,11 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
     .single();
 
   if (upsertError || !newProfile) {
-    console.error('Failed to upsert profile:', upsertError);
+    console.error('[Profile] Failed to upsert:', upsertError);
     return null;
   }
 
+  console.log('[Profile] Created:', newProfile.global_nickname);
   return {
     userId: newProfile.user_id,
     globalNickname: newProfile.global_nickname,
@@ -124,14 +119,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   initialize: async () => {
     set({ loading: true });
 
-    // Restore session from SecureStore
-    const { data: { session } } = await supabase.auth.getSession();
-    set({ session, user: session?.user ?? null });
+    try {
+      // Restore session from storage
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log('[Auth] Session restored:', !!session);
+      set({ session, user: session?.user ?? null });
 
-    if (session?.user) {
-      const profile = await fetchOrCreateProfile(session.user.id);
-      set({ profile, loading: false });
-    } else {
+      if (session?.user) {
+        const profile = await fetchOrCreateProfile(session.user.id);
+        set({ profile, loading: false });
+      } else {
+        set({ loading: false });
+      }
+    } catch (err) {
+      console.error('[Auth] initialize failed:', err);
       set({ loading: false });
     }
 
@@ -141,8 +142,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (event === 'SIGNED_IN' && session?.user) {
         set({ loading: true });
-        const profile = await fetchOrCreateProfile(session.user.id);
-        set({ profile, loading: false });
+        try {
+          const profile = await fetchOrCreateProfile(session.user.id);
+          set({ profile, loading: false });
+        } catch (err) {
+          console.error('[Auth] fetchOrCreateProfile failed:', err);
+          set({ loading: false });
+        }
       } else if (event === 'SIGNED_OUT') {
         set({ profile: null, loading: false });
       }

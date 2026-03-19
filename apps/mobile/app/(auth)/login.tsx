@@ -44,13 +44,41 @@ export default function LoginScreen() {
       });
       if (error) throw error;
       if (data.url) {
-        const result = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
+        const result = await WebBrowser.openAuthSessionAsync(
+          data.url,
+          redirectTo,
+          { preferEphemeralSession: true },
+        );
         if (result.type === 'success') {
           const url = new URL(result.url);
+          // PKCE flow: code in query params
           const code = url.searchParams.get('code');
           if (code) {
-            await supabase.auth.exchangeCodeForSession(code);
+            const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+            if (exchangeError) {
+              console.error('[OAuth] exchangeCodeForSession failed:', exchangeError.message);
+              throw exchangeError;
+            }
+            return; // onAuthStateChange handles navigation
           }
+          // Implicit flow fallback: tokens in URL fragment
+          const hashParams = new URLSearchParams(url.hash.replace('#', ''));
+          const accessToken = hashParams.get('access_token');
+          const refreshToken = hashParams.get('refresh_token');
+          if (accessToken && refreshToken) {
+            const { error: sessionError } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            });
+            if (sessionError) {
+              console.error('[OAuth] setSession failed:', sessionError.message);
+              throw sessionError;
+            }
+            return;
+          }
+          console.error('[OAuth] No code or tokens in callback URL:', result.url);
+        } else {
+          console.log('[OAuth] Browser result:', result.type);
         }
       }
     } catch (err) {
@@ -101,12 +129,29 @@ export default function LoginScreen() {
       });
       if (error) throw error;
       if (data.url) {
-        const result = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
+        const result = await WebBrowser.openAuthSessionAsync(
+          data.url,
+          redirectTo,
+          { preferEphemeralSession: true },
+        );
         if (result.type === 'success') {
           const url = new URL(result.url);
           const code = url.searchParams.get('code');
           if (code) {
-            await supabase.auth.exchangeCodeForSession(code);
+            const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+            if (exchangeError) throw exchangeError;
+            return;
+          }
+          const hashParams = new URLSearchParams(url.hash.replace('#', ''));
+          const accessToken = hashParams.get('access_token');
+          const refreshToken = hashParams.get('refresh_token');
+          if (accessToken && refreshToken) {
+            const { error: sessionError } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            });
+            if (sessionError) throw sessionError;
+            return;
           }
         }
       }
