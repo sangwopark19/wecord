@@ -68,12 +68,12 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Comments & Likes
 
-- [ ] **INTC-01**: User can comment on posts (displayed with community nickname)
-- [ ] **INTC-02**: User can reply to comments (1 depth nested)
-- [ ] **INTC-03**: Creator replies are visually highlighted
-- [ ] **INTC-04**: User can like posts (toggle, real-time count)
-- [ ] **INTC-05**: User can like comments (toggle, real-time count)
-- [ ] **INTC-06**: User can delete own comments
+- [x] **INTC-01**: User can comment on posts (displayed with community nickname)
+- [x] **INTC-02**: User can reply to comments (1 depth nested)
+- [x] **INTC-03**: Creator replies are visually highlighted
+- [x] **INTC-04**: User can like posts (toggle, real-time count)
+- [x] **INTC-05**: User can like comments (toggle, real-time count)
+- [x] **INTC-06**: User can delete own comments
 
 ### Translation
 
