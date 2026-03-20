@@ -1,0 +1,37 @@
+{
+  "join": {
+    "cta": "가입하기",
+    "confirmNickname": "이 닉네임으로 가입"
+  },
+  "preview": {
+    "memberCount": "멤버 {{count}}명"
+  },
+  "tabs": {
+    "fan": "Fan",
+    "artist": "Artist",
+    "highlight": "Highlight"
+  },
+  "leave": {
+    "confirm": {
+      "title": "커뮤니티 탈퇴",
+      "message": "커뮤니티를 탈퇴하시겠습니까? 내 게시글과 닉네임이 유지됩니다.",
+      "action": "탈퇴"
+    }
+  },
+  "search": {
+    "placeholder": "커뮤니티 검색",
+    "empty": {
+      "heading": "검색 결과가 없어요",
+      "body": "다른 키워드로 검색해보세요."
+    }
+  },
+  "nickname": {
+    "edit": "닉네임 변경",
+    "save": "저장",
+    "charLimit": "{{current}}/24"
+  },
+  "highlight": {
+    "placeholder": "하이라이트가 아직 없어요."
+  },
+  "enter": "입장하기"
+}

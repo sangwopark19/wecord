@@ -1,0 +1,37 @@
+{
+  "join": {
+    "cta": "Join",
+    "confirmNickname": "Join with this nickname"
+  },
+  "preview": {
+    "memberCount": "{{count}} members"
+  },
+  "tabs": {
+    "fan": "Fan",
+    "artist": "Artist",
+    "highlight": "Highlight"
+  },
+  "leave": {
+    "confirm": {
+      "title": "Leave Community",
+      "message": "Leave this community? Your posts and nickname will be kept.",
+      "action": "Leave"
+    }
+  },
+  "search": {
+    "placeholder": "Search communities",
+    "empty": {
+      "heading": "No results found",
+      "body": "Try a different keyword."
+    }
+  },
+  "nickname": {
+    "edit": "Change Nickname",
+    "save": "Save",
+    "charLimit": "{{current}}/24"
+  },
+  "highlight": {
+    "placeholder": "No highlights yet."
+  },
+  "enter": "Enter"
+}

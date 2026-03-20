@@ -1,0 +1,37 @@
+{
+  "join": {
+    "cta": "เข้าร่วม",
+    "confirmNickname": "เข้าร่วมด้วยชื่อเล่นนี้"
+  },
+  "preview": {
+    "memberCount": "สมาชิก {{count}} คน"
+  },
+  "tabs": {
+    "fan": "Fan",
+    "artist": "Artist",
+    "highlight": "Highlight"
+  },
+  "leave": {
+    "confirm": {
+      "title": "ออกจากชุมชน",
+      "message": "ออกจากชุมชนนี้ใช่ไหม? โพสต์และชื่อเล่นของคุณจะยังคงอยู่",
+      "action": "ออก"
+    }
+  },
+  "search": {
+    "placeholder": "ค้นหาชุมชน",
+    "empty": {
+      "heading": "ไม่พบผลลัพธ์",
+      "body": "ลองใช้คำค้นหาอื่น"
+    }
+  },
+  "nickname": {
+    "edit": "เปลี่ยนชื่อเล่น",
+    "save": "บันทึก",
+    "charLimit": "{{current}}/24"
+  },
+  "highlight": {
+    "placeholder": "ยังไม่มีไฮไลต์"
+  },
+  "enter": "เข้า"
+}

@@ -1,0 +1,37 @@
+{
+  "join": {
+    "cta": "加入",
+    "confirmNickname": "用此昵称加入"
+  },
+  "preview": {
+    "memberCount": "{{count}} 位成员"
+  },
+  "tabs": {
+    "fan": "Fan",
+    "artist": "Artist",
+    "highlight": "Highlight"
+  },
+  "leave": {
+    "confirm": {
+      "title": "退出社区",
+      "message": "要退出此社区吗？您的帖子和昵称将被保留。",
+      "action": "退出"
+    }
+  },
+  "search": {
+    "placeholder": "搜索社区",
+    "empty": {
+      "heading": "未找到结果",
+      "body": "请尝试其他关键词。"
+    }
+  },
+  "nickname": {
+    "edit": "更改昵称",
+    "save": "保存",
+    "charLimit": "{{current}}/24"
+  },
+  "highlight": {
+    "placeholder": "暂无精彩内容。"
+  },
+  "enter": "进入"
+}

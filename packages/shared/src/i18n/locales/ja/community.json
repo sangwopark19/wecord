@@ -1,0 +1,37 @@
+{
+  "join": {
+    "cta": "参加する",
+    "confirmNickname": "このニックネームで参加"
+  },
+  "preview": {
+    "memberCount": "メンバー {{count}}人"
+  },
+  "tabs": {
+    "fan": "Fan",
+    "artist": "Artist",
+    "highlight": "Highlight"
+  },
+  "leave": {
+    "confirm": {
+      "title": "コミュニティを退出",
+      "message": "このコミュニティを退出しますか？投稿とニックネームは保持されます。",
+      "action": "退出"
+    }
+  },
+  "search": {
+    "placeholder": "コミュニティを検索",
+    "empty": {
+      "heading": "結果が見つかりません",
+      "body": "別のキーワードで検索してください。"
+    }
+  },
+  "nickname": {
+    "edit": "ニックネームを変更",
+    "save": "保存",
+    "charLimit": "{{current}}/24"
+  },
+  "highlight": {
+    "placeholder": "まだハイライトはありません。"
+  },
+  "enter": "入場する"
+}
