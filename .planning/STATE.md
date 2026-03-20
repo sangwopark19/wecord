@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: "Completed 03-07-PLAN.md: Community join flow fix"
-last_updated: "2026-03-20T05:58:00.534Z"
+stopped_at: "Completed 03-06-PLAN.md: Community search grid layout and image fallbacks"
+last_updated: "2026-03-20T05:58:11.756Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
@@ -103,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 03-05]: Removed href override from Tabs.Screen — href is not needed when a matching route file exists
 - [Phase 03-07]: generateNickname wraps entire supabase.functions.invoke in try/catch to handle network-level errors not covered by supabase-js error return
 - [Phase 03-07]: CommunityCard membership routing uses same queryKey as join mutation invalidation for automatic cache coherence
+- [Phase 03]: expo-image must never receive { uri: undefined } — always guard with ternary and render placeholder View instead
+- [Phase 03]: FlatList numColumns=2 requires style={{ width: '50%' }} on renderItem wrapper — className flex-1 does not work for grid width in React Native
+- [Phase 03]: useEffect debounce with clearTimeout cleanup is the correct React pattern — setTimeout in event handlers leaks timers
 
 ### Pending Todos
 
@@ -119,6 +122,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T05:57:49.266Z
-Stopped at: Completed 03-07-PLAN.md: Community join flow fix
+Last session: 2026-03-20T05:58:11.754Z
+Stopped at: Completed 03-06-PLAN.md: Community search grid layout and image fallbacks
 Resume file: None
