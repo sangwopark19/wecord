@@ -112,10 +112,10 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Notices
 
-- [ ] **NOTC-01**: Admin can create notice (title, body, images) per community
-- [ ] **NOTC-02**: Admin can pin notices
-- [ ] **NOTC-03**: Admin can schedule notice publication (pg_cron)
-- [ ] **NOTC-04**: Notice publication triggers push notification to community members
+- [x] **NOTC-01**: Admin can create notice (title, body, images) per community
+- [x] **NOTC-02**: Admin can pin notices
+- [x] **NOTC-03**: Admin can schedule notice publication (pg_cron)
+- [x] **NOTC-04**: Notice publication triggers push notification to community members
 - [x] **NOTC-05**: User can view notice list and detail within community
 
 ### Search

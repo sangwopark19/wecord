@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 04-highlights-notices-notifications-translation-01-PLAN.md
-last_updated: "2026-03-20T09:21:15.054Z"
+stopped_at: Completed 04-highlights-notices-notifications-translation-02-PLAN.md
+last_updated: "2026-03-20T09:30:18.379Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 18
-  completed_plans: 15
+  completed_plans: 16
   percent: 30
 ---
 
@@ -63,6 +63,7 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 | Phase 03 P06 | 3 | 2 tasks | 3 files |
 | Phase 04-highlights-notices-notifications-translation P00 | 1 | 1 tasks | 5 files |
 | Phase 04-highlights-notices-notifications-translation P01 | 286 | 2 tasks | 33 files |
+| Phase 04-highlights-notices-notifications-translation P02 | 6 | 2 tasks | 19 files |
 
 ## Accumulated Context
 
@@ -111,6 +112,9 @@ Recent decisions affecting current work:
 - [Phase 04]: Wave 0 stubs use it.todo() so vitest reports them as skipped (not failing), ensuring test run exits 0
 - [Phase 04-highlights-notices-notifications-translation]: highlight Edge Function uses POST body for community_id — supabase.functions.invoke does not support GET query params
 - [Phase 04-highlights-notices-notifications-translation]: HorizontalCardScroll renderItem typed as ReactElement (not ReactNode) — FlatList ListRenderItem requires non-undefined return
+- [Phase 04-02]: shadcn base-nova style uses @base-ui/react (not Radix UI) — Select onValueChange passes string | null, requires ?? '' guard
+- [Phase 04-02]: pgmq drain job uses pgmq.archive() (not pgmq.delete()) for processed message audit retention
+- [Phase 04-02]: @base-ui/react must be added explicitly — shadcn CLI does not auto-add it to package.json with base-nova style
 
 ### Pending Todos
 
@@ -127,6 +131,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T09:21:15.052Z
-Stopped at: Completed 04-highlights-notices-notifications-translation-01-PLAN.md
+Last session: 2026-03-20T09:30:18.377Z
+Stopped at: Completed 04-highlights-notices-notifications-translation-02-PLAN.md
 Resume file: None
