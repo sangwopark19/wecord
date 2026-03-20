@@ -60,7 +60,7 @@ Declared values (multiples of 4). Applied identically to both mobile and admin s
 
 Exceptions:
 - Touch targets: minimum 44px height for all tappable interactive elements (translate button, notification row, bell icon, "See more" link). Source: iOS HIG.
-- Notification badge: 20px diameter circle, offset 6px from bell icon top-right corner.
+- Notification badge: 20px diameter circle, offset **8px** from bell icon top-right corner (changed from 6px to align with 8-point grid).
 - Compact card (Highlight section horizontal scroll): 120px wide × 160px tall — fixed size for predictable carousel layout.
 
 Source: `apps/mobile/tailwind.config.js`, Phase 3 PostCard pattern (p-4 = 16px, gap-4 = 16px)
@@ -149,6 +149,8 @@ Source: `apps/mobile/tailwind.config.js` (mobile), `apps/admin/app/globals.css` 
 
 #### Mobile — Highlight Tab
 
+The primary visual anchor for the Highlight tab is the `HorizontalCardScroll` row of `CompactPostCard` items in the Creator Posts section — this row appears first in the scrollable content area (below the pinned notice) and draws the eye through image thumbnails and teal "더보기" link.
+
 | Component | File path | Description |
 |-----------|-----------|-------------|
 | `HighlightScreen` | `apps/mobile/app/(community)/[id]/highlight.tsx` (or rendered inside index.tsx) | Replaces `HighlightPlaceholder`. Vertical ScrollView with 5 section blocks. |
@@ -166,7 +168,7 @@ Source: `apps/mobile/tailwind.config.js` (mobile), `apps/admin/app/globals.css` 
 | `NotificationScreen` | `apps/mobile/app/(community)/[id]/notifications.tsx` | Full-screen notification list with time group headers. |
 | `NotificationRow` | `apps/mobile/components/notification/NotificationRow.tsx` | Row height min 44px. Unread rows: bg-card; read rows: bg-background. Left: type icon (24px Ionicons, teal if unread, muted if read). Center: message body (14px regular foreground if unread, muted-foreground if read) + community + time (12px muted). Right: teal dot (8px circle) if unread. Full row tappable. |
 | `NotificationGroupHeader` | `apps/mobile/components/notification/NotificationGroupHeader.tsx` | Section sticky header: "오늘" / "어제" / "이번 주" — 12px semibold muted-foreground, py-2 px-4, bg-background. |
-| `NotificationBellBadge` | `apps/mobile/components/notification/NotificationBellBadge.tsx` | Ionicons bell-outline (24px) + absolute-positioned badge: 20px circle bg-badge (#FF3B30), white label text (10px semibold). Badge hidden when count = 0. Realtime-updated via Supabase channel. |
+| `NotificationBellBadge` | `apps/mobile/components/notification/NotificationBellBadge.tsx` | Ionicons bell-outline (24px) with `accessibilityLabel="알림"` + absolute-positioned badge: 20px circle bg-badge (#FF3B30), white label text (10px semibold). Badge offset: 8px from bell icon top-right corner (multiple of 4). Badge hidden when count = 0. Realtime-updated via Supabase channel. |
 | `NotificationPreferencesScreen` | `apps/mobile/app/(community)/[id]/notification-preferences.tsx` | Per-category toggle list. Category rows: label (16px semibold) + description (12px muted-foreground) + Switch (teal when on). |
 
 #### Mobile — Notices
@@ -265,7 +267,7 @@ All copy is i18n keys. Korean (KO) is the canonical source language. English equ
 
 | Action | Surface | Confirmation approach |
 |--------|---------|----------------------|
-| Delete notice | Admin web | shadcn AlertDialog: title "공지 삭제", body "이 공지를 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.", confirm button "삭제" (destructive variant), cancel "취소" |
+| Delete notice | Admin web | shadcn AlertDialog: title "공지 삭제", body "이 공지를 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.", confirm button "공지 삭제" (destructive variant), cancel "취소" |
 
 No destructive actions on the mobile side in Phase 4.
 
@@ -288,7 +290,7 @@ No destructive actions on the mobile side in Phase 4.
 - **Row tap**: Navigate to relevant content + mark notification as read (optimistic, no confirmation).
 - **Mark all read**: Single tap on header right button. Optimistic update — all rows immediately change to read visual state. Mutation on background.
 - **Empty state**: Centered Ionicons notifications-outline (48px, subtle #666666) + heading + body text.
-- **Notification bell entrance**: Bell icon in community header (Ionicons bell-outline, 24px, foreground). Badge overlaid. Tap → push to NotificationScreen filtered to this community.
+- **Notification bell entrance**: Bell icon in community header (Ionicons bell-outline, 24px, foreground, accessibilityLabel="알림"). Badge overlaid at 8px offset. Tap → push to NotificationScreen filtered to this community.
 
 ### Translation
 
