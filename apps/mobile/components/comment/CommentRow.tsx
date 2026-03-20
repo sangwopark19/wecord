@@ -1,7 +1,11 @@
-import { View, Text, Pressable, Alert } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CreatorBadge } from '../post/CreatorBadge';
 import { LikeButton } from '../post/LikeButton';
+import { showDeleteConfirmDialog } from '../post/DeleteConfirmDialog';
+import { useTranslate } from '../../hooks/post/useTranslate';
+import { TranslateButton } from '../post/TranslateButton';
+import { TranslatedTextBlock } from '../post/TranslatedTextBlock';
 import type { Comment } from '../../hooks/comment/useComments';
 
 function formatRelativeTime(dateStr: string): string {
@@ -35,20 +39,10 @@ export function CommentRow({
 }: CommentRowProps) {
   const isCreator = comment.author_role === 'creator';
   const isOwnComment = currentUserId === comment.author_id;
+  const { translatedText, isTranslated, isLoading, error, translate } = useTranslate(comment.id, 'comment');
 
   const handleDelete = () => {
-    Alert.alert(
-      '댓글 삭제',
-      '정말 삭제하시겠습니까? 삭제된 댓글은 복구할 수 없습니다.',
-      [
-        { text: '취소', style: 'cancel' },
-        {
-          text: '삭제',
-          style: 'destructive',
-          onPress: onDelete,
-        },
-      ]
-    );
+    if (onDelete) showDeleteConfirmDialog(onDelete);
   };
 
   return (
@@ -76,6 +70,17 @@ export function CommentRow({
           <Text className="text-body font-regular text-foreground mt-1">
             {comment.content}
           </Text>
+
+          {/* Translation */}
+          <TranslateButton
+            isTranslated={isTranslated}
+            isLoading={isLoading}
+            error={error}
+            onPress={translate}
+          />
+          {isTranslated && translatedText && (
+            <TranslatedTextBlock translatedText={translatedText} />
+          )}
 
           {/* Action row */}
           <View className="flex-row items-center gap-3 mt-2">

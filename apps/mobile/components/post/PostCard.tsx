@@ -4,6 +4,10 @@ import { useRouter } from 'expo-router';
 import { PostWithNickname } from '../../hooks/post/useFanFeed';
 import { MediaGrid } from './MediaGrid';
 import { CreatorBadge } from './CreatorBadge';
+import { LikeButton } from './LikeButton';
+import { useTranslate } from '../../hooks/post/useTranslate';
+import { TranslateButton } from './TranslateButton';
+import { TranslatedTextBlock } from './TranslatedTextBlock';
 
 function formatRelativeTime(dateStr: string): string {
   const now = Date.now();
@@ -29,6 +33,7 @@ interface PostCardProps {
 
 export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId }: PostCardProps) {
   const router = useRouter();
+  const { translatedText, isTranslated, isLoading, error, translate } = useTranslate(post.id, 'post');
 
   const handlePress = () => {
     const cid = communityId ?? post.community_id;
@@ -36,77 +41,69 @@ export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId }
   };
 
   return (
-    <Pressable
-      onPress={handlePress}
-      className="bg-card rounded-xl p-4 mb-2"
-      accessibilityRole="button"
-      accessibilityLabel={`${post.author_nickname}: ${post.content.substring(0, 50)}`}
-    >
-      {/* Header row */}
-      <View className="flex-row items-start">
-        {/* Avatar placeholder */}
-        <View className="w-10 h-10 rounded-full bg-input mr-3 flex-shrink-0" />
+    <View className="bg-card rounded-xl p-4 mb-2">
+      {/* Tappable content area */}
+      <Pressable
+        onPress={handlePress}
+        accessibilityRole="link"
+        accessibilityLabel={`${post.author_nickname}: ${post.content.substring(0, 50)}`}
+      >
+        {/* Header row */}
+        <View className="flex-row items-start">
+          {/* Avatar placeholder */}
+          <View className="w-10 h-10 rounded-full bg-input mr-3 flex-shrink-0" />
 
-        {/* Author info */}
-        <View className="flex-1">
-          <View className="flex-row items-center gap-2 flex-wrap">
-            <Text className="text-body font-semibold text-foreground">
-              {post.author_nickname}
+          {/* Author info */}
+          <View className="flex-1">
+            <View className="flex-row items-center gap-2 flex-wrap">
+              <Text className="text-body font-semibold text-foreground">
+                {post.author_nickname}
+              </Text>
+              {post.author_role === 'creator' && <CreatorBadge />}
+            </View>
+            <Text className="text-label text-muted-foreground mt-0.5">
+              {formatRelativeTime(post.created_at ?? '')}
             </Text>
-            {post.author_role === 'creator' && <CreatorBadge />}
           </View>
-          <Text className="text-label text-muted-foreground mt-0.5">
-            {formatRelativeTime(post.created_at ?? '')}
-          </Text>
         </View>
 
-        {/* More menu */}
-        {onDelete && (
-          <Pressable
-            onPress={onDelete}
-            className="w-11 h-11 items-center justify-center -mr-2"
-            accessibilityRole="button"
-            accessibilityLabel="더보기"
-            hitSlop={8}
-          >
-            <Ionicons name="ellipsis-horizontal" size={20} color="#999999" />
-          </Pressable>
+        {/* Body */}
+        <Text
+          className="text-body font-regular text-foreground mt-2"
+          numberOfLines={clampLines === 0 ? undefined : clampLines}
+        >
+          {post.content}
+        </Text>
+
+        {/* Media */}
+        {post.media_urls && post.media_urls.length > 0 && (
+          <MediaGrid
+            mediaUrls={post.media_urls}
+            postType={post.post_type === 'video' ? 'video' : 'image'}
+          />
         )}
-      </View>
+      </Pressable>
 
-      {/* Body */}
-      <Text
-        className="text-body font-regular text-foreground mt-2"
-        numberOfLines={clampLines === 0 ? undefined : clampLines}
-      >
-        {post.content}
-      </Text>
-
-      {/* Media */}
-      {post.media_urls && post.media_urls.length > 0 && (
-        <MediaGrid
-          mediaUrls={post.media_urls}
-          postType={post.post_type === 'video' ? 'video' : 'image'}
-        />
+      {/* Translation — outside the tappable area, between content and action bar */}
+      <TranslateButton
+        isTranslated={isTranslated}
+        isLoading={isLoading}
+        error={error}
+        onPress={translate}
+      />
+      {isTranslated && translatedText && (
+        <TranslatedTextBlock translatedText={translatedText} />
       )}
 
-      {/* Action bar */}
+      {/* Action bar — outside the tappable area to avoid nested buttons */}
       <View className="flex-row items-center mt-3 gap-4">
         {/* Like */}
-        <Pressable
-          onPress={onLike}
-          className="flex-row items-center gap-1"
-          style={{ minHeight: 44, alignItems: 'center' }}
-          accessibilityRole="button"
-          accessibilityLabel={post.isLiked ? '좋아요 취소' : '좋아요'}
-        >
-          <Ionicons
-            name={post.isLiked ? 'heart' : 'heart-outline'}
-            size={20}
-            color={post.isLiked ? '#00E5C3' : '#999999'}
-          />
-          <Text className="text-label text-muted-foreground">{post.like_count}</Text>
-        </Pressable>
+        <LikeButton
+          isLiked={post.isLiked}
+          likeCount={post.like_count}
+          onPress={onLike ?? (() => {})}
+          size="sm"
+        />
 
         {/* Comment */}
         <View
@@ -116,7 +113,20 @@ export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId }
           <Ionicons name="chatbubble-outline" size={20} color="#999999" />
           <Text className="text-label text-muted-foreground">{post.comment_count}</Text>
         </View>
+
+        {/* More menu */}
+        {onDelete && (
+          <Pressable
+            onPress={onDelete}
+            className="ml-auto w-11 h-11 items-center justify-center"
+            accessibilityRole="button"
+            accessibilityLabel="더보기"
+            hitSlop={8}
+          >
+            <Ionicons name="ellipsis-horizontal" size={20} color="#999999" />
+          </Pressable>
+        )}
       </View>
-    </Pressable>
+    </View>
   );
 }
