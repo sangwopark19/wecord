@@ -84,13 +84,13 @@ Plans:
   3. User receives push notification for creator posts, comments on own posts, liked posts, followed member posts, and notices — all via async pgmq fan-out (post creation is not blocked)
   4. Unread notification badge on the bell icon updates in real-time via Supabase Realtime
   5. User can tap a translate button on any post or comment to see the translated text in their preferred language; results are cached (post_translations table) and the user can toggle between original and translated
-**Plans**: TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 04-01: `highlight` Edge Function (aggregated payload: notices + creator posts + fan posts + artist profiles); Highlight tab screen with 5 sections
-- [ ] 04-02: Notices system (admin CRUD via Next.js, pin, pg_cron scheduling, push notification trigger, notice list/detail in app)
-- [ ] 04-03: Notification system (`notify` Edge Function with pgmq fan-out, notifications + notification_preferences tables, per-community and per-category prefs, Expo push token storage, receipt polling)
-- [ ] 04-04: Realtime notification badge (Supabase Realtime channel for unread count signal only); `translate` Edge Function (cache-first: DB → translation API → DB, batch 5 languages, toggle UI)
+- [ ] 04-01-PLAN.md — DB migration (push_tokens, notifications.community_id), Supabase extensions (pgmq/pg_cron/pg_net), highlight Edge Function, Highlight tab UI (5 sections), i18n namespaces (highlight/notification/notice/translation)
+- [ ] 04-02-PLAN.md — Admin notice CRUD (Next.js + shadcn), mobile notice list/detail screens, pg_cron scheduled publishing, notice-publish DB trigger
+- [ ] 04-03-PLAN.md — notify Edge Function (Expo Push API fan-out), DB triggers (creator post/comment/like), push token registration, notification list/preferences screens, bell badge with Realtime
+- [ ] 04-04-PLAN.md — translate Edge Function (cache-first: DB -> Google Translate API -> DB), TranslateButton/TranslatedTextBlock components, wire into PostCard/CommentRow/ReplyRow
 
 ### Phase 5: Home Feed, Search & Community Social
 **Goal**: Returning users see a unified cross-community feed; new users see curated recommendations; users can find content and connect with other members within communities
