@@ -36,6 +36,10 @@ export default function JoinCommunityScreen() {
       try {
         const generated = await generateNickname();
         setNickname(generated);
+      } catch {
+        // Edge Function may not exist or network error — fallback locally
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+        setNickname(`User#${randomNum}`);
       } finally {
         setIsGenerating(false);
       }

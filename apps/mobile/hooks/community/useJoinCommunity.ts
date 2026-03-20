@@ -8,13 +8,19 @@ interface JoinCommunityParams {
 }
 
 async function generateNickname(): Promise<string> {
-  const { data, error } = await supabase.functions.invoke('generate-nickname');
-  if (error || !data?.nickname) {
-    // Fallback: generate locally
+  try {
+    const { data, error } = await supabase.functions.invoke('generate-nickname');
+    if (error || !data?.nickname) {
+      // Fallback: generate locally
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      return `User#${randomNum}`;
+    }
+    return data.nickname as string;
+  } catch {
+    // Network-level error (connection refused, DNS failure) — generate locally
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     return `User#${randomNum}`;
   }
-  return data.nickname as string;
 }
 
 export function useJoinCommunity() {
@@ -38,6 +44,21 @@ export function useJoinCommunity() {
 
       if (error) {
         if (error.code === '23505') {
+          // Determine if this is an already-member violation or a nickname collision
+          const isAlreadyMember =
+            error.message?.includes('cm_user_community') ||
+            (error.details as string | undefined)?.includes('cm_user_community') ||
+            error.message?.includes('idx_cm_user_community');
+          if (isAlreadyMember) {
+            // Already a member — fetch and return existing membership
+            const { data: existing } = await supabase
+              .from('community_members')
+              .select()
+              .eq('community_id', communityId)
+              .eq('user_id', user.id)
+              .single();
+            if (existing) return existing;
+          }
           // Nickname collision — retry with new nickname
           const newNickname = await generateNickname();
           const { data: retryData, error: retryError } = await supabase
