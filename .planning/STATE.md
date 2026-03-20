@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: "Completed 03-05-PLAN.md: Community tab proxy route"
-last_updated: "2026-03-20T05:10:46.639Z"
+stopped_at: "Completed 03-07-PLAN.md: Community join flow fix"
+last_updated: "2026-03-20T05:58:00.534Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 11
-  completed_plans: 11
+  total_plans: 13
+  completed_plans: 13
   percent: 30
 ---
 
@@ -59,6 +59,8 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 | Phase 03 P03 | 5 | 2 tasks | 14 files |
 | Phase 03 P04 | 435 | 2 tasks | 16 files |
 | Phase 03 P05 | 3 | 1 tasks | 2 files |
+| Phase 03-community-core-content P07 | 103 | 2 tasks | 3 files |
+| Phase 03 P06 | 3 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -99,6 +101,8 @@ Recent decisions affecting current work:
 - [Phase 03]: useCreateComment fetches member role inside mutationFn to avoid stale hook data in reply flows
 - [Phase 03-05]: Community tab uses proxy route pattern: (tabs)/community.tsx exists solely for Expo Router file resolution, delegates navigation to (community)/search via Redirect
 - [Phase 03-05]: Removed href override from Tabs.Screen — href is not needed when a matching route file exists
+- [Phase 03-07]: generateNickname wraps entire supabase.functions.invoke in try/catch to handle network-level errors not covered by supabase-js error return
+- [Phase 03-07]: CommunityCard membership routing uses same queryKey as join mutation invalidation for automatic cache coherence
 
 ### Pending Todos
 
@@ -115,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T05:10:46.637Z
-Stopped at: Completed 03-05-PLAN.md: Community tab proxy route
+Last session: 2026-03-20T05:57:49.266Z
+Stopped at: Completed 03-07-PLAN.md: Community join flow fix
 Resume file: None
