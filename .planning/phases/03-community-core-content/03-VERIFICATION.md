@@ -1,16 +1,29 @@
 ---
 phase: 03-community-core-content
-verified: 2026-03-20T04:00:00Z
+verified: 2026-03-20T11:00:00Z
 status: passed
-score: 13/13 must-haves verified
-re_verification: false
+score: 21/21 must-haves verified
+re_verification: true
+  previous_status: passed
+  previous_score: 15/15
+  gaps_closed:
+    - "2-column grid layout in search.tsx (width: 50% style on renderItem wrapper)"
+    - "Cover image fallback in CommunityCard.tsx (no black rectangles on null cover_image_url)"
+    - "Cover image fallback in CommunityPreviewSheet.tsx (null URL goes to bg-card View, not expo-image)"
+    - "Artist avatar fallback in CommunityPreviewSheet.tsx (person-outline icon on null profile_image_url)"
+    - "Join flow error handling in join.tsx (catch block with local User#XXXX fallback)"
+    - "generateNickname fully defensive in useJoinCommunity.ts (try/catch wraps entire supabase.functions.invoke)"
+    - "23505 constraint disambiguation in useJoinCommunity.ts (cm_user_community check for already-member vs nickname collision)"
+    - "Membership-aware navigation in CommunityCard.tsx (useCommunityMember routes member to index, non-member to preview)"
+  gaps_remaining: []
+  regressions: []
 human_verification:
   - test: "Visual community search grid rendering"
     expected: "2-column card grid renders correctly with cover images, name, member count"
     why_human: "Visual layout correctness cannot be confirmed via grep; requires device/emulator"
   - test: "Join flow with auto-generated nickname"
-    expected: "User#XXXX auto-filled, editable before confirm, 23505 retry on collision"
-    why_human: "Requires Supabase Edge Function 'generate-nickname' to be live and calling pattern verified"
+    expected: "User#XXXX auto-filled, editable before confirm, 23505 retry on collision generates new nickname automatically"
+    why_human: "Requires Supabase Edge Function 'generate-nickname' to be live; fallback path is now verified statically"
   - test: "Like button spring animation"
     expected: "Heart icon scales 1.0 -> 1.2 -> 1.0 with spring on press, fills teal when liked"
     why_human: "Reanimated animations require device/emulator to verify visual behavior"
@@ -20,14 +33,38 @@ human_verification:
   - test: "Video/image mutual exclusion in composer"
     expected: "Image picker disabled when video attached, video picker disabled when images selected"
     why_human: "Requires interactive testing to confirm button disabled states"
+  - test: "Community tab appears in bottom tab bar"
+    expected: "Bottom tab bar shows Home and Community tabs; tapping Community navigates to search screen"
+    why_human: "Tab bar rendering and navigation requires device/emulator for final confirmation"
+  - test: "Membership-aware CommunityCard routing"
+    expected: "Already-joined member taps a CommunityCard in search results and lands on community main screen"
+    why_human: "Routing branch depends on live TanStack Query cache state; requires running app"
 ---
 
 # Phase 03: Community & Core Content Verification Report
 
-**Phase Goal:** Community discovery, joining, fan/artist feeds, posts, comments, likes
-**Verified:** 2026-03-20T04:00:00Z
+**Phase Goal:** Users can discover and join communities with a per-community persona, then post, react, and engage within those communities
+**Verified:** 2026-03-20T11:00:00Z
 **Status:** passed
-**Re-verification:** No — initial verification
+**Re-verification:** Yes — after gap closure plans 03-06 (grid layout + image fallbacks) and 03-07 (join flow fix)
+
+---
+
+## Re-verification Context
+
+**Previous status:** passed (15/15) — after plan 03-05 made the Community tab visible.
+
+**UAT issues closed by 03-06:**
+- Test 2: 1-column layout on mobile — FlatList renderItem used `className="flex-1"` instead of `style={{ width: '50%' }}`. Fixed: `search.tsx` now wraps each `CommunityCard` in `<View style={{ width: '50%' }}>`.
+- Test 3: Black rectangles on null cover images — `expo-image` was receiving `{ uri: undefined }`. Fixed: `CommunityCard.tsx` and `CommunityPreviewSheet.tsx` both use null-guard ternaries; null URLs render `View` + `Ionicons` placeholders.
+- Bonus: Dead `useDebounce` hook (useCallback-based, never called) removed from `search.tsx`; replaced with proper `useEffect`/`clearTimeout` debounce.
+
+**UAT blocker closed by 03-07:**
+- Test 4: Join flow crashed on iOS (unhandled promise rejection from `generateNickname`) and silently failed on web/Android. Fixed: `generateNickname` in `useJoinCommunity.ts` now wraps the entire `supabase.functions.invoke` in `try/catch`; `loadNickname` in `join.tsx` now has a `catch` block with a local `User#XXXX` fallback so the nickname field is never empty and the join button never stuck disabled.
+- Additional: `CommunityCard` now calls `useCommunityMember(community.id)` and routes already-joined members directly to `/(community)/[id]`, bypassing the preview sheet.
+- Additional: `useJoinCommunity` now distinguishes `cm_user_community` unique constraint (already a member — fetch and return existing row) from nickname collision (retry with new nickname).
+
+**Commits verified in git:** `b5f4f67` (03-06 task 1), `9f85c9f` (03-06 task 2), `0f08646` (03-07 task 1), `ad3f652` (03-07 task 2) — all four confirmed present.
 
 ---
 
@@ -35,51 +72,56 @@ human_verification:
 
 ### Observable Truths
 
-| # | Truth | Status | Evidence |
-|---|-------|--------|---------|
-| 1 | User can search communities by keyword and see 2-column card grid results | VERIFIED | `search.tsx` imports and calls `useCommunitySearch`, renders `CommunityCard`; hook uses `.textSearch('name', query, { type: 'websearch', config: 'simple' })` |
-| 2 | User can view community preview with description, member count, recent posts, and artist member thumbnails (group type) | VERIFIED | `preview.tsx` queries community + calls `useCommunityMember`; `CommunityPreviewSheet` queries `posts_with_nickname` |
-| 3 | User can join a community with auto-generated User#XXXX nickname (editable before confirm) | VERIFIED | `join.tsx` calls `useJoinCommunity`; hook inserts into `community_members`; `CommunityNicknameInput` has maxLength 24 |
-| 4 | User can modify their community nickname after joining | VERIFIED | `settings/nickname.tsx` calls `.update({ community_nickname: newNickname })` |
-| 5 | User can leave a community with confirmation dialog | VERIFIED | `useLeaveCommunity` deletes from `community_members`; `LeaveConfirmDialog` uses `Alert.alert` |
-| 6 | Community main screen shows Fan/Artist/Highlight 3-tab layout | VERIFIED | `index.tsx` imports `CommunityTabBar`, manages `activeTab` state, calls `setActiveCommunity` on mount |
-| 7 | Solo and group community types render differently in Artist tab | VERIFIED | `artist.tsx` renders `ArtistMemberScroll` only when `activeCommunityType === 'group'` |
-| 8 | User can view fan feed with infinite scroll using FlashList | VERIFIED | `fan.tsx` uses `FlashList` from `@shopify/flash-list`, `useFanFeed` with `useInfiniteQuery`, `onEndReached`, `onEndReachedThreshold` |
-| 9 | User can sort and filter fan feed; create posts with media; delete own posts | VERIFIED | `SortFilterChipBar` wired to sort/filter state; `compose.tsx` calls `useCreatePost` with `manipulateAsync` + `post-media` upload; `useDeletePost` has `onMutate` optimistic removal |
-| 10 | Creator posts appear in Artist tab with Creator badge; group communities show horizontal artist member list | VERIFIED | `artist.tsx` uses `useCreatorFeed` (queries `posts_with_nickname` with `author_role='creator'`); `ArtistMemberScroll` with 56px circles, teal selected border, `useArtistMembers` |
-| 11 | User can follow/unfollow artist members; tapping filters Artist tab to show member's posts | VERIFIED | `useFollowMember` inserts/deletes `community_follows`; `communityStore.setSelectedArtistMember` passed to `ArtistMemberScroll.onSelect`; `useCreatorFeed` receives `selectedArtistMemberId` |
-| 12 | User can comment (with community nickname), reply (1-depth), see creator highlight, like/unlike posts and comments | VERIFIED | `[postId].tsx` wires `useLike('post')`, `useLike('comment')`, `useComments`, `useCreateComment`, renders `CommentRow` + `ReplyRow`; `useCreateComment` has 1-depth guard |
-| 13 | Like toggle is optimistic with scale animation; creator replies highlighted teal with CreatorBadge | VERIFIED | `useLike` has `onMutate` optimistic cache update with rollback; `LikeButton` uses `withSequence(withSpring(1.2), withSpring(1.0))`; `ReplyRow` checks `is_creator_reply` for teal highlight |
+| #  | Truth | Status | Evidence |
+|----|-------|--------|---------|
+| 1  | User can search communities by keyword and see 2-column card grid results | VERIFIED | `search.tsx` line 32: `<View style={{ width: '50%' }}>` wraps each `CommunityCard`; `numColumns={2}` on FlatList |
+| 2  | Community cards show a placeholder (not a black rectangle) when cover_image_url is null | VERIFIED | `CommunityCard.tsx` lines 32-46: ternary on `community.cover_image_url`; null renders `<Ionicons name="people-outline" />` |
+| 3  | Artist avatar shows a person-outline icon fallback when profile_image_url is null | VERIFIED | `CommunityPreviewSheet.tsx` lines 117-129: ternary on `artist.profile_image_url`; null renders `<Ionicons name="person-outline" size={20} />` |
+| 4  | Cover image in preview sheet does not pass undefined URI to expo-image | VERIFIED | `CommunityPreviewSheet.tsx` lines 73-85: ternary on `community.cover_image_url`; null renders `<View className="bg-card" />` with no Image |
+| 5  | Join button works on all platforms — nickname generates even if Edge Function is unavailable | VERIFIED | `join.tsx` lines 36-44: try/catch/finally; catch sets `User#${randomNum}`; `generateNickname` in hook also wraps invoke in try/catch (lines 11-23) |
+| 6  | Re-join attempts for already-joined users return existing membership (no silent failure) | VERIFIED | `useJoinCommunity.ts` lines 46-61: 23505 handler checks `cm_user_community` in message/details; fetches existing row if true |
+| 7  | Nickname collision (23505) retries with a new generated nickname | VERIFIED | `useJoinCommunity.ts` lines 62-75: nickname collision path calls `generateNickname()` and retries insert |
+| 8  | Already-joined members navigate directly to community main from search results | VERIFIED | `CommunityCard.tsx` lines 16, 20-25: `useCommunityMember(community.id)` called; `if (membership)` routes to `/(community)/[id]` |
+| 9  | Non-members are routed to community preview (join flow) from search results | VERIFIED | `CommunityCard.tsx` line 23-24: `else` branch routes to `/(community)/[id]/preview` |
+| 10 | User can view community preview with description, member count, recent posts, artist thumbnails | VERIFIED | `CommunityPreviewSheet.tsx` queries `posts_with_nickname` (line 43) and `artist_members` (line 59) |
+| 11 | User can join a community with auto-generated User#XXXX nickname (editable before confirm) | VERIFIED | `join.tsx` calls `useJoinCommunity`; `CommunityNicknameInput` with `maxLength 24`; local fallback guaranteed |
+| 12 | User can modify their community nickname after joining | VERIFIED | `settings/nickname.tsx` calls `.update({ community_nickname: newNickname })` |
+| 13 | User can leave a community with confirmation dialog | VERIFIED | `useLeaveCommunity` deletes from `community_members`; `LeaveConfirmDialog` uses `Alert.alert` |
+| 14 | Community main screen shows Fan/Artist/Highlight 3-tab layout | VERIFIED | `index.tsx` imports `CommunityTabBar`, manages `activeTab` state |
+| 15 | Solo and group community types render differently in Artist tab | VERIFIED | `artist.tsx` renders `ArtistMemberScroll` only when `activeCommunityType === 'group'` |
+| 16 | User can view fan feed with infinite scroll using FlashList | VERIFIED | `fan.tsx` uses `FlashList`, `useFanFeed` with `useInfiniteQuery` |
+| 17 | User can sort/filter fan feed; create posts with media; delete own posts | VERIFIED | `SortFilterChipBar`, `compose.tsx` with `useCreatePost`, `useDeletePost` optimistic removal |
+| 18 | Creator posts appear in Artist tab with Creator badge; group communities show artist member list | VERIFIED | `artist.tsx` uses `useCreatorFeed` with `author_role='creator'`; `ArtistMemberScroll` with teal selected border |
+| 19 | User can follow/unfollow artist members; tapping filters Artist tab | VERIFIED | `useFollowMember` inserts/deletes `community_follows`; `communityStore.setSelectedArtistMember` |
+| 20 | User can comment (community nickname), reply 1-depth, like/unlike posts and comments | VERIFIED | `[postId].tsx` wires `useLike`, `useComments`, `useCreateComment` with 1-depth guard |
+| 21 | Community tab is visible in bottom tab bar; tapping navigates to search screen | VERIFIED | `(tabs)/community.tsx` redirects to `/(community)/search`; commit `4bb2b07` |
 
-**Score:** 13/13 truths verified
+**Score:** 21/21 truths verified
 
 ---
 
-## Required Artifacts
+## Gap Closure Artifact Verification
 
-| Artifact | Provides | Exists | Substantive | Wired | Status |
-|----------|----------|--------|-------------|-------|--------|
-| `apps/mobile/app/(community)/search.tsx` | Community search screen with 2-col grid | Yes | Yes (`useCommunitySearch`, `CommunityCard`) | Yes (imported and called) | VERIFIED |
-| `apps/mobile/app/(community)/[id]/preview.tsx` | Pre-join community preview | Yes | Yes (`useCommunityMember`, `CommunityPreviewSheet`) | Yes | VERIFIED |
-| `apps/mobile/app/(community)/[id]/join.tsx` | Join flow with nickname input | Yes | Yes (`useJoinCommunity`, `CommunityNicknameInput`) | Yes | VERIFIED |
-| `apps/mobile/app/(community)/[id]/index.tsx` | Community main screen with 3-tab layout | Yes | Yes (`CommunityTabBar`, `setActiveCommunity`) | Yes | VERIFIED |
-| `apps/mobile/hooks/community/useCommunitySearch.ts` | pg_textsearch query hook | Yes | Yes (`.textSearch('name', query, ...)`) | Yes (used in search.tsx) | VERIFIED |
-| `apps/mobile/stores/communityStore.ts` | Active community + artist member filter state | Yes | Yes (`activeCommunityId`, `selectedArtistMemberId`, `clearCommunity`) | Yes (used in index.tsx, artist.tsx) | VERIFIED |
-| `apps/mobile/hooks/post/useFanFeed.ts` | Cursor-based infinite scroll query | Yes | Yes (`useInfiniteQuery`, `posts_with_nickname`, `getNextPageParam`) | Yes (used in fan.tsx) | VERIFIED |
-| `apps/mobile/components/post/PostCard.tsx` | Post card with avatar, nickname, time, body, media, actions | Yes | Yes (`author_nickname`, `accessibilityRole`, `LikeButton`) | Yes (used in fan.tsx, artist.tsx, [postId].tsx) | VERIFIED |
-| `apps/mobile/components/post/FAB.tsx` | Floating action button | Yes | Yes (`accessibilityLabel`, navigates to compose) | Yes (used in fan.tsx, artist.tsx) | VERIFIED |
-| `apps/mobile/app/(community)/compose.tsx` | Full-screen post composer modal | Yes | Yes (`useCreatePost`, `launchImageLibraryAsync`, 2000 char limit, creator role detection) | Yes (FAB pushes to it) | VERIFIED |
-| `apps/mobile/app/(community)/[id]/fan.tsx` | Fan feed screen with FlashList | Yes | Yes (`FlashList`, `useFanFeed`, `SortFilterChipBar`, `RefreshControl`, `FAB`) | Yes | VERIFIED |
-| `apps/mobile/hooks/post/useCreatorFeed.ts` | Creator-only feed query | Yes | Yes (`posts_with_nickname`, `author_role='creator'`, `artist_member_id` filter) | Yes (used in artist.tsx) | VERIFIED |
-| `apps/mobile/components/community/ArtistMemberScroll.tsx` | Horizontal artist member profile scroll | Yes | Yes (56px circles, `border-teal`, `useArtistMembers`, `accessibilityRole`) | Yes (used in artist.tsx) | VERIFIED |
-| `apps/mobile/app/(community)/[id]/artist.tsx` | Artist tab with creator feed + member list | Yes | Yes (`FlashList`, `useCreatorFeed`, `ArtistMemberScroll`, `activeCommunityType`) | Yes | VERIFIED |
-| `apps/mobile/hooks/post/useLike.ts` | Optimistic like toggle mutation | Yes | Yes (`onMutate`, `likes` table, `23505` graceful handling) | Yes (used in [postId].tsx) | VERIFIED |
-| `apps/mobile/hooks/comment/useComments.ts` | Comment thread query with nicknames | Yes | Yes (`community_members!inner(community_nickname)`, `parent_comment_id` grouping) | Yes (used in [postId].tsx) | VERIFIED |
-| `apps/mobile/components/post/LikeButton.tsx` | Animated heart button with spring scale | Yes | Yes (`withSpring`, `useSharedValue`, `heart`, `#00E5C3`, `accessibilityLabel`) | Yes (used in PostCard, CommentRow, ReplyRow) | VERIFIED |
-| `apps/mobile/components/comment/CommentRow.tsx` | Comment display with nickname and actions | Yes | Yes (`community_nickname`, `CreatorBadge`, `LikeButton`, `accessibilityLabel`) | Yes (used in [postId].tsx) | VERIFIED |
-| `apps/mobile/components/comment/ReplyRow.tsx` | Indented reply with creator highlight | Yes | Yes (`ml-12`, `is_creator_reply`, 28px avatar, no reply button) | Yes (used in [postId].tsx) | VERIFIED |
-| `packages/supabase/migrations/20260320000001_phase3_triggers_storage.sql` | DB triggers + post-media storage bucket | Yes | Yes (all 4 count triggers + post-media bucket RLS policies) | Yes (migration file applied on `supabase db reset`) | VERIFIED |
-| `packages/shared/src/i18n/locales/*/community.json` (5 locales) | Community i18n namespace (ko, en, ja, th, zh) | Yes | Yes (all 5 files contain tabs, join, search, leave, feed, post, comment keys) | Yes (registered in shared i18n index) | VERIFIED |
+### Plan 03-06 Artifacts
+
+| Artifact | Must Contain | Found | Status |
+|----------|-------------|-------|--------|
+| `apps/mobile/app/(community)/search.tsx` | `width: '50%'` on renderItem wrapper | Line 32: `<View style={{ width: '50%' }}>` | VERIFIED |
+| `apps/mobile/components/community/CommunityCard.tsx` | Null-guard ternary on `cover_image_url` | Lines 32-46: ternary + `people-outline` fallback | VERIFIED |
+| `apps/mobile/components/community/CommunityPreviewSheet.tsx` | `person-outline` fallback for artist avatar | Lines 117-129: ternary + `person-outline` Ionicon | VERIFIED |
+| `apps/mobile/components/community/CommunityPreviewSheet.tsx` | Null-guard on cover image (no undefined URI) | Lines 73-85: ternary; null branch renders plain View | VERIFIED |
+
+### Plan 03-07 Artifacts
+
+| Artifact | Must Contain | Found | Status |
+|----------|-------------|-------|--------|
+| `apps/mobile/app/(community)/[id]/join.tsx` | `catch` block in `loadNickname` | Lines 39-42: `catch { ... setNickname('User#${randomNum}') }` | VERIFIED |
+| `apps/mobile/hooks/community/useJoinCommunity.ts` | `generateNickname` wrapped in `try/catch` | Lines 11-23: outer try/catch around `supabase.functions.invoke` | VERIFIED |
+| `apps/mobile/hooks/community/useJoinCommunity.ts` | `cm_user_community` constraint check | Lines 48-51: `error.message?.includes('cm_user_community')` | VERIFIED |
+| `apps/mobile/hooks/community/useJoinCommunity.ts` | Already-member fetches existing row | Lines 53-60: `supabase.from('community_members').select().single()` | VERIFIED |
+| `apps/mobile/components/community/CommunityCard.tsx` | `useCommunityMember` import and call | Line 7: import; line 16: `useCommunityMember(community.id)` | VERIFIED |
+| `apps/mobile/components/community/CommunityCard.tsx` | Membership routing branch | Lines 20-25: `if (membership) router.push(…index) else router.push(…preview)` | VERIFIED |
+| `apps/mobile/hooks/community/useJoinCommunity.ts` | `generateNickname` exported | Line 90: `export { generateNickname }` | VERIFIED |
 
 ---
 
@@ -87,18 +129,18 @@ human_verification:
 
 | From | To | Via | Status | Evidence |
 |------|----|-----|--------|---------|
-| `search.tsx` | `supabase.from('communities').textSearch()` | `useCommunitySearch` hook | WIRED | `search.tsx` imports and calls `useCommunitySearch`; hook line 26: `.textSearch('name', query, ...)` |
-| `join.tsx` | `supabase.from('community_members').insert()` | `useJoinCommunity` hook | WIRED | `join.tsx` calls `useJoinCommunity`; hook line 44: `.from('community_members').insert(...)` |
-| `index.tsx` | `CommunityTabBar` | Fan/Artist/Highlight tab rendering | WIRED | `index.tsx` line 12: imports `CommunityTabBar`; line 142: renders with `activeTab` + `onTabChange` |
-| `fan.tsx` | `supabase.from('posts_with_nickname')` | `useFanFeed` hook | WIRED | `fan.tsx` calls `useFanFeed`; hook line 83: `.from('posts_with_nickname')` |
-| `compose.tsx` | `supabase.storage.from('post-media')` | `useCreatePost` hook | WIRED | `compose.tsx` calls `useCreatePost`; hook line 29+35: `.from('post-media').upload(...)` |
-| `FAB.tsx` | `compose.tsx` | `router.push('/(community)/compose')` | WIRED | `FAB.tsx` line 10: `router.push('/(community)/compose' as never)` |
-| `artist.tsx` | `supabase.from('posts_with_nickname')` | `useCreatorFeed` hook | WIRED | `artist.tsx` calls `useCreatorFeed`; hook line 38: `.from('posts_with_nickname')` with `author_role='creator'` |
-| `ArtistMemberScroll.tsx` | `supabase.from('artist_members')` | `useArtistMembers` hook | WIRED | `ArtistMemberScroll.tsx` line 5: imports `useArtistMembers`; line 53: calls it |
-| `useFollowMember.ts` | `supabase.from('community_follows')` | insert/delete on community_follows | WIRED | Hook lines 23+32: `.from('community_follows').delete()` / `.insert(...)` |
-| `LikeButton.tsx` | `supabase.from('likes')` | `useLike` hook (called at render sites) | WIRED | `[postId].tsx` lines 38-39: `useLike('post')` + `useLike('comment')`; passed as `onLike` to `PostCard`, `CommentRow`, `ReplyRow` |
-| `useComments.ts` | `supabase.from('comments')` with `community_members` JOIN | `community_members!inner(community_nickname)` | WIRED | Hook line 62: `.select('*, author:community_members!inner(community_nickname, id, role)')` |
-| `[postId].tsx` | `CommentRow` + `ReplyRow` | Comment thread rendering | WIRED | `[postId].tsx` lines 25-26: imports both; lines 232+250: renders in thread loop |
+| `search.tsx` FlatList | `CommunityCard` | `renderItem` wraps in `<View style={{ width: '50%' }}>` | WIRED | Lines 31-35: renderItem returns View+CommunityCard with 50% width |
+| `CommunityCard.tsx` | `useCommunityMember` | Import + call on `community.id` | WIRED | Line 7: import; line 16: call; lines 20-25: result used in routing |
+| `CommunityCard.tsx` | `/(community)/[id]` (index) | `router.push` when `membership` truthy | WIRED | Line 22: `router.push(\`/(community)/${community.id}\`)` |
+| `CommunityCard.tsx` | `/(community)/[id]/preview` | `router.push` when no membership | WIRED | Line 24: `router.push(\`/(community)/${community.id}/preview\`)` |
+| `join.tsx` | `generateNickname` | Import from `useJoinCommunity`; call in `loadNickname` | WIRED | Line 8: named import; line 37: `await generateNickname()` |
+| `join.tsx` | Local fallback | `catch` block sets `User#${randomNum}` | WIRED | Lines 39-42: catch sets state with local random number |
+| `useJoinCommunity.ts` `generateNickname` | Local fallback | `catch` wraps entire `supabase.functions.invoke` | WIRED | Lines 19-23: catch block returns `User#${randomNum}` |
+| `useJoinCommunity.ts` 23505 handler | Already-member fetch | Checks `cm_user_community` → fetches existing row | WIRED | Lines 48-60: isAlreadyMember check + select().single() |
+| `useJoinCommunity.ts` 23505 handler | Nickname collision retry | Falls through to `generateNickname()` + re-insert | WIRED | Lines 62-75: generateNickname() + second insert |
+| `useJoinCommunity.ts` `onSuccess` | `['communityMember', communityId]` cache invalidation | `queryClient.invalidateQueries` | WIRED | Lines 82-85: invalidates same key `CommunityCard` reads |
+| `(tabs)/_layout.tsx` | `(tabs)/community.tsx` | Expo Router `Tabs.Screen name="community"` | WIRED | Commit 4bb2b07; no href override |
+| `(tabs)/community.tsx` | `(community)/search.tsx` | `<Redirect href="/(community)/search" />` | WIRED | Redirect to confirmed existing file |
 
 ---
 
@@ -106,37 +148,39 @@ human_verification:
 
 | Requirement | Source Plan | Description | Status | Evidence |
 |-------------|------------|-------------|--------|---------|
-| COMM-01 | 03-01 | Search communities by creator name/keyword (pg_textsearch) | SATISFIED | `useCommunitySearch` uses `.textSearch()` |
-| COMM-02 | 03-01 | View community preview (description, member count, recent activity) | SATISFIED | `preview.tsx` + `CommunityPreviewSheet` queries community data + `posts_with_nickname` |
-| COMM-03 | 03-01 | Join community with per-community nickname (auto-fill) | SATISFIED | `join.tsx` + `useJoinCommunity` with `generateNickname` |
+| COMM-01 | 03-01 / 03-05 / 03-06 | Search communities by keyword (pg_textsearch); Community tab visible; 2-column grid | SATISFIED | `useCommunitySearch` uses `.textSearch()`; proxy route; `width: '50%'` on renderItem |
+| COMM-02 | 03-01 / 03-06 | View community preview (description, member count, recent activity); no black rectangles | SATISFIED | `CommunityPreviewSheet` queries community data; null-guard on cover + artist avatars |
+| COMM-03 | 03-01 / 03-07 | Join community with per-community nickname (auto-fill, error resilient) | SATISFIED | `join.tsx` + `useJoinCommunity` with defensive `generateNickname` and catch fallback |
 | COMM-04 | 03-01 | Modify community nickname after joining | SATISFIED | `settings/nickname.tsx` calls `.update({ community_nickname: ... })` |
-| COMM-05 | 03-01 | Join multiple communities simultaneously | SATISFIED | DB schema has UNIQUE(userId, communityId); no application-level restriction; useCommunityMember takes `communityId` param |
+| COMM-05 | 03-01 | Join multiple communities simultaneously | SATISFIED | DB schema UNIQUE(userId, communityId); no application-level restriction |
 | COMM-06 | 03-01 | Leave a community | SATISFIED | `useLeaveCommunity` deletes from `community_members` |
-| COMM-07 | 03-01 | Community supports solo and group types | SATISFIED | `artist.tsx` branches on `activeCommunityType === 'group'` for `ArtistMemberScroll` |
-| MEMB-01 | 03-03 | Group community displays artist member list with profiles | SATISFIED | `ArtistMemberScroll` shows 56px circle avatars via `useArtistMembers` |
-| MEMB-02 | 03-03 | View individual artist member's posts (filtered view) | SATISFIED | Tapping member in `ArtistMemberScroll` sets `selectedArtistMemberId`; `useCreatorFeed` filters by `artist_member_id` |
-| MEMB-03 | 03-03 | Follow specific artist members within a community | SATISFIED | `useFollowMember` long-press on `ArtistMemberScroll` item; inserts/deletes `community_follows` |
-| MEMB-04 | 03-03 | Push notification for followed member's posts | DEFERRED | Explicitly deferred to Phase 4 per plan 03-03 comments; unchecked in REQUIREMENTS.md |
-| FANF-01 | 03-02 | Create text post in joined community (community nickname) | SATISFIED | `compose.tsx` calls `useCreatePost`; post stored with `author_role` derived from membership |
-| FANF-02 | 03-02 | Attach up to 10 images to a post | SATISFIED | `compose.tsx`: `MAX_IMAGES = 10`; `launchImageLibraryAsync` with `selectionLimit` |
+| COMM-07 | 03-01 | Community supports solo and group types | SATISFIED | `artist.tsx` branches on `activeCommunityType === 'group'` |
+| MEMB-01 | 03-03 / 03-07 | Group community displays artist member list with profiles | SATISFIED | `ArtistMemberScroll` with 56px circles; preview sheet null-guards avatars |
+| MEMB-02 | 03-03 / 03-07 | View individual artist member's posts (filtered view) | SATISFIED | `selectedArtistMemberId` in communityStore; `useCreatorFeed` filters by it |
+| MEMB-03 | 03-03 | Follow specific artist members within a community | SATISFIED | `useFollowMember` inserts/deletes `community_follows` |
+| MEMB-04 | 03-03 | Push notification for followed member's posts | DEFERRED | Explicitly deferred to Phase 4; unchecked in REQUIREMENTS.md |
+| FANF-01 | 03-02 | Create text post in joined community (community nickname) | SATISFIED | `compose.tsx` calls `useCreatePost`; author_role from membership |
+| FANF-02 | 03-02 | Attach up to 10 images to a post | SATISFIED | `compose.tsx`: `MAX_IMAGES = 10`; `launchImageLibraryAsync` with selectionLimit |
 | FANF-03 | 03-02 | Attach 1 video to a post | SATISFIED | `compose.tsx`: video picker limited to 1, disabled when images present |
-| FANF-04 | 03-02 | Fan feed with infinite scroll (cursor-based pagination) | SATISFIED | `useFanFeed` with `useInfiniteQuery` + cursor pagination on `[postId].tsx` |
+| FANF-04 | 03-02 | Fan feed with infinite scroll (cursor-based pagination) | SATISFIED | `useFanFeed` with `useInfiniteQuery` + cursor pagination |
 | FANF-05 | 03-02 | Sort fan feed by latest/popular | SATISFIED | `SortFilterChipBar` + `useFanFeed` sort param |
-| FANF-06 | 03-02 | Filter fan feed by "all", "following", "hot" | SATISFIED | `useFanFeed` filter logic: following (community_follows IN), hot (like_count >= 10) |
-| FANF-07 | 03-02 | Delete own posts | SATISFIED | `useDeletePost` with optimistic removal; delete option in post detail |
+| FANF-06 | 03-02 | Filter fan feed by "all", "following", "hot" | SATISFIED | `useFanFeed` filter logic (community_follows, like_count >= 10) |
+| FANF-07 | 03-02 | Delete own posts | SATISFIED | `useDeletePost` with optimistic removal |
 | FANF-08 | 03-02 | Post creation via FAB button | SATISFIED | `FAB.tsx` navigates to compose; rendered in fan.tsx and artist.tsx |
-| CREF-01 | 03-03 | Creator can post text/image/video in Creator tab (RLS enforced) | SATISFIED | `compose.tsx` reads membership role; passes `authorRole: 'creator'` to `useCreatePost`; RLS confirmed via `author_role` in content.ts schema |
-| CREF-02 | 03-03 | View Creator tab with creator-only posts | SATISFIED | `artist.tsx` uses `useCreatorFeed` querying `posts_with_nickname` with `author_role='creator'` |
-| CREF-03 | 03-03 | Creator post triggers push notification to all community members | DEFERRED | Explicitly deferred to Phase 4 per plan 03-03; unchecked in REQUIREMENTS.md |
-| CREF-04 | 03-03 | Creator posts visually distinguished from fan posts | SATISFIED | `PostCard` renders `CreatorBadge` when `author_role === 'creator'`; `CreatorBadge` uses teal color |
-| INTC-01 | 03-04 | Comment on posts (community nickname) | SATISFIED | `useComments` joins `community_members!inner(community_nickname)`; `CommentRow` displays it |
+| CREF-01 | 03-03 | Creator can post text/image/video in Creator tab (RLS enforced) | SATISFIED | `compose.tsx` reads membership role; passes `authorRole: 'creator'` to `useCreatePost` |
+| CREF-02 | 03-03 | View Creator tab with creator-only posts | SATISFIED | `artist.tsx` uses `useCreatorFeed` with `author_role='creator'` |
+| CREF-03 | 03-03 | Creator post triggers push notification to all community members | DEFERRED | Explicitly deferred to Phase 4; unchecked in REQUIREMENTS.md |
+| CREF-04 | 03-03 | Creator posts visually distinguished from fan posts | SATISFIED | `PostCard` renders `CreatorBadge` when `author_role === 'creator'` |
+| INTC-01 | 03-04 | Comment on posts (community nickname) | SATISFIED | `useComments` joins `community_members!inner(community_nickname)` |
 | INTC-02 | 03-04 | Reply to comments (1 depth nested) | SATISFIED | `useCreateComment` enforces 1-depth guard; `ReplyRow` renders indented replies |
 | INTC-03 | 03-04 | Creator replies visually highlighted | SATISFIED | `ReplyRow` checks `is_creator_reply` for teal nickname + `CreatorBadge` |
-| INTC-04 | 03-04 | Like posts (toggle, real-time count) | SATISFIED | `useLike('post')` with optimistic `like_count` update in feed cache |
-| INTC-05 | 03-04 | Like comments (toggle, real-time count) | SATISFIED | `useLike('comment')` wired in `[postId].tsx` for CommentRow and ReplyRow |
-| INTC-06 | 03-04 | Delete own comments | SATISFIED | `CommentRow` has delete button for own comments; calls `useDeleteComment` + `Alert.alert` confirmation |
+| INTC-04 | 03-04 | Like posts (toggle, real-time count) | SATISFIED | `useLike('post')` with optimistic `like_count` update |
+| INTC-05 | 03-04 | Like comments (toggle, real-time count) | SATISFIED | `useLike('comment')` wired in `[postId].tsx` |
+| INTC-06 | 03-04 | Delete own comments | SATISFIED | `CommentRow` delete button; calls `useDeleteComment` + `Alert.alert` |
 
-**Deferred (2 requirements):** MEMB-04 and CREF-03 are push notification requirements explicitly documented as deferred to Phase 4 in plan 03-03. They are unchecked in REQUIREMENTS.md. This is intentional and not a gap.
+**Deferred (2 requirements):** MEMB-04 and CREF-03 are push notification requirements explicitly documented as deferred to Phase 4. They are unchecked in REQUIREMENTS.md. This is intentional and not a gap.
+
+**All 29 Phase 03 requirements accounted for: 27 SATISFIED + 2 DEFERRED.**
 
 ---
 
@@ -146,9 +190,9 @@ human_verification:
 |------|------|---------|----------|--------|
 | `fan.tsx` | 77 | `return null` | Info | Inside `ListFooter` sub-component — legitimate (no more pages state) |
 | `artist.tsx` | 81 | `return null` | Info | Inside `ListFooter` sub-component — legitimate |
-| `fan.tsx`, `artist.tsx` | 105, 111 | Comment about `estimatedItemSize` not supported | Info | FlashList 2.3.0 lacks the prop; documented workaround comment, no functional impact |
+| `(tabs)/community.tsx` | 4 | Redirect-only component | Info | Intentional proxy route pattern — not a stub |
 
-No blockers or warnings found. All `return null` instances are in `ListFooter` sub-components for the "no more content" terminal state — correct usage.
+No blockers or warnings found.
 
 ---
 
@@ -156,50 +200,68 @@ No blockers or warnings found. All `return null` instances are in `ListFooter` s
 
 ### 1. Community Search Grid Visual Layout
 
-**Test:** Launch app, tap Community tab, type a search keyword
-**Expected:** 2-column grid of `CommunityCard` items renders with cover image, name, member count
-**Why human:** Visual grid layout correctness requires device/emulator
+**Test:** Launch app on device/emulator, tap Community tab, type a search keyword
+**Expected:** 2-column grid of CommunityCard items renders correctly; null cover images show the people-outline icon (not black rectangles); cards are equal width
+**Why human:** Visual grid layout and placeholder rendering correctness requires a running Expo app
 
-### 2. Join Flow with Auto-Generated Nickname
+### 2. Join Flow with Auto-Generated Nickname (Fallback Path)
 
-**Test:** Tap a community -> "Join" -> verify nickname pre-filled as "User#XXXX" (random)
-**Expected:** Nickname auto-filled, editable, 23505 retry on collision generates new nickname automatically
-**Why human:** Requires `generate-nickname` Supabase Edge Function to be deployed and live
+**Test:** Disable network (airplane mode or kill Supabase Edge Functions), open the join screen for a community
+**Expected:** Nickname auto-fills as "User#XXXX" even without the Edge Function; join button is enabled; joining completes
+**Why human:** Fallback path is now verified statically but exercising the catch branch requires controlled network failure
 
-### 3. Like Button Spring Animation
+### 3. Join Flow — Successful Path
+
+**Test:** Tap a community in search results, complete join with default nickname
+**Expected:** Navigated to community main screen after join; returning to search and tapping the same card goes directly to community main (not preview)
+**Why human:** TanStack Query cache invalidation and routing branch require running app
+
+### 4. Already-Joined Member Navigation
+
+**Test:** As an already-joined member, tap a CommunityCard in search results
+**Expected:** Navigated directly to community main screen (not preview sheet)
+**Why human:** `useCommunityMember` must return a non-null result from cache/network; requires running app
+
+### 5. Like Button Spring Animation
 
 **Test:** Tap the heart icon on any post in fan or artist feed
 **Expected:** Heart icon scales 1.0 -> 1.2 -> 1.0 with spring, fills teal; count updates instantly
-**Why human:** Reanimated spring animations require device/emulator for visual verification
+**Why human:** Reanimated spring animations require device/emulator
 
-### 4. Comment Reply Mode Indicator
+### 6. Comment Reply Mode Indicator
 
 **Test:** On post detail, tap "답글" on any comment
-**Expected:** "@nickname에게 답글 중" appears above keyboard input with X cancel button; after sending reply it clears
+**Expected:** "@nickname에게 답글 중" appears above keyboard input with X cancel button; clears after send
 **Why human:** Stateful UI interaction across keyboard and input bar
 
-### 5. Video/Image Mutual Exclusion in Composer
+### 7. Video/Image Mutual Exclusion in Composer
 
-**Test:** Open composer -> pick images -> verify video button is disabled; clear images -> pick video -> verify image button is disabled
-**Expected:** Image count enforced at 10 max; video and images mutually exclusive as enforced in compose.tsx
+**Test:** Open composer, pick images, verify video button disabled; clear images, pick video, verify image button disabled
+**Expected:** Image count enforced at 10 max; video and images mutually exclusive
 **Why human:** Requires interactive flow testing with media picker
 
 ---
 
 ## Summary
 
-Phase 03 goal — community discovery, joining, fan/artist feeds, posts, comments, likes — is **fully implemented** across 4 plans and 42+ files.
+Phase 03 goal — users can discover and join communities with a per-community persona, then post, react, and engage within those communities — is **fully implemented and all UAT-identified gaps are closed**.
 
-All 13 observable truths are verified. All 28 requirements assigned to Phase 03 are either satisfied (26) or intentionally deferred to Phase 4 (MEMB-04, CREF-03 — push notifications).
+**Gap closure via plans 03-06 and 03-07:**
 
-Key architectural correctness confirmed:
-- Posts always queried via `posts_with_nickname` view (never raw `posts`) — persona isolation maintained
-- Creator role detection flows correctly from `community_members.role` through compose.tsx to `useCreatePost`
-- 1-depth comment reply guard enforced in `useCreateComment`
-- Optimistic updates with rollback on error in `useLike` and `useDeletePost`
-- All user-facing text uses community nickname, never global profile
+Plan 03-06 (commits `b5f4f67`, `9f85c9f`) fixed three visual issues identified in UAT:
+- `search.tsx` renderItem now uses `style={{ width: '50%' }}` giving `FlatList numColumns={2}` the explicit constraint it needs for a true 2-column grid on both mobile and web.
+- `CommunityCard.tsx` guards `community.cover_image_url` with a ternary — null renders a `people-outline` Ionicons placeholder; no undefined URI is ever passed to `expo-image`.
+- `CommunityPreviewSheet.tsx` applies the same null-guard to both the community cover image and each artist avatar in the horizontal scroll.
+
+Plan 03-07 (commits `0f08646`, `ad3f652`) fixed the blocker that caused 13/17 UAT tests to be skipped:
+- `generateNickname` in `useJoinCommunity.ts` now wraps the entire `supabase.functions.invoke` call in `try/catch` — thrown network-level errors are caught and the function returns a locally-generated `User#XXXX`. The previous `if (error || !data?.nickname)` check only handled clean supabase-js error returns.
+- `join.tsx` `loadNickname` gains a `catch` block with a local fallback — the join button can never be stuck disabled due to an empty nickname.
+- `useJoinCommunity.ts` 23505 handler now distinguishes the `cm_user_community` unique constraint (already a member — fetch and return existing row) from a nickname collision (retry with new `generateNickname()` call).
+- `CommunityCard.tsx` calls `useCommunityMember(community.id)` and routes already-joined members directly to `/(community)/[id]`, bypassing the preview sheet. The query key matches the key invalidated by the join mutation, so cache coherence is automatic.
+
+All 21 observable truths verified. All 29 Phase 03 requirements are either satisfied (27) or intentionally deferred to Phase 4 (MEMB-04, CREF-03 — push notifications). No regressions introduced by the gap closure changes.
 
 ---
 
-_Verified: 2026-03-20T04:00:00Z_
+_Verified: 2026-03-20T11:00:00Z_
 _Verifier: Claude (gsd-verifier)_
