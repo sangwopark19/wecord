@@ -31,7 +31,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="people-outline" size={size} color={color} />
           ),
-          href: '/(community)/search' as never,
         }}
       />
     </Tabs>
