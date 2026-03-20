@@ -150,6 +150,9 @@ export default function ComposeScreen() {
 
     const postType = hasVideo ? 'video' : hasImages ? 'image' : 'text';
 
+    // Detect creator role — only users with role='creator' in this community should post as creator
+    const authorRole = membership?.role === 'creator' ? 'creator' : 'fan';
+
     setIsPublishing(true);
     try {
       await createPost.mutateAsync({
@@ -157,6 +160,7 @@ export default function ComposeScreen() {
         content: content.trim(),
         mediaUris: mediaItems.map((m) => m.uri),
         postType,
+        authorRole,
       });
       router.back();
     } catch {

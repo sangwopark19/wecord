@@ -9,6 +9,7 @@ interface CreatePostParams {
   content: string;
   mediaUris: string[];
   postType: 'text' | 'image' | 'video';
+  authorRole?: 'fan' | 'creator';
 }
 
 async function compressAndUploadImage(
@@ -59,7 +60,7 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ communityId, content, mediaUris, postType }: CreatePostParams) => {
+    mutationFn: async ({ communityId, content, mediaUris, postType, authorRole = 'fan' }: CreatePostParams) => {
       if (!user) throw new Error('Not authenticated');
 
       let uploadedUrls: string[] = [];
@@ -92,7 +93,7 @@ export function useCreatePost() {
           content,
           media_urls: uploadedUrls.length > 0 ? uploadedUrls : null,
           post_type: postType,
-          author_role: 'fan',
+          author_role: authorRole,
         })
         .select()
         .single();
@@ -106,6 +107,7 @@ export function useCreatePost() {
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['fanFeed', variables.communityId] });
+      queryClient.invalidateQueries({ queryKey: ['creatorFeed', variables.communityId] });
     },
   });
 }

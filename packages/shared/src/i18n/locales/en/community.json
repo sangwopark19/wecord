@@ -50,6 +50,12 @@
         "body": "Be the first to write a post."
       }
     },
+    "artist": {
+      "empty": {
+        "heading": "No creator posts yet",
+        "body": "Check back later for creator content."
+      }
+    },
     "error": {
       "load": "Failed to load feed. Please try again later."
     }
