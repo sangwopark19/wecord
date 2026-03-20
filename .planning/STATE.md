@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 04-00-PLAN.md
-last_updated: "2026-03-20T09:16:23.460Z"
+stopped_at: Completed 04-highlights-notices-notifications-translation-01-PLAN.md
+last_updated: "2026-03-20T09:21:15.054Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 18
-  completed_plans: 14
+  completed_plans: 15
   percent: 30
 ---
 
@@ -62,6 +62,7 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 | Phase 03-community-core-content P07 | 103 | 2 tasks | 3 files |
 | Phase 03 P06 | 3 | 2 tasks | 3 files |
 | Phase 04-highlights-notices-notifications-translation P00 | 1 | 1 tasks | 5 files |
+| Phase 04-highlights-notices-notifications-translation P01 | 286 | 2 tasks | 33 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,8 @@ Recent decisions affecting current work:
 - [Phase 03]: FlatList numColumns=2 requires style={{ width: '50%' }} on renderItem wrapper — className flex-1 does not work for grid width in React Native
 - [Phase 03]: useEffect debounce with clearTimeout cleanup is the correct React pattern — setTimeout in event handlers leaks timers
 - [Phase 04]: Wave 0 stubs use it.todo() so vitest reports them as skipped (not failing), ensuring test run exits 0
+- [Phase 04-highlights-notices-notifications-translation]: highlight Edge Function uses POST body for community_id — supabase.functions.invoke does not support GET query params
+- [Phase 04-highlights-notices-notifications-translation]: HorizontalCardScroll renderItem typed as ReactElement (not ReactNode) — FlatList ListRenderItem requires non-undefined return
 
 ### Pending Todos
 
@@ -124,6 +127,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T09:16:23.457Z
-Stopped at: Completed 04-00-PLAN.md
+Last session: 2026-03-20T09:21:15.052Z
+Stopped at: Completed 04-highlights-notices-notifications-translation-01-PLAN.md
 Resume file: None

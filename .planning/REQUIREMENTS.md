@@ -81,7 +81,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **TRAN-02**: User can tap translate button on any comment to see translation
 - [ ] **TRAN-03**: User can toggle between original and translated text
 - [ ] **TRAN-04**: Translation results are cached in DB (post_translations table)
-- [ ] **TRAN-05**: App UI displays in user's preferred language (5 languages)
+- [x] **TRAN-05**: App UI displays in user's preferred language (5 languages)
 
 ### Notifications
 
@@ -105,10 +105,10 @@ Requirements for MVP release. Each maps to roadmap phases.
 ### Highlight Tab
 
 - [x] **HIGH-01**: Highlight tab shows notices section at top
-- [ ] **HIGH-02**: Highlight tab shows calendar section below notices
-- [ ] **HIGH-03**: Highlight tab shows recent creator posts section
-- [ ] **HIGH-04**: Highlight tab shows recent fan posts section
-- [ ] **HIGH-05**: Highlight tab shows artist member profiles section at bottom
+- [x] **HIGH-02**: Highlight tab shows calendar section below notices
+- [x] **HIGH-03**: Highlight tab shows recent creator posts section
+- [x] **HIGH-04**: Highlight tab shows recent fan posts section
+- [x] **HIGH-05**: Highlight tab shows artist member profiles section at bottom
 
 ### Notices
 
