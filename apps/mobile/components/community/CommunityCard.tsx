@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from '@wecord/shared/i18n';
 import type { CommunitySearchResult } from '../../hooks/community/useCommunitySearch';
+import { useCommunityMember } from '../../hooks/community/useCommunityMember';
 
 interface CommunityCardProps {
   community: CommunitySearchResult;
@@ -12,10 +13,17 @@ interface CommunityCardProps {
 export function CommunityCard({ community }: CommunityCardProps) {
   const router = useRouter();
   const { t } = useTranslation('community');
+  const { data: membership } = useCommunityMember(community.id);
 
   return (
     <Pressable
-      onPress={() => router.push(`/(community)/${community.id}/preview` as never)}
+      onPress={() => {
+        if (membership) {
+          router.push(`/(community)/${community.id}` as never);
+        } else {
+          router.push(`/(community)/${community.id}/preview` as never);
+        }
+      }}
       className="m-2 bg-card rounded-xl overflow-hidden"
       accessibilityRole="button"
       accessibilityLabel={community.name}
