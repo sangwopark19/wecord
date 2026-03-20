@@ -28,6 +28,8 @@ import { CalendarPlaceholderCard } from '../../../components/highlight/CalendarP
 import { NoticeListCard } from '../../../components/highlight/NoticeListCard';
 import { ArtistMemberCard } from '../../../components/highlight/ArtistMemberCard';
 import { useTranslation } from '@wecord/shared/i18n';
+import { NotificationBellBadge } from '../../../components/notification/NotificationBellBadge';
+import { usePushTokenRegistration } from '../../../hooks/notification/usePushTokenRegistration';
 import FanTab from './fan';
 import ArtistTab from './artist';
 
@@ -243,6 +245,9 @@ export default function CommunityMainScreen() {
   const { setActiveCommunity } = useCommunityStore();
   const { show: showLeaveDialog } = useLeaveConfirmDialog();
 
+  // Register push token on community entry
+  usePushTokenRegistration();
+
   const { data: community, isLoading } = useQuery({
     queryKey: ['community', id],
     queryFn: async (): Promise<Community | null> => {
@@ -326,6 +331,10 @@ export default function CommunityMainScreen() {
             <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
           </Pressable>
           <View className="flex-row items-center gap-2">
+            <NotificationBellBadge
+              communityId={id!}
+              onPress={() => router.push(`/(community)/${id}/notifications` as never)}
+            />
             <Pressable
               onPress={() => router.push(`/(community)/${id}/settings/nickname` as never)}
               accessibilityRole="button"
