@@ -33,5 +33,47 @@
   "highlight": {
     "placeholder": "No highlights yet."
   },
-  "enter": "Enter"
+  "enter": "Enter",
+  "feed": {
+    "sort": {
+      "latest": "Latest",
+      "popular": "Popular"
+    },
+    "filter": {
+      "all": "All",
+      "following": "Following",
+      "hot": "Hot"
+    },
+    "fan": {
+      "empty": {
+        "heading": "No posts yet",
+        "body": "Be the first to write a post."
+      }
+    },
+    "error": {
+      "load": "Failed to load feed. Please try again later."
+    }
+  },
+  "post": {
+    "compose": {
+      "title": "New Post",
+      "publish": "Publish",
+      "error": {
+        "publish": "Failed to publish post. Please try again.",
+        "imageUpload": "Failed to upload image. Please try again."
+      }
+    },
+    "delete": {
+      "confirm": {
+        "title": "Confirm Delete",
+        "message": "Are you sure you want to delete? Deleted posts cannot be recovered.",
+        "action": "Delete"
+      }
+    }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "charLimitExceeded": "Maximum {{max}} characters allowed.",
+    "retry": "Retry"
+  }
 }

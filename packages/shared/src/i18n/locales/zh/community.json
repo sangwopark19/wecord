@@ -33,5 +33,47 @@
   "highlight": {
     "placeholder": "暂无精彩内容。"
   },
-  "enter": "进入"
+  "enter": "进入",
+  "feed": {
+    "sort": {
+      "latest": "最新",
+      "popular": "热门"
+    },
+    "filter": {
+      "all": "全部",
+      "following": "关注",
+      "hot": "热点"
+    },
+    "fan": {
+      "empty": {
+        "heading": "暂无帖子",
+        "body": "成为第一个发帖的人吧。"
+      }
+    },
+    "error": {
+      "load": "加载动态失败，请稍后重试。"
+    }
+  },
+  "post": {
+    "compose": {
+      "title": "新帖子",
+      "publish": "发布",
+      "error": {
+        "publish": "发布帖子失败，请重试。",
+        "imageUpload": "上传图片失败，请重试。"
+      }
+    },
+    "delete": {
+      "confirm": {
+        "title": "确认删除",
+        "message": "确定要删除吗？删除的帖子无法恢复。",
+        "action": "删除"
+      }
+    }
+  },
+  "common": {
+    "cancel": "取消",
+    "charLimitExceeded": "最多可输入 {{max}} 个字符。",
+    "retry": "重试"
+  }
 }

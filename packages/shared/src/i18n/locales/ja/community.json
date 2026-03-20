@@ -33,5 +33,47 @@
   "highlight": {
     "placeholder": "まだハイライトはありません。"
   },
-  "enter": "入場する"
+  "enter": "入場する",
+  "feed": {
+    "sort": {
+      "latest": "最新",
+      "popular": "人気"
+    },
+    "filter": {
+      "all": "すべて",
+      "following": "フォロー中",
+      "hot": "ホット"
+    },
+    "fan": {
+      "empty": {
+        "heading": "まだ投稿がありません",
+        "body": "最初の投稿を書いてみましょう。"
+      }
+    },
+    "error": {
+      "load": "フィードを読み込めませんでした。後でもう一度お試しください。"
+    }
+  },
+  "post": {
+    "compose": {
+      "title": "新しい投稿",
+      "publish": "投稿",
+      "error": {
+        "publish": "投稿に失敗しました。もう一度お試しください。",
+        "imageUpload": "画像のアップロードに失敗しました。もう一度お試しください。"
+      }
+    },
+    "delete": {
+      "confirm": {
+        "title": "削除の確認",
+        "message": "本当に削除しますか？削除した投稿は元に戻せません。",
+        "action": "削除"
+      }
+    }
+  },
+  "common": {
+    "cancel": "キャンセル",
+    "charLimitExceeded": "最大{{max}}文字まで入力できます。",
+    "retry": "再試行"
+  }
 }
