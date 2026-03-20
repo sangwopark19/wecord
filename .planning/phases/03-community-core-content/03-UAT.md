@@ -1,9 +1,9 @@
 ---
-status: resolved
+status: complete
 phase: 03-community-core-content
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md
 started: 2026-03-20T10:00:00Z
-updated: 2026-03-20T16:00:00Z
+updated: 2026-03-20T17:30:00Z
 ---
 
 ## Current Test
@@ -36,76 +36,68 @@ severity: blocker
 
 ### 5. Community 메인 화면 (3-Tab Shell)
 expected: 가입된 커뮤니티에 진입하면 Fan / Artist / Highlight 3개 탭이 상단에 표시된다. 각 탭을 탭하면 해당 화면으로 전환된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: issue
+reported: "아직도 가입이 안되어서 테스트 불가능함"
+severity: blocker
 
 ### 6. 닉네임 변경
 expected: 커뮤니티 설정에서 닉네임 변경 화면에 진입할 수 있다. 새 닉네임을 입력하고 저장하면 변경된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: [pending]
 
 ### 7. Fan Feed 무한 스크롤
 expected: Fan 탭에서 게시글 목록이 FlashList로 표시된다. 아래로 스크롤하면 추가 게시글이 로딩된다. 위로 당기면 새로고침된다. 게시글이 없으면 빈 상태 메시지가 표시된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
+note: 이전 issue에서 fix 후 pass (index.tsx placeholder → FanTab 연결)
 
 ### 8. 정렬/필터 칩
 expected: Fan 피드 상단에 정렬(최신/인기)과 필터(전체/팔로잉/핫) 칩이 표시된다. 칩을 탭하면 피드가 해당 조건으로 갱신된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 9. 게시글 작성
 expected: Fan 피드 하단 우측에 FAB(글쓰기) 버튼이 표시된다. 탭하면 글 작성 화면으로 이동한다. 텍스트를 입력하고 이미지를 첨부(최대 10장)한 후 게시하면 피드에 새 글이 나타난다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 10. 게시글 상세 & 삭제
 expected: 게시글을 탭하면 상세 화면이 표시된다(전체 본문, 미디어, 작성자 정보). 자신의 글이면 삭제 버튼이 표시되고, 삭제 확인 다이얼로그 후 삭제된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 11. Artist 탭 크리에이터 피드
 expected: Artist 탭에서는 크리에이터(아티스트) 역할의 게시글만 표시된다. 일반 팬 게시글은 보이지 않는다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 12. Artist 멤버 스크롤
 expected: 그룹 커뮤니티의 Artist 탭 상단에 아티스트 멤버 원형 아바타가 가로 스크롤로 표시된다. 멤버를 선택하면 해당 멤버의 게시글만 필터링된다. 선택된 멤버는 틸 컬러 테두리로 강조된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 13. 좋아요
 expected: 게시글의 하트 버튼을 탭하면 좋아요가 토글된다. 좋아요 시 하트가 틸 색으로 채워지고 스프링 스케일 애니메이션(커졌다 작아짐)이 재생된다. 좋아요 수가 즉시 반영된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 14. 댓글 작성
 expected: 게시글 상세 화면 하단에 댓글 입력 바가 있다. 댓글을 작성하고 전송하면 댓글 목록에 즉시 나타난다. 작성자 닉네임과 시간이 표시된다. 크리에이터 댓글은 틸 색으로 강조된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: issue
+reported: "댓글 작성 자체는 pass. 단, 모바일에서 게시글 상세 진입 시 기존 댓글이 바로 안 보이는 별도 버그 존재 (Gap 기록됨)"
+severity: major
 
 ### 15. 답글
 expected: 댓글의 "답글" 버튼을 탭하면 "@닉네임에게 답글 중" 표시와 함께 답글 모드가 활성화된다. 답글을 작성하면 부모 댓글 아래에 들여쓰기되어 표시된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 16. 댓글 삭제
 expected: 자신의 댓글에 삭제 버튼이 표시된다. 탭하면 확인 다이얼로그가 뜨고, 확인 시 댓글이 삭제된다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ### 17. 커뮤니티 탈퇴
 expected: 커뮤니티 설정에서 나가기를 선택하면 확인 다이얼로그가 표시된다. 확인하면 커뮤니티를 탈퇴하고 검색 화면으로 돌아간다.
-result: skipped
-reason: 커뮤니티 진입 불가 (Test 4 blocker)
+result: pass
 
 ## Summary
 
 total: 17
-passed: 1
-issues: 3
+passed: 12
+issues: 5
 pending: 0
-skipped: 13
+skipped: 0
 
 ## Gaps
 
@@ -159,3 +151,34 @@ skipped: 13
     - "Distinguish 23505 constraint sources in useJoinCommunity"
     - "Create generate-nickname Edge Function or implement local fallback"
   debug_session: ".planning/debug/community-join-and-navigation.md"
+
+- truth: "가입된 커뮤니티에 진입하면 Fan / Artist / Highlight 3개 탭이 상단에 표시된다"
+  status: failed
+  reason: "User reported: 아직도 가입이 안되어서 테스트 불가능함"
+  severity: blocker
+  test: 5
+  root_cause: "Same as Test 4 — community join flow is still broken. Previous gap closure (03-06, 03-07) fix plans were not applied or did not resolve the issue."
+  artifacts:
+    - path: "apps/mobile/hooks/community/useJoinCommunity.ts"
+      issue: "generate-nickname Edge Function still missing or join mutation still failing"
+    - path: "apps/mobile/app/(community)/[id]/join.tsx"
+      issue: "Join flow error handling still incomplete"
+  missing:
+    - "Verify and apply gap closure fixes from 03-06/03-07 plans"
+    - "Test join flow end-to-end after fixes"
+  debug_session: ".planning/debug/community-join-and-navigation.md"
+
+- truth: "게시글 상세 진입 시 기존 댓글이 즉시 로딩되어 표시된다"
+  status: failed
+  reason: "User reported: 웹에선 댓글이 바로 보이지만 모바일(iOS)에서는 게시글 상세 진입 시 댓글이 안 보임. 새 댓글을 작성해야 기존 댓글이 비로소 표시됨."
+  severity: major
+  test: 14
+  root_cause: ""
+  artifacts:
+    - path: "apps/mobile/hooks/comment/useComments.ts"
+      issue: "comments_with_nickname 뷰 쿼리가 모바일에서 초기 로드 시 빈 결과 반환. 웹은 정상. session 확인, enabled 조건, getSession() 호출 등 시도했으나 미해결"
+  missing:
+    - "모바일에서 Supabase RLS 컨텍스트 디버깅 필요"
+    - "comments_with_nickname 뷰가 모바일 authenticated role에서 올바르게 작동하는지 확인"
+    - "웹 vs 모바일 Supabase 클라이언트 auth 헤더 차이 조사"
+  debug_session: ""
