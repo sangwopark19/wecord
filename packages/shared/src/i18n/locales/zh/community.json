@@ -77,6 +77,22 @@
       }
     }
   },
+  "comment": {
+    "placeholder": "写评论...",
+    "send": "发送",
+    "reply": "回复",
+    "replyTo": "正在回复 @{{nickname}}",
+    "empty": {
+      "heading": "暂无评论",
+      "body": "成为第一个评论的人吧。"
+    },
+    "header": "{{count}} 条评论",
+    "delete": {
+      "confirm": {
+        "message": "确定要删除吗？删除的评论无法恢复。"
+      }
+    }
+  },
   "common": {
     "cancel": "取消",
     "charLimitExceeded": "最多可输入 {{max}} 个字符。",

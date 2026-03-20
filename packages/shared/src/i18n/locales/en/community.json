@@ -77,6 +77,22 @@
       }
     }
   },
+  "comment": {
+    "placeholder": "Write a comment...",
+    "send": "Send",
+    "reply": "Reply",
+    "replyTo": "Replying to @{{nickname}}",
+    "empty": {
+      "heading": "No comments yet",
+      "body": "Be the first to comment."
+    },
+    "header": "{{count}} comments",
+    "delete": {
+      "confirm": {
+        "message": "Are you sure? Deleted comments cannot be recovered."
+      }
+    }
+  },
   "common": {
     "cancel": "Cancel",
     "charLimitExceeded": "Maximum {{max}} characters allowed.",

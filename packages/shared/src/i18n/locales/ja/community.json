@@ -77,6 +77,22 @@
       }
     }
   },
+  "comment": {
+    "placeholder": "コメントを入力...",
+    "send": "送信",
+    "reply": "返信",
+    "replyTo": "@{{nickname}}に返信中",
+    "empty": {
+      "heading": "まだコメントがありません",
+      "body": "最初のコメントを投稿しましょう。"
+    },
+    "header": "コメント {{count}}件",
+    "delete": {
+      "confirm": {
+        "message": "本当に削除しますか？削除したコメントは元に戻せません。"
+      }
+    }
+  },
   "common": {
     "cancel": "キャンセル",
     "charLimitExceeded": "最大{{max}}文字まで入力できます。",
