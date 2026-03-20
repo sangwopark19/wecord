@@ -1,9 +1,9 @@
 ---
-status: diagnosed
+status: resolved
 phase: 03-community-core-content
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md
 started: 2026-03-20T10:00:00Z
-updated: 2026-03-20T14:35:00Z
+updated: 2026-03-20T16:00:00Z
 ---
 
 ## Current Test
@@ -110,7 +110,7 @@ skipped: 13
 ## Gaps
 
 - truth: "검색 화면에서 커뮤니티가 2열 그리드 형태로 표시된다"
-  status: failed
+  status: resolved
   reason: "User reported: 웹에서는 검은색 큰 사각형으로밖에 안보인다. 모바일에서는 1열 그리드 형태로 보이는거 같다"
   severity: major
   test: 2
@@ -126,7 +126,7 @@ skipped: 13
   debug_session: ".planning/debug/community-search-grid-layout.md"
 
 - truth: "아티스트 이미지 없을 때 기본 아바타가 표시된다"
-  status: failed
+  status: resolved
   reason: "User reported: 기본아바타가 보이지 않는다 (아티스트 이미지 없을 때 fallback 없음)"
   severity: minor
   test: 3
@@ -139,7 +139,7 @@ skipped: 13
   debug_session: ".planning/debug/artist-avatar-fallback-missing.md"
 
 - truth: "가입 버튼을 누르면 가입 화면이 표시되고 가입 완료 후 커뮤니티 메인으로 이동한다"
-  status: failed
+  status: resolved
   reason: "User reported: 모바일에선 오류가 발생하고 웹, 안드로이드에선 가입눌러도 아무런 반응이 없음. 가입도 안되고 커뮤니티 메인 진입 경로도 안됨"
   severity: blocker
   test: 4
