@@ -77,7 +77,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Translation
 
-- [ ] **TRAN-01**: User can tap translate button on any post to see translation in preferred language
+- [x] **TRAN-01**: User can tap translate button on any post to see translation in preferred language
 - [ ] **TRAN-02**: User can tap translate button on any comment to see translation
 - [ ] **TRAN-03**: User can toggle between original and translated text
 - [ ] **TRAN-04**: Translation results are cached in DB (post_translations table)
@@ -90,9 +90,9 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **NOTF-03**: User receives push notification for likes on own posts
 - [ ] **NOTF-04**: User receives push notification for notice/announcements
 - [ ] **NOTF-05**: User receives push notification for followed member posts
-- [ ] **NOTF-06**: User can configure notification preferences per community
+- [x] **NOTF-06**: User can configure notification preferences per community
 - [ ] **NOTF-07**: User can configure notification preferences per category (creator post/comment/notice)
-- [ ] **NOTF-08**: Unread notification badge updates in real-time (Supabase Realtime)
+- [x] **NOTF-08**: Unread notification badge updates in real-time (Supabase Realtime)
 
 ### Home Feed
 
@@ -104,7 +104,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Highlight Tab
 
-- [ ] **HIGH-01**: Highlight tab shows notices section at top
+- [x] **HIGH-01**: Highlight tab shows notices section at top
 - [ ] **HIGH-02**: Highlight tab shows calendar section below notices
 - [ ] **HIGH-03**: Highlight tab shows recent creator posts section
 - [ ] **HIGH-04**: Highlight tab shows recent fan posts section
@@ -116,7 +116,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **NOTC-02**: Admin can pin notices
 - [ ] **NOTC-03**: Admin can schedule notice publication (pg_cron)
 - [ ] **NOTC-04**: Notice publication triggers push notification to community members
-- [ ] **NOTC-05**: User can view notice list and detail within community
+- [x] **NOTC-05**: User can view notice list and detail within community
 
 ### Search
 
