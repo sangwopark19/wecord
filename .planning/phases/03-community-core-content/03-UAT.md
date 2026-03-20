@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-community-core-content
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md
 started: 2026-03-20T10:00:00Z
@@ -114,27 +114,48 @@ skipped: 13
   reason: "User reported: 웹에서는 검은색 큰 사각형으로밖에 안보인다. 모바일에서는 1열 그리드 형태로 보이는거 같다"
   severity: major
   test: 2
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "1) renderItem wrapper uses flex-1 without width constraint — FlatList numColumns=2 requires width:'50%'. 2) CommunityCard passes {uri: undefined} to expo-image when cover_image_url is null — renders black box on web."
+  artifacts:
+    - path: "apps/mobile/app/(community)/search.tsx"
+      issue: "renderItem wrapper needs style={{ width: '50%' }} instead of className='flex-1'"
+    - path: "apps/mobile/components/community/CommunityCard.tsx"
+      issue: "Image source needs null-guard — shows black box when cover_image_url is null"
+  missing:
+    - "Add width:'50%' to renderItem wrapper in search.tsx"
+    - "Add fallback placeholder view when cover_image_url is null in CommunityCard"
+  debug_session: ".planning/debug/community-search-grid-layout.md"
 
 - truth: "아티스트 이미지 없을 때 기본 아바타가 표시된다"
   status: failed
   reason: "User reported: 기본아바타가 보이지 않는다 (아티스트 이미지 없을 때 fallback 없음)"
   severity: minor
   test: 3
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "CommunityPreviewSheet.tsx passes {uri: undefined} to expo-image when profile_image_url is null. No conditional check, no fallback view. ArtistMemberScroll.tsx already has the correct pattern (person-outline Ionicons icon)."
+  artifacts:
+    - path: "apps/mobile/components/community/CommunityPreviewSheet.tsx"
+      issue: "Lines 108-117: Missing fallback for null profile_image_url"
+  missing:
+    - "Add ternary conditional mirroring ArtistMemberScroll pattern — show Ionicons person-outline when URL is null"
+  debug_session: ".planning/debug/artist-avatar-fallback-missing.md"
 
 - truth: "가입 버튼을 누르면 가입 화면이 표시되고 가입 완료 후 커뮤니티 메인으로 이동한다"
   status: failed
   reason: "User reported: 모바일에선 오류가 발생하고 웹, 안드로이드에선 가입눌러도 아무런 반응이 없음. 가입도 안되고 커뮤니티 메인 진입 경로도 안됨"
   severity: blocker
   test: 4
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "1) generate-nickname Edge Function does not exist — supabase.functions.invoke throws network error. 2) join.tsx loadNickname has try/finally without catch — unhandled rejection crashes iOS, on web/android nickname stays empty disabling submit. 3) CommunityCard always navigates to preview regardless of membership — no direct path to community main for existing members. 4) 23505 handler treats all unique violations as nickname collisions, but re-join hits (user_id, community_id) constraint."
+  artifacts:
+    - path: "apps/mobile/hooks/community/useJoinCommunity.ts"
+      issue: "Line 11: calls non-existent generate-nickname Edge Function"
+    - path: "apps/mobile/app/(community)/[id]/join.tsx"
+      issue: "Lines 33-44: try/finally without catch — unhandled promise rejection"
+    - path: "apps/mobile/components/community/CommunityCard.tsx"
+      issue: "Line 17: always navigates to preview, no membership-aware routing"
+    - path: "apps/mobile/hooks/community/useJoinCommunity.ts"
+      issue: "Lines 39-55: 23505 handler doesn't distinguish constraint sources"
+  missing:
+    - "Add catch block in join.tsx with local nickname fallback (User#XXXX)"
+    - "Add membership-aware navigation in CommunityCard — go to main if already member"
+    - "Distinguish 23505 constraint sources in useJoinCommunity"
+    - "Create generate-nickname Edge Function or implement local fallback"
+  debug_session: ".planning/debug/community-join-and-navigation.md"
