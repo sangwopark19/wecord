@@ -46,7 +46,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [x] **MEMB-01**: Group community displays artist member list with profiles
 - [x] **MEMB-02**: User can view individual artist member's posts (filtered view)
 - [x] **MEMB-03**: User can follow specific artist members within a community
-- [ ] **MEMB-04**: User receives push notification for followed member's posts
+- [x] **MEMB-04**: User receives push notification for followed member's posts
 
 ### Fan Feed
 
@@ -63,7 +63,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 - [x] **CREF-01**: Creator can post text/image/video in Creator tab (RLS enforced)
 - [x] **CREF-02**: User can view Creator tab with creator-only posts
-- [ ] **CREF-03**: Creator post triggers push notification to all community members
+- [x] **CREF-03**: Creator post triggers push notification to all community members
 - [x] **CREF-04**: Creator posts are visually distinguished from fan posts
 
 ### Comments & Likes
@@ -78,20 +78,20 @@ Requirements for MVP release. Each maps to roadmap phases.
 ### Translation
 
 - [x] **TRAN-01**: User can tap translate button on any post to see translation in preferred language
-- [ ] **TRAN-02**: User can tap translate button on any comment to see translation
-- [ ] **TRAN-03**: User can toggle between original and translated text
-- [ ] **TRAN-04**: Translation results are cached in DB (post_translations table)
+- [x] **TRAN-02**: User can tap translate button on any comment to see translation
+- [x] **TRAN-03**: User can toggle between original and translated text
+- [x] **TRAN-04**: Translation results are cached in DB (post_translations table)
 - [x] **TRAN-05**: App UI displays in user's preferred language (5 languages)
 
 ### Notifications
 
-- [ ] **NOTF-01**: User receives push notification for creator posts (async fan-out via pgmq)
-- [ ] **NOTF-02**: User receives push notification for comments on own posts
-- [ ] **NOTF-03**: User receives push notification for likes on own posts
-- [ ] **NOTF-04**: User receives push notification for notice/announcements
-- [ ] **NOTF-05**: User receives push notification for followed member posts
+- [x] **NOTF-01**: User receives push notification for creator posts (async fan-out via pgmq)
+- [x] **NOTF-02**: User receives push notification for comments on own posts
+- [x] **NOTF-03**: User receives push notification for likes on own posts
+- [x] **NOTF-04**: User receives push notification for notice/announcements
+- [x] **NOTF-05**: User receives push notification for followed member posts
 - [x] **NOTF-06**: User can configure notification preferences per community
-- [ ] **NOTF-07**: User can configure notification preferences per category (creator post/comment/notice)
+- [x] **NOTF-07**: User can configure notification preferences per category (creator post/comment/notice)
 - [x] **NOTF-08**: Unread notification badge updates in real-time (Supabase Realtime)
 
 ### Home Feed
