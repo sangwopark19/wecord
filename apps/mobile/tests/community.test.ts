@@ -94,7 +94,8 @@ describe('community hooks', () => {
     });
 
     const deleteChain = supabase.from('community_members').delete();
-    const result = await (deleteChain as typeof mockDeleteChain).eq('id', 'member-id-123');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await (deleteChain as any).eq('id', 'member-id-123');
 
     expect(result.error).toBeNull();
   });
