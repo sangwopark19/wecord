@@ -1,5 +1,6 @@
 import { ScrollView, Text, View, Pressable } from 'react-native';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '@wecord/shared/i18n';
 import { supabase } from '../../lib/supabase';
@@ -69,12 +70,19 @@ export function CommunityPreviewSheet({
     <View className="flex-1">
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Cover Image */}
-        <Image
-          source={{ uri: community.cover_image_url ?? undefined }}
-          style={{ width: '100%', aspectRatio: 16 / 9 }}
-          contentFit="cover"
-          transition={200}
-        />
+        {community.cover_image_url ? (
+          <Image
+            source={{ uri: community.cover_image_url }}
+            style={{ width: '100%', aspectRatio: 16 / 9 }}
+            contentFit="cover"
+            transition={200}
+          />
+        ) : (
+          <View
+            style={{ width: '100%', aspectRatio: 16 / 9 }}
+            className="bg-card"
+          />
+        )}
 
         <View className="p-4">
           {/* Community Name */}
@@ -106,11 +114,20 @@ export function CommunityPreviewSheet({
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {artistMembers.map((artist) => (
                   <View key={artist.id} className="items-center mr-3">
-                    <Image
-                      source={{ uri: artist.profile_image_url ?? undefined }}
-                      style={{ width: 48, height: 48, borderRadius: 24 }}
-                      contentFit="cover"
-                    />
+                    {artist.profile_image_url ? (
+                      <Image
+                        source={{ uri: artist.profile_image_url }}
+                        style={{ width: 48, height: 48, borderRadius: 24 }}
+                        contentFit="cover"
+                      />
+                    ) : (
+                      <View
+                        style={{ width: 48, height: 48, borderRadius: 24 }}
+                        className="bg-card items-center justify-center"
+                      >
+                        <Ionicons name="person-outline" size={20} color="#999999" />
+                      </View>
+                    )}
                     <Text className="text-label text-muted-foreground mt-1" numberOfLines={1}>
                       {artist.display_name}
                     </Text>
