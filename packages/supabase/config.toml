@@ -47,6 +47,11 @@ default_pool_size = 20
 # Maximum number of client connections allowed.
 max_client_conn = 100
 
+[db.extensions]
+pgmq = "pgmq"
+pg_cron = "pg_cron"
+pg_net = "pg_net"
+
 # [db.vault]
 # secret_key = "env(SECRET_VALUE)"
 
@@ -149,7 +154,13 @@ enabled = true
 # in emails.
 site_url = "http://127.0.0.1:3000"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["https://127.0.0.1:3000"]
+# Includes custom scheme for production/development builds and Expo Go dev redirects.
+additional_redirect_urls = [
+  "https://127.0.0.1:3000",
+  "wecord://auth/callback",
+  "exp://127.0.0.1:8081/--/auth/callback",
+  "exp://10.0.2.2:8081/--/auth/callback",
+]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # JWT issuer URL. If not set, defaults to the local API URL (http://127.0.0.1:<port>/auth/v1).

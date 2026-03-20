@@ -84,8 +84,9 @@ export const notifications = pgTable(
   {
     id: uuid('id').defaultRandom().primaryKey(),
     userId: uuid('user_id').notNull(),
+    communityId: uuid('community_id').references(() => communities.id),
     type: text('type')
-      .$type<'creator_post' | 'comment' | 'like' | 'notice' | 'system'>()
+      .$type<'creator_post' | 'comment' | 'like' | 'notice' | 'member_post' | 'system'>()
       .notNull(),
     title: text('title').notNull(),
     body: text('body').notNull(),

@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "notices": "Notices",
+    "calendar": "Calendar",
+    "creatorPosts": "Creator Posts",
+    "fanPosts": "Fan Posts",
+    "artistMembers": "Artist Members"
+  },
+  "seeMore": "See more",
+  "calendarComingSoon": "Calendar feature coming soon",
+  "empty": {
+    "heading": "No highlights yet",
+    "body": "Highlights will appear here when there are posts in the community."
+  },
+  "error": {
+    "load": "Failed to load highlights. Please try again later."
+  },
+  "retry": "Retry"
+}

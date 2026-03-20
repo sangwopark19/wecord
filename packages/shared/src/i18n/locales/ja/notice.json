@@ -1,0 +1,12 @@
+{
+  "title": "Notices",
+  "pinned": "Pinned",
+  "empty": {
+    "heading": "No notices",
+    "body": "Notices will appear here when the admin publishes one."
+  },
+  "error": {
+    "load": "Failed to load notices. Please try again later."
+  },
+  "retry": "Retry"
+}

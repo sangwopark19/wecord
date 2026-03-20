@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "notices": "공지사항",
+    "calendar": "캘린더",
+    "creatorPosts": "크리에이터 게시글",
+    "fanPosts": "팬 게시글",
+    "artistMembers": "아티스트 멤버"
+  },
+  "seeMore": "더보기",
+  "calendarComingSoon": "캘린더 기능이 곧 출시됩니다",
+  "empty": {
+    "heading": "아직 하이라이트가 없어요",
+    "body": "커뮤니티에 게시글이 올라오면 여기서 볼 수 있어요."
+  },
+  "error": {
+    "load": "하이라이트를 불러오지 못했어요. 잠시 후 다시 시도해주세요."
+  },
+  "retry": "다시 시도"
+}

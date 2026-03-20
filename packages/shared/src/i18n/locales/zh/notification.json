@@ -1,0 +1,34 @@
+{
+  "title": "Notifications",
+  "groups": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This Week"
+  },
+  "empty": {
+    "heading": "No notifications",
+    "body": "New notifications will appear here."
+  },
+  "error": {
+    "load": "Failed to load notifications. Please try again later."
+  },
+  "markAllRead": "Mark all read",
+  "types": {
+    "creatorPost": "{{nickname}} posted a new update",
+    "comment": "{{nickname}} commented on your post",
+    "like": "{{nickname}} liked your post",
+    "notice": "New notice published",
+    "memberPost": "{{memberName}} posted a new update"
+  },
+  "preferences": {
+    "title": "Notification Settings",
+    "creatorPost": "Creator Posts",
+    "creatorPostDesc": "Get notified when a creator posts a new update",
+    "comment": "Comments",
+    "commentDesc": "Get notified when someone comments on your post",
+    "like": "Likes",
+    "likeDesc": "Get notified when someone likes your post",
+    "notice": "Notices",
+    "noticeDesc": "Get notified when a new notice is published"
+  }
+}
