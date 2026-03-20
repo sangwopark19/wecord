@@ -24,6 +24,16 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="community"
+        options={{
+          title: 'Community',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people-outline" size={size} color={color} />
+          ),
+          href: '/(community)/search' as never,
+        }}
+      />
     </Tabs>
   );
 }
