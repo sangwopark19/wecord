@@ -43,28 +43,28 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Artist Members
 
-- [ ] **MEMB-01**: Group community displays artist member list with profiles
-- [ ] **MEMB-02**: User can view individual artist member's posts (filtered view)
-- [ ] **MEMB-03**: User can follow specific artist members within a community
+- [x] **MEMB-01**: Group community displays artist member list with profiles
+- [x] **MEMB-02**: User can view individual artist member's posts (filtered view)
+- [x] **MEMB-03**: User can follow specific artist members within a community
 - [ ] **MEMB-04**: User receives push notification for followed member's posts
 
 ### Fan Feed
 
-- [ ] **FANF-01**: User can create text post in joined community (displayed with community nickname)
-- [ ] **FANF-02**: User can attach up to 10 images to a post
-- [ ] **FANF-03**: User can attach 1 video to a post
-- [ ] **FANF-04**: User can view fan feed with infinite scroll (cursor-based pagination)
-- [ ] **FANF-05**: User can sort fan feed by latest/popular
-- [ ] **FANF-06**: User can filter fan feed by "all", "following", "hot"
-- [ ] **FANF-07**: User can delete own posts
-- [ ] **FANF-08**: Post creation via floating "+" FAB button on community page
+- [x] **FANF-01**: User can create text post in joined community (displayed with community nickname)
+- [x] **FANF-02**: User can attach up to 10 images to a post
+- [x] **FANF-03**: User can attach 1 video to a post
+- [x] **FANF-04**: User can view fan feed with infinite scroll (cursor-based pagination)
+- [x] **FANF-05**: User can sort fan feed by latest/popular
+- [x] **FANF-06**: User can filter fan feed by "all", "following", "hot"
+- [x] **FANF-07**: User can delete own posts
+- [x] **FANF-08**: Post creation via floating "+" FAB button on community page
 
 ### Creator Feed
 
-- [ ] **CREF-01**: Creator can post text/image/video in Creator tab (RLS enforced)
-- [ ] **CREF-02**: User can view Creator tab with creator-only posts
+- [x] **CREF-01**: Creator can post text/image/video in Creator tab (RLS enforced)
+- [x] **CREF-02**: User can view Creator tab with creator-only posts
 - [ ] **CREF-03**: Creator post triggers push notification to all community members
-- [ ] **CREF-04**: Creator posts are visually distinguished from fan posts
+- [x] **CREF-04**: Creator posts are visually distinguished from fan posts
 
 ### Comments & Likes
 
