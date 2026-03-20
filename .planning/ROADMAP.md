@@ -66,13 +66,13 @@ Plans:
   3. Fan feed renders with FlashList infinite scroll (cursor-based pagination), sortable by latest/popular and filterable by all/following/hot
   4. Creator posts appear in the Creator tab visually distinct from fan posts; group communities display an artist member list with per-member post filtering
   5. Users can comment (1-depth replies), like posts and comments with real-time toggle counts; creator replies are visually highlighted
-**Plans**: TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 03-01: Community discovery screens (search via pg_textsearch, community preview, join flow with community_nickname), community management (leave, modify nickname), solo/group community types
-- [ ] 03-02: Fan feed (FlashList + useInfiniteQuery + cursor pagination, post creation with image/video upload to Supabase Storage, FAB, sort/filter)
-- [ ] 03-03: Creator feed (RLS-enforced creator posts, visual distinction), artist member system (member list, per-member post filter, member follow), `posts_with_nickname` view enforced throughout
-- [ ] 03-04: Comments (1-depth, community nickname display), likes (toggle, real-time count), creator reply highlight, delete own posts/comments
+- [ ] 03-01-PLAN.md — Package installs, DB triggers + storage bucket, i18n, community discovery (search, preview, join, leave, nickname), 3-tab community main shell
+- [ ] 03-02-PLAN.md — Fan feed (FlashList + useInfiniteQuery + cursor pagination), post creation with image/video upload to Supabase Storage, FAB, sort/filter, post detail
+- [ ] 03-03-PLAN.md — Creator feed (RLS-enforced creator posts, visual distinction), artist member system (member list, per-member post filter, member follow)
+- [ ] 03-04-PLAN.md — Comments (1-depth replies, community nickname display), likes (optimistic toggle, spring animation), creator reply highlight, delete own comments
 
 ### Phase 4: Highlights, Notices, Notifications & Translation
 **Goal**: Users stay informed through the Highlight tab, admin-published notices, push notifications, and can read content in their preferred language
