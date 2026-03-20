@@ -66,7 +66,7 @@ Plans:
   3. Fan feed renders with FlashList infinite scroll (cursor-based pagination), sortable by latest/popular and filterable by all/following/hot
   4. Creator posts appear in the Creator tab visually distinct from fan posts; group communities display an artist member list with per-member post filtering
   5. Users can comment (1-depth replies), like posts and comments with real-time toggle counts; creator replies are visually highlighted
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 - [ ] 03-01-PLAN.md — Package installs, DB triggers + storage bucket, i18n, community discovery (search, preview, join, leave, nickname), 3-tab community main shell
@@ -149,7 +149,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-18 |
 | 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
-| 3. Community & Core Content | 0/4 | Not started | - |
+| 3. Community & Core Content | 1/4 | In Progress|  |
 | 4. Highlights, Notices, Notifications & Translation | 0/4 | Not started | - |
 | 5. Home Feed, Search & Community Social | 0/2 | Not started | - |
 | 6. Safety & Admin Dashboard | 0/3 | Not started | - |

@@ -33,13 +33,13 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Community
 
-- [ ] **COMM-01**: User can search communities by creator name/keyword (pg_textsearch)
-- [ ] **COMM-02**: User can view community preview (description, member count, recent activity)
-- [ ] **COMM-03**: User can join community with per-community nickname (random code-nick auto-fill)
-- [ ] **COMM-04**: User can modify community nickname after joining
-- [ ] **COMM-05**: User can join multiple communities simultaneously
-- [ ] **COMM-06**: User can leave a community
-- [ ] **COMM-07**: Community supports solo and group types
+- [x] **COMM-01**: User can search communities by creator name/keyword (pg_textsearch)
+- [x] **COMM-02**: User can view community preview (description, member count, recent activity)
+- [x] **COMM-03**: User can join community with per-community nickname (random code-nick auto-fill)
+- [x] **COMM-04**: User can modify community nickname after joining
+- [x] **COMM-05**: User can join multiple communities simultaneously
+- [x] **COMM-06**: User can leave a community
+- [x] **COMM-07**: Community supports solo and group types
 
 ### Artist Members
 
