@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: "Completed 03-04-PLAN.md: Comments, likes, and post detail"
-last_updated: "2026-03-20T03:35:38.694Z"
+stopped_at: "Completed 03-05-PLAN.md: Community tab proxy route"
+last_updated: "2026-03-20T05:10:46.639Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 10
-  completed_plans: 10
+  total_plans: 11
+  completed_plans: 11
   percent: 30
 ---
 
@@ -58,6 +58,7 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 | Phase 03-community-core-content P03-02 | 6 | 2 tasks | 18 files |
 | Phase 03 P03 | 5 | 2 tasks | 14 files |
 | Phase 03 P04 | 435 | 2 tasks | 16 files |
+| Phase 03 P05 | 3 | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,8 @@ Recent decisions affecting current work:
 - [Phase 03-03]: useCreatePost accepts optional authorRole param; compose.tsx reads membership.role for creator detection (CREF-01)
 - [Phase 03]: LikeButton uses withSequence(withSpring) for spring scale animation matching tension 200/friction 7 spec
 - [Phase 03]: useCreateComment fetches member role inside mutationFn to avoid stale hook data in reply flows
+- [Phase 03-05]: Community tab uses proxy route pattern: (tabs)/community.tsx exists solely for Expo Router file resolution, delegates navigation to (community)/search via Redirect
+- [Phase 03-05]: Removed href override from Tabs.Screen — href is not needed when a matching route file exists
 
 ### Pending Todos
 
@@ -112,6 +115,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T03:28:59.487Z
-Stopped at: Completed 03-04-PLAN.md: Comments, likes, and post detail
+Last session: 2026-03-20T05:10:46.637Z
+Stopped at: Completed 03-05-PLAN.md: Community tab proxy route
 Resume file: None
