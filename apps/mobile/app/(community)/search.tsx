@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,39 +13,23 @@ import { useCommunitySearch } from '../../hooks/community/useCommunitySearch';
 import { CommunityCard } from '../../components/community/CommunityCard';
 import type { CommunitySearchResult } from '../../hooks/community/useCommunitySearch';
 
-// Simple debounce hook
-function useDebounce(value: string, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useCallback(() => {
-    const timer = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
 export default function CommunitySearchScreen() {
   const { t } = useTranslation('community');
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  // Manual debounce: update debouncedQuery 300ms after query changes
-  const handleQueryChange = (text: string) => {
-    setQuery(text);
-    // We use a simple approach here rather than a complex hook
+  // Proper useEffect-based debounce with cleanup
+  useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(text);
+      setDebouncedQuery(query);
     }, 300);
     return () => clearTimeout(timer);
-  };
+  }, [query]);
 
   const { data: communities, isLoading } = useCommunitySearch(debouncedQuery);
 
   const renderItem = ({ item }: { item: CommunitySearchResult }) => (
-    <View className="flex-1">
+    <View style={{ width: '50%' }}>
       <CommunityCard community={item} />
     </View>
   );
@@ -73,7 +57,7 @@ export default function CommunitySearchScreen() {
           <Ionicons name="search-outline" size={20} color="#666666" />
           <TextInput
             value={query}
-            onChangeText={handleQueryChange}
+            onChangeText={setQuery}
             placeholder={t('search.placeholder')}
             placeholderTextColor="#666666"
             className="flex-1 ml-2 text-body text-foreground"
