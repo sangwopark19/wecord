@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: "Completed 03-03-PLAN.md: Artist tab with creator feed and artist member scroll"
-last_updated: "2026-03-20T03:26:02.547Z"
+stopped_at: "Completed 03-04-PLAN.md: Comments, likes, and post detail"
+last_updated: "2026-03-20T03:28:59.489Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 10
-  completed_plans: 9
+  completed_plans: 10
   percent: 30
 ---
 
@@ -57,6 +57,7 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 | Phase 03-community-core-content P03-01 | 7 | 3 tasks | 32 files |
 | Phase 03-community-core-content P03-02 | 6 | 2 tasks | 18 files |
 | Phase 03 P03 | 5 | 2 tasks | 14 files |
+| Phase 03 P04 | 435 | 2 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 03-02]: (03-02): Popular sort uses offset pagination capped at 3 pages (45 posts) — avoids unbounded scroll on score-based sort
 - [Phase 03-03]: FlatList used for ArtistMemberScroll (not FlashList) — small dataset horizontal list
 - [Phase 03-03]: useCreatePost accepts optional authorRole param; compose.tsx reads membership.role for creator detection (CREF-01)
+- [Phase 03]: LikeButton uses withSequence(withSpring) for spring scale animation matching tension 200/friction 7 spec
+- [Phase 03]: useCreateComment fetches member role inside mutationFn to avoid stale hook data in reply flows
 
 ### Pending Todos
 
@@ -109,6 +112,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T03:26:02.545Z
-Stopped at: Completed 03-03-PLAN.md: Artist tab with creator feed and artist member scroll
+Last session: 2026-03-20T03:28:59.487Z
+Stopped at: Completed 03-04-PLAN.md: Comments, likes, and post detail
 Resume file: None

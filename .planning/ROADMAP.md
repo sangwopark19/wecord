@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Monorepo, Supabase project, full schema with RLS, i18n scaffold, and CI/CD (completed 2026-03-18)
 - [x] **Phase 2: Auth & Onboarding** - Google/Apple OAuth, global profile, dual-account identity, and creator curation flow (completed 2026-03-18)
-- [ ] **Phase 3: Community & Core Content** - Community join with per-community persona, fan/creator feeds, comments, and likes
+- [x] **Phase 3: Community & Core Content** - Community join with per-community persona, fan/creator feeds, comments, and likes (completed 2026-03-20)
 - [ ] **Phase 4: Highlights, Notices, Notifications & Translation** - Highlight tab, notice system, async push notifications, and in-app translation
 - [ ] **Phase 5: Home Feed, Search & Community Social** - Cross-community home feed, full-text search, community following, and community profiles
 - [ ] **Phase 6: Safety & Admin Dashboard** - Content moderation, reporting, sanctions, and full admin operations dashboard
@@ -66,7 +66,7 @@ Plans:
   3. Fan feed renders with FlashList infinite scroll (cursor-based pagination), sortable by latest/popular and filterable by all/following/hot
   4. Creator posts appear in the Creator tab visually distinct from fan posts; group communities display an artist member list with per-member post filtering
   5. Users can comment (1-depth replies), like posts and comments with real-time toggle counts; creator replies are visually highlighted
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 - [ ] 03-01-PLAN.md — Package installs, DB triggers + storage bucket, i18n, community discovery (search, preview, join, leave, nickname), 3-tab community main shell
@@ -149,7 +149,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-18 |
 | 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
-| 3. Community & Core Content | 3/4 | In Progress|  |
+| 3. Community & Core Content | 4/4 | Complete   | 2026-03-20 |
 | 4. Highlights, Notices, Notifications & Translation | 0/4 | Not started | - |
 | 5. Home Feed, Search & Community Social | 0/2 | Not started | - |
 | 6. Safety & Admin Dashboard | 0/3 | Not started | - |
