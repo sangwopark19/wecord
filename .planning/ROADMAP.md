@@ -84,10 +84,10 @@ Plans:
   3. User receives push notification for creator posts, comments on own posts, liked posts, followed member posts, and notices — all via async pgmq fan-out (post creation is not blocked)
   4. Unread notification badge on the bell icon updates in real-time via Supabase Realtime
   5. User can tap a translate button on any post or comment to see the translated text in their preferred language; results are cached (post_translations table) and the user can toggle between original and translated
-**Plans:** 5/5 plans complete
+**Plans:** 6/6 plans complete
 
 Plans:
-- [ ] 04-00-PLAN.md — Wave 0: test stub files for Phase 4 hooks (Nyquist compliance)
+- [x] 04-00-PLAN.md — Wave 0: test stub files for Phase 4 hooks (Nyquist compliance) (completed 2026-03-21)
 - [ ] 04-01-PLAN.md — DB migration (push_tokens, notifications.community_id), Supabase extensions (pgmq/pg_cron/pg_net), highlight Edge Function, Highlight tab UI (5 sections), i18n namespaces (highlight/notification/notice/translation)
 - [ ] 04-02-PLAN.md — Admin notice CRUD (Next.js + shadcn), mobile notice list/detail screens, pg_cron scheduled publishing, pgmq async fan-out notice-publish trigger
 - [ ] 04-03-PLAN.md — notify Edge Function (Expo Push API fan-out), pgmq-based DB triggers (creator post/comment/like), push token registration, notification list/preferences screens, bell badge with Realtime (NOTF-08)
@@ -151,7 +151,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Foundation | 4/4 | Complete   | 2026-03-18 |
 | 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
 | 3. Community & Core Content | 5/5 | Complete   | 2026-03-20 |
-| 4. Highlights, Notices, Notifications & Translation | 5/5 | Complete   | 2026-03-20 |
+| 4. Highlights, Notices, Notifications & Translation | 6/6 | Complete   | 2026-03-21 |
 | 5. Home Feed, Search & Community Social | 0/2 | Not started | - |
 | 6. Safety & Admin Dashboard | 0/3 | Not started | - |
 | 7. Launch Polish | 0/2 | Not started | - |

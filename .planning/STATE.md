@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 04-highlights-notices-notifications-translation-04-PLAN.md
-last_updated: "2026-03-20T09:47:43.616Z"
+stopped_at: Completed 04-highlights-notices-notifications-translation-05-PLAN.md
+last_updated: "2026-03-21T09:13:13.427Z"
 last_activity: "2026-03-18 — 02-01 complete: Supabase OAuth auth + SecureStore session + authStore + generate-nickname + vitest infrastructure"
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 19
+  completed_plans: 19
   percent: 30
 ---
 
@@ -66,6 +66,7 @@ Progress: [███░░░░░░░] ~30% (5/9 total plans across all phas
 | Phase 04-highlights-notices-notifications-translation P02 | 6 | 2 tasks | 19 files |
 | Phase 04-highlights-notices-notifications-translation P03 | 9 | 2 tasks | 13 files |
 | Phase 04-highlights-notices-notifications-translation P04 | 3 | 2 tasks | 7 files |
+| Phase 04-highlights-notices-notifications-translation P05 | 1 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -122,6 +123,8 @@ Recent decisions affecting current work:
 - [Phase 04-04]: useTranslate uses profile.language (not preferred_language) — Profile interface field is 'language', plan had a typo
 - [Phase 04-04]: PostDetail screen inherits translation automatically via PostCard reuse — no separate integration needed
 - [Phase 04-04]: Replies use target_type='comment' — replies are stored in the comments table not a separate replies table
+- [Phase 04-highlights-notices-notifications-translation]: HighlightScreen extracted to components/highlight/HighlightScreen.tsx — uses useRouter() internally, accepts only communityId prop; setActiveTab not needed for standalone Stack route
+- [Phase 04-highlights-notices-notifications-translation]: Gap closure creates new migration files — never modify existing migrations to preserve applied state
 
 ### Pending Todos
 
@@ -138,6 +141,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T09:47:43.613Z
-Stopped at: Completed 04-highlights-notices-notifications-translation-04-PLAN.md
+Last session: 2026-03-21T09:13:13.425Z
+Stopped at: Completed 04-highlights-notices-notifications-translation-05-PLAN.md
 Resume file: None
