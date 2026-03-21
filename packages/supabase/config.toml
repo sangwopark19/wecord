@@ -47,10 +47,6 @@ default_pool_size = 20
 # Maximum number of client connections allowed.
 max_client_conn = 100
 
-[db.extensions]
-pgmq = "pgmq"
-pg_cron = "pg_cron"
-pg_net = "pg_net"
 
 # [db.vault]
 # secret_key = "env(SECRET_VALUE)"
