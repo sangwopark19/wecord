@@ -35,7 +35,7 @@ Declared values (must be multiples of 4):
 |-------|-------|-------|
 | xs | 4px | Icon gaps, inline padding, chip internal gap |
 | sm | 8px | Between cards in grid, gap between action bar items |
-| md | 16px | Screen horizontal padding, section body padding |
+| md | 16px | Screen horizontal padding, section body padding, follower list nickname left margin |
 | lg | 24px | Section header top margin, profile stat block spacing |
 | xl | 32px | Major vertical gap between feed sections |
 | 2xl | 48px | Page-level top padding under safe area |
@@ -69,7 +69,6 @@ Rules:
 - Stat counts (posts / followers / following) on profile: `text-heading font-semibold` (16px / 600)
 - Stat labels below counts: `text-label` (12px / 400) `text-muted-foreground`
 - Section header (e.g. "인기 크리에이터를 만나보세요!"): `text-heading font-semibold` (16px / 600)
-- Notification badge counter: 10px / 600 (inline style — matches existing `NotificationBellBadge`)
 
 > Source: `apps/mobile/tailwind.config.js` (fontSize declarations), confirmed by PostCard.tsx and CommunityCard.tsx usage
 
@@ -132,13 +131,17 @@ Reused as-is from earlier phases:
 | Component | Reuse Context |
 |-----------|---------------|
 | `CommunityCard` | 0-community recommendation 2-column grid, search results grid |
-| `NotificationBellBadge` | Home header right action |
+| `NotificationBellBadge` | Home header right action. Badge counter text size (10px / 600) is an inherited inline style from this component — not part of the Phase 5 typography scale. |
 | `FlashList` + `useInfiniteQuery` | Unified feed infinite scroll (cursor-based, Phase 3 pattern) |
 | `PrimaryCTAButton` | Not used in main Phase 5 flows (no modal CTAs needed) |
 
 ---
 
 ## Screen-by-Screen Layout Contract
+
+### Primary Focal Point
+
+The **Home Feed** (`HomeFeedScreen`) is the primary focal point of this phase. On first scroll, the user's eye goes to: PromotionBannerCarousel (full-width, top of content) → unified PostCard feed below. The recommendation view (0-community state) shares this focal hierarchy: banner first, then the 2-column community grid.
 
 ### Home Tab — 0-Community View
 
@@ -169,7 +172,7 @@ SafeAreaView (bg-background)
 - Outer container: `width: 100%`, `aspectRatio: 16/9`
 - Auto-scroll: setInterval 3000ms, clears on unmount
 - Manual swipe: FlatList `horizontal pagingEnabled`
-- Dot indicator: row of circles below banner, active dot `bg-teal`, inactive `bg-input`, size 6px, gap 4px
+- Dot indicator: row of circles below banner, active dot `bg-teal`, inactive `bg-input`, size 6px (deliberate exception — smaller than spacing scale to match carousel pagination convention; not a content element), gap 4px
 - Banner image: expo-image `contentFit="cover"`, `transition={200}`
 - Tap: router.push to deeplink URL (community, external, or in-app route)
 - No banners: hide carousel entirely (render null) — do not show empty area
@@ -199,7 +202,7 @@ SafeAreaView (bg-background)
 └── FlatList
     └── Row (height min 60px, px-16, py-8, flex-row items-center)
         ├── Avatar: 40px circle (bg-input placeholder)
-        ├── Community nickname (text-body semibold, ml-12, flex-1)
+        ├── Community nickname (text-body semibold, ml-16, flex-1)
         └── FollowButton (compact, right-aligned)
 ```
 
@@ -221,6 +224,7 @@ SafeAreaView (bg-background)
 ### In-Community Post Search Entry Point
 
 - Fan/Artist tab header: add Ionicons `search-outline` (24px, muted-foreground) icon button (top-right, touch 44×44)
+- `accessibilityLabel` i18n key: `community.search.accessibilityLabel` → "게시글 검색"
 - Tap navigates to `/(community)/[id]/post-search`
 
 ---
@@ -238,12 +242,14 @@ Phase 5 covers mobile screens only. All copy must exist in i18n namespace files 
 | Post search placeholder | 게시글 검색 | `postSearch.placeholder` |
 | Post search empty (no results) | 검색 결과가 없어요 | `postSearch.empty.heading` |
 | Post search empty body | 다른 키워드로 검색해 보세요 | `postSearch.empty.body` |
-| Post search error | 검색 중 오류가 발생했어요 | `postSearch.error` |
+| Post search error | 검색 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요 | `postSearch.error` |
+| Post search error retry affordance | 다시 시도 (inline Pressable below error message) | `postSearch.error.retry` |
 | Community profile follow button (not following) | 팔로우 | `profile.follow` |
 | Community profile follow button (following) | 팔로잉 | `profile.following` |
 | Community profile unfollow confirm title | 팔로우 취소 | `profile.unfollowConfirm.title` |
 | Community profile unfollow confirm body | {nickname}님의 팔로우를 취소하시겠어요? | `profile.unfollowConfirm.body` |
-| Community profile unfollow confirm CTA | 취소 | `profile.unfollowConfirm.cancel` (destructive text) |
+| Community profile unfollow confirm destructive CTA | 팔로우 취소하기 | `profile.unfollowConfirm.confirm` (destructive text, red) |
+| Community profile unfollow dismiss CTA | 취소 | `profile.unfollowConfirm.cancel` |
 | Community profile followers tab label | 팔로워 | `profile.tab.followers` |
 | Community profile following tab label | 팔로잉 | `profile.tab.following` |
 | Community profile posts tab label | 게시글 | `profile.tab.posts` |
@@ -253,11 +259,13 @@ Phase 5 covers mobile screens only. All copy must exist in i18n namespace files 
 | Community profile following count label | 팔로잉 | `profile.stat.following` |
 | Follower list empty | 아직 팔로워가 없어요 | `profile.followers.empty` |
 | Following list empty | 아직 팔로잉하는 멤버가 없어요 | `profile.following.empty` |
-| Follower list error | 목록을 불러오지 못했어요 | `profile.followers.error` |
+| Follower list error | 목록을 불러오지 못했어요. 다시 시도해 주세요 | `profile.followers.error` |
+| Following list error | 목록을 불러오지 못했어요. 다시 시도해 주세요 | `profile.following.error` |
+| In-community search icon accessibilityLabel | 게시글 검색 | `community.search.accessibilityLabel` |
 | Promotion banner no data | (no UI shown — carousel hidden) | n/a |
 
 Destructive actions in this phase:
-- **Unfollow:** Triggered by tapping "팔로잉" button. Confirmation via `Alert.alert` (imperative, consistent with `LeaveConfirmDialog` and `DeleteConfirmDialog` patterns from Phase 3). Confirm button text: "취소" (red). Cancel button text: "돌아가기".
+- **Unfollow:** Triggered by tapping "팔로잉" button. Confirmation via `Alert.alert` (imperative, consistent with `LeaveConfirmDialog` and `DeleteConfirmDialog` patterns from Phase 3). Destructive confirm button text: "팔로우 취소하기" (red). Dismiss button text: "취소".
 
 ---
 
@@ -322,6 +330,7 @@ Destructive actions in this phase:
 - FollowButton: `accessibilityState={{ selected: isFollowing }}` to expose follow state to screen readers
 - Images: `accessibilityLabel` on community cover images and promotion banners
 - NotificationBellBadge: `accessibilityLabel` includes unread count (e.g. "알림, 3개 읽지 않음")
+- In-community post search icon: `accessibilityLabel={t('community.search.accessibilityLabel')}` → "게시글 검색"
 
 ---
 
