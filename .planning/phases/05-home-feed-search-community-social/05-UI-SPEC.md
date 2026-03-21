@@ -249,7 +249,7 @@ Phase 5 covers mobile screens only. All copy must exist in i18n namespace files 
 | Community profile unfollow confirm title | 팔로우 취소 | `profile.unfollowConfirm.title` |
 | Community profile unfollow confirm body | {nickname}님의 팔로우를 취소하시겠어요? | `profile.unfollowConfirm.body` |
 | Community profile unfollow confirm destructive CTA | 팔로우 취소하기 | `profile.unfollowConfirm.confirm` (destructive text, red) |
-| Community profile unfollow dismiss CTA | 취소 | `profile.unfollowConfirm.cancel` |
+| Community profile unfollow dismiss CTA | 돌아가기 | `profile.unfollowConfirm.dismiss` |
 | Community profile followers tab label | 팔로워 | `profile.tab.followers` |
 | Community profile following tab label | 팔로잉 | `profile.tab.following` |
 | Community profile posts tab label | 게시글 | `profile.tab.posts` |
@@ -265,7 +265,7 @@ Phase 5 covers mobile screens only. All copy must exist in i18n namespace files 
 | Promotion banner no data | (no UI shown — carousel hidden) | n/a |
 
 Destructive actions in this phase:
-- **Unfollow:** Triggered by tapping "팔로잉" button. Confirmation via `Alert.alert` (imperative, consistent with `LeaveConfirmDialog` and `DeleteConfirmDialog` patterns from Phase 3). Destructive confirm button text: "팔로우 취소하기" (red). Dismiss button text: "취소".
+- **Unfollow:** Triggered by tapping "팔로잉" button. Confirmation via `Alert.alert` (imperative, consistent with `LeaveConfirmDialog` and `DeleteConfirmDialog` patterns from Phase 3). Destructive confirm button text: "팔로우 취소하기" (red). Dismiss button text: "돌아가기".
 
 ---
 
