@@ -23,7 +23,8 @@
     "empty": {
       "heading": "No results found",
       "body": "Try a different keyword."
-    }
+    },
+    "accessibilityLabel": "Search posts"
   },
   "nickname": {
     "edit": "Change Nickname",
@@ -97,5 +98,25 @@
     "cancel": "Cancel",
     "charLimitExceeded": "Maximum {{max}} characters allowed.",
     "retry": "Retry"
+  },
+  "postSearch": {
+    "placeholder": "Search posts",
+    "empty": { "heading": "No results found", "body": "Try a different keyword" },
+    "error": "An error occurred while searching. Please try again",
+    "error.retry": "Retry"
+  },
+  "profile": {
+    "follow": "Follow",
+    "following": "Following",
+    "unfollowConfirm": {
+      "title": "Unfollow",
+      "body": "Unfollow {{nickname}}?",
+      "confirm": "Unfollow",
+      "dismiss": "Go back"
+    },
+    "tab": { "followers": "Followers", "following": "Following", "posts": "Posts", "comments": "Comments" },
+    "stat": { "posts": "Posts", "followers": "Followers", "following": "Following" },
+    "followers": { "empty": "No followers yet", "error": "Failed to load list. Please try again" },
+    "following": { "empty": "Not following anyone yet", "error": "Failed to load list. Please try again" }
   }
 }

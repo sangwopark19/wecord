@@ -1,0 +1,10 @@
+{
+  "recommendation": {
+    "heading": "Meet popular creators!"
+  },
+  "empty": {
+    "heading": "You haven't joined any communities yet",
+    "body": "Join a community of your favorite creators"
+  },
+  "error": "Failed to load feed. Please try again"
+}

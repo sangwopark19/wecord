@@ -23,7 +23,8 @@
     "empty": {
       "heading": "結果が見つかりません",
       "body": "別のキーワードで検索してください。"
-    }
+    },
+    "accessibilityLabel": "投稿を検索"
   },
   "nickname": {
     "edit": "ニックネームを変更",
@@ -97,5 +98,25 @@
     "cancel": "キャンセル",
     "charLimitExceeded": "最大{{max}}文字まで入力できます。",
     "retry": "再試行"
+  },
+  "postSearch": {
+    "placeholder": "投稿を検索",
+    "empty": { "heading": "検索結果はありません", "body": "別のキーワードで検索してください" },
+    "error": "検索中にエラーが発生しました。しばらくしてからもう一度お試しください",
+    "error.retry": "再試行"
+  },
+  "profile": {
+    "follow": "フォロー",
+    "following": "フォロー中",
+    "unfollowConfirm": {
+      "title": "フォローを解除",
+      "body": "{{nickname}}さんのフォローを解除しますか？",
+      "confirm": "フォローを解除する",
+      "dismiss": "戻る"
+    },
+    "tab": { "followers": "フォロワー", "following": "フォロー中", "posts": "投稿", "comments": "コメント" },
+    "stat": { "posts": "投稿", "followers": "フォロワー", "following": "フォロー中" },
+    "followers": { "empty": "まだフォロワーはいません", "error": "リストを読み込めませんでした。もう一度お試しください" },
+    "following": { "empty": "まだフォローしているメンバーはいません", "error": "リストを読み込めませんでした。もう一度お試しください" }
   }
 }
