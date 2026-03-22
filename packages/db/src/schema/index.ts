@@ -6,3 +6,4 @@ export * from './content';
 export * from './notification';
 export * from './moderation';
 export * from './translation';
+export * from './promotion-banner';
