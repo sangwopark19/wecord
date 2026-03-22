@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 
 interface FollowMemberParams {
   followerCmId: string;
   followingCmId: string;
   isFollowing: boolean;
-  communityId: string;
+  communityId?: string;
 }
 
 export function useFollowMember() {
@@ -39,8 +39,30 @@ export function useFollowMember() {
       }
     },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['artistMembers', variables.communityId] });
-      queryClient.invalidateQueries({ queryKey: ['communityMember', variables.communityId] });
+      if (variables.communityId) {
+        queryClient.invalidateQueries({ queryKey: ['artistMembers', variables.communityId] });
+        queryClient.invalidateQueries({ queryKey: ['communityMember', variables.communityId] });
+      }
+      queryClient.invalidateQueries({ queryKey: ['communityProfile', variables.followingCmId] });
+      queryClient.invalidateQueries({ queryKey: ['isFollowing'] });
+      queryClient.invalidateQueries({ queryKey: ['followerList'] });
+      queryClient.invalidateQueries({ queryKey: ['followingList'] });
     },
+  });
+}
+
+export function useIsFollowing(followerCmId: string, followingCmId: string) {
+  return useQuery({
+    queryKey: ['isFollowing', followerCmId, followingCmId],
+    queryFn: async (): Promise<boolean> => {
+      const { data } = await supabase
+        .from('community_follows')
+        .select('id')
+        .eq('follower_cm_id', followerCmId)
+        .eq('following_cm_id', followingCmId)
+        .maybeSingle();
+      return !!data;
+    },
+    enabled: !!followerCmId && !!followingCmId,
   });
 }

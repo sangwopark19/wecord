@@ -2,6 +2,7 @@ import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { PostWithNickname } from '../../hooks/post/useFanFeed';
+import { useAuthStore } from '../../stores/authStore';
 import { MediaGrid } from './MediaGrid';
 import { CreatorBadge } from './CreatorBadge';
 import { LikeButton } from './LikeButton';
@@ -37,11 +38,19 @@ interface PostCardProps {
 
 export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, showCommunityChip, highlightQuery }: PostCardProps) {
   const router = useRouter();
+  const { user } = useAuthStore();
   const { translatedText, isTranslated, isLoading, error, translate } = useTranslate(post.id, 'post');
 
-  const handlePress = () => {
+  const handlePostPress = () => {
     const cid = communityId ?? post.community_id;
     router.push(`/(community)/${cid}/post/${post.id}` as never);
+  };
+
+  const handleProfilePress = () => {
+    // Do not navigate to profile when tapping own posts
+    if (post.author_id === user?.id) return;
+    const cid = communityId ?? post.community_id;
+    router.push(`/(community)/${cid}/profile/${post.author_cm_id}` as never);
   };
 
   return (
@@ -54,31 +63,36 @@ export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, 
         />
       )}
 
-      {/* Tappable content area */}
+      {/* Header row — tappable to navigate to author profile */}
       <Pressable
-        onPress={handlePress}
+        className="flex-row items-start"
+        onPress={handleProfilePress}
         accessibilityRole="link"
-        accessibilityLabel={`${post.author_nickname}: ${post.content.substring(0, 50)}`}
+        accessibilityLabel={post.author_nickname}
       >
-        {/* Header row */}
-        <View className="flex-row items-start">
-          {/* Avatar placeholder */}
-          <View className="w-10 h-10 rounded-full bg-input mr-3 flex-shrink-0" />
+        {/* Avatar placeholder */}
+        <View className="w-10 h-10 rounded-full bg-input mr-3 flex-shrink-0" />
 
-          {/* Author info */}
-          <View className="flex-1">
-            <View className="flex-row items-center gap-2 flex-wrap">
-              <Text className="text-body font-semibold text-foreground">
-                {post.author_nickname}
-              </Text>
-              {post.author_role === 'creator' && <CreatorBadge />}
-            </View>
-            <Text className="text-label text-muted-foreground mt-0.5">
-              {formatRelativeTime(post.created_at ?? '')}
+        {/* Author info */}
+        <View className="flex-1">
+          <View className="flex-row items-center gap-2 flex-wrap">
+            <Text className="text-body font-semibold text-foreground">
+              {post.author_nickname}
             </Text>
+            {post.author_role === 'creator' && <CreatorBadge />}
           </View>
+          <Text className="text-label text-muted-foreground mt-0.5">
+            {formatRelativeTime(post.created_at ?? '')}
+          </Text>
         </View>
+      </Pressable>
 
+      {/* Tappable content area (body + media) */}
+      <Pressable
+        onPress={handlePostPress}
+        accessibilityRole="link"
+        accessibilityLabel={post.content.substring(0, 50)}
+      >
         {/* Body */}
         {highlightQuery ? (
           <HighlightedText
