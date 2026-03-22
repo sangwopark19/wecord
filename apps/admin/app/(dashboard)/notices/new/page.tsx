@@ -36,7 +36,10 @@ export default function NewNoticePage() {
 
   useEffect(() => {
     async function loadCommunities() {
-      const { data } = await supabaseAdmin.from('communities').select('id, name').order('name');
+      const { data } = await supabaseAdmin
+        .from('communities')
+        .select('id, name')
+        .order('name');
       if (data) setCommunities(data as Community[]);
     }
     loadCommunities();
@@ -44,10 +47,11 @@ export default function NewNoticePage() {
 
   function validate(): boolean {
     const newErrors: Record<string, string> = {};
-    if (!communityId) newErrors.community = '커뮤니티를 선택해주세요';
-    if (!title.trim()) newErrors.title = '제목을 입력해주세요';
-    if (!body.trim()) newErrors.body = '내용을 입력해주세요';
-    if (isScheduled && !scheduledAt) newErrors.scheduledAt = '예약 발행 일시를 입력해주세요';
+    if (!communityId) newErrors.community = 'Please select a community';
+    if (!title.trim()) newErrors.title = 'Title is required';
+    if (!body.trim()) newErrors.body = 'Content is required';
+    if (isScheduled && !scheduledAt)
+      newErrors.scheduledAt = 'Scheduled date is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -75,7 +79,8 @@ export default function NewNoticePage() {
 
     setSubmitting(true);
     try {
-      const uploadedUrls = imageFiles.length > 0 ? await uploadImages() : [];
+      const uploadedUrls =
+        imageFiles.length > 0 ? await uploadImages() : [];
 
       const insertData = {
         community_id: communityId,
@@ -94,28 +99,33 @@ export default function NewNoticePage() {
       router.push('/notices');
     } catch (err) {
       console.error('Failed to create notice:', err);
-      setErrors({ submit: '공지 발행에 실패했습니다. 다시 시도해주세요.' });
+      setErrors({ submit: 'Failed to create notice. Please try again.' });
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <main className="p-8 max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       <div className="flex items-center gap-4 mb-6">
         <Link href="/notices">
-          <Button variant="ghost" size="sm">← 목록으로</Button>
+          <Button variant="ghost" size="sm">
+            &larr; Back to List
+          </Button>
         </Link>
-        <h1 className="text-2xl font-bold">새 공지 작성</h1>
+        <h1 className="text-xl font-semibold leading-[1.2]">Create Notice</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Community */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">커뮤니티</label>
-          <Select value={communityId} onValueChange={(v) => setCommunityId(v ?? '')}>
+          <label className="text-sm font-medium">Community</label>
+          <Select
+            value={communityId}
+            onValueChange={(v) => setCommunityId(v ?? '')}
+          >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="커뮤니티 선택" />
+              <SelectValue placeholder="Select community" />
             </SelectTrigger>
             <SelectContent>
               {communities.map((c) => (
@@ -132,11 +142,11 @@ export default function NewNoticePage() {
 
         {/* Title */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">제목</label>
+          <label className="text-sm font-medium">Title</label>
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="공지 제목"
+            placeholder="Notice title"
           />
           {errors.title && (
             <p className="text-sm text-destructive">{errors.title}</p>
@@ -145,11 +155,11 @@ export default function NewNoticePage() {
 
         {/* Body */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">내용</label>
+          <label className="text-sm font-medium">Content</label>
           <Textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            placeholder="공지 내용"
+            placeholder="Notice content"
             rows={8}
           />
           {errors.body && (
@@ -159,16 +169,20 @@ export default function NewNoticePage() {
 
         {/* Images */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">이미지 (선택)</label>
+          <label className="text-sm font-medium">Images (optional)</label>
           <input
             type="file"
             multiple
             accept="image/*"
-            onChange={(e) => setImageFiles(Array.from(e.target.files ?? []))}
+            onChange={(e) =>
+              setImageFiles(Array.from(e.target.files ?? []))
+            }
             className="block w-full text-sm text-muted-foreground file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-muted file:text-foreground hover:file:bg-muted/80 cursor-pointer"
           />
           {imageFiles.length > 0 && (
-            <p className="text-xs text-muted-foreground">{imageFiles.length}개 선택됨</p>
+            <p className="text-xs text-muted-foreground">
+              {imageFiles.length} selected
+            </p>
           )}
         </div>
 
@@ -179,8 +193,11 @@ export default function NewNoticePage() {
             onCheckedChange={setIsPinned}
             id="pin-switch"
           />
-          <label htmlFor="pin-switch" className="text-sm font-medium cursor-pointer">
-            고정 공지
+          <label
+            htmlFor="pin-switch"
+            className="text-sm font-medium cursor-pointer"
+          >
+            Pin Notice
           </label>
         </div>
 
@@ -192,8 +209,11 @@ export default function NewNoticePage() {
               onCheckedChange={setIsScheduled}
               id="schedule-switch"
             />
-            <label htmlFor="schedule-switch" className="text-sm font-medium cursor-pointer">
-              예약 발행
+            <label
+              htmlFor="schedule-switch"
+              className="text-sm font-medium cursor-pointer"
+            >
+              Schedule Publication
             </label>
           </div>
           {isScheduled && (
@@ -204,7 +224,9 @@ export default function NewNoticePage() {
                 onChange={(e) => setScheduledAt(e.target.value)}
               />
               {errors.scheduledAt && (
-                <p className="text-sm text-destructive">{errors.scheduledAt}</p>
+                <p className="text-sm text-destructive">
+                  {errors.scheduledAt}
+                </p>
               )}
             </div>
           )}
@@ -216,15 +238,19 @@ export default function NewNoticePage() {
 
         <div className="flex gap-3">
           <Button type="submit" disabled={submitting}>
-            {submitting ? '발행 중...' : isScheduled ? '예약 발행' : '공지 발행'}
+            {submitting
+              ? 'Publishing...'
+              : isScheduled
+                ? 'Schedule Notice'
+                : 'Publish Notice'}
           </Button>
           <Link href="/notices">
             <Button type="button" variant="outline">
-              취소
+              Cancel
             </Button>
           </Link>
         </div>
       </form>
-    </main>
+    </div>
   );
 }

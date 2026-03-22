@@ -42,13 +42,14 @@ interface Community {
 
 function getStatus(notice: Notice): 'published' | 'scheduled' | 'draft' {
   if (notice.published_at != null) return 'published';
-  if (notice.scheduled_at != null && notice.published_at == null) return 'scheduled';
+  if (notice.scheduled_at != null && notice.published_at == null)
+    return 'scheduled';
   return 'draft';
 }
 
 function formatDateTime(dt: string | null): string {
   if (!dt) return '-';
-  return new Date(dt).toLocaleString('ko-KR', {
+  return new Date(dt).toLocaleString('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -67,7 +68,9 @@ export default function NoticesPage() {
     const [noticesRes, communitiesRes] = await Promise.all([
       supabaseAdmin
         .from('notices')
-        .select('id, title, community_id, is_pinned, scheduled_at, published_at, created_at')
+        .select(
+          'id, title, community_id, is_pinned, scheduled_at, published_at, created_at'
+        )
         .order('created_at', { ascending: false }),
       supabaseAdmin.from('communities').select('id, name'),
     ]);
@@ -91,19 +94,15 @@ export default function NoticesPage() {
   }
 
   if (loading) {
-    return (
-      <main className="p-8">
-        <p className="text-muted-foreground">불러오는 중...</p>
-      </main>
-    );
+    return <p className="text-muted-foreground">Loading...</p>;
   }
 
   return (
-    <main className="p-8">
+    <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">공지 관리</h1>
+        <h1 className="text-xl font-semibold leading-[1.2]">Notices</h1>
         <Link href="/notices/new">
-          <Button>새 공지 작성</Button>
+          <Button>Create Notice</Button>
         </Link>
       </div>
 
@@ -111,19 +110,22 @@ export default function NoticesPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>제목</TableHead>
-              <TableHead>커뮤니티</TableHead>
-              <TableHead>고정</TableHead>
-              <TableHead>상태</TableHead>
-              <TableHead>발행일시</TableHead>
-              <TableHead>작업</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Community</TableHead>
+              <TableHead>Pinned</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Published</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {notices.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
-                  공지가 없습니다.
+                <TableCell
+                  colSpan={6}
+                  className="text-center text-muted-foreground py-8"
+                >
+                  No notices found.
                 </TableCell>
               </TableRow>
             ) : (
@@ -132,30 +134,35 @@ export default function NoticesPage() {
                 return (
                   <TableRow key={notice.id}>
                     <TableCell className="max-w-xs">
-                      <span className="truncate block" style={{ maxWidth: 300 }}>
+                      <span
+                        className="truncate block"
+                        style={{ maxWidth: 300 }}
+                      >
                         {notice.title.slice(0, 50)}
                         {notice.title.length > 50 ? '...' : ''}
                       </span>
                     </TableCell>
-                    <TableCell>{getCommunityName(notice.community_id)}</TableCell>
+                    <TableCell>
+                      {getCommunityName(notice.community_id)}
+                    </TableCell>
                     <TableCell>
                       {notice.is_pinned && (
-                        <Badge variant="outline">고정</Badge>
+                        <Badge variant="outline">Pinned</Badge>
                       )}
                     </TableCell>
                     <TableCell>
                       {status === 'published' && (
                         <Badge className="bg-green-500/20 text-green-400 border-green-500/40">
-                          발행됨
+                          Published
                         </Badge>
                       )}
                       {status === 'scheduled' && (
                         <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/40">
-                          예약됨
+                          Scheduled
                         </Badge>
                       )}
                       {status === 'draft' && (
-                        <Badge variant="secondary">초안</Badge>
+                        <Badge variant="secondary">Draft</Badge>
                       )}
                     </TableCell>
                     <TableCell>{formatDateTime(notice.published_at)}</TableCell>
@@ -163,7 +170,7 @@ export default function NoticesPage() {
                       <div className="flex items-center gap-2">
                         <Link href={`/notices/${notice.id}`}>
                           <Button variant="outline" size="sm">
-                            수정
+                            Edit
                           </Button>
                         </Link>
                         <AlertDialog
@@ -181,22 +188,23 @@ export default function NoticesPage() {
                               />
                             }
                           >
-                            삭제
+                            Delete
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>공지 삭제</AlertDialogTitle>
+                              <AlertDialogTitle>Delete Notice</AlertDialogTitle>
                               <AlertDialogDescription>
-                                이 공지를 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.
+                                Are you sure you want to delete this notice?
+                                This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>취소</AlertDialogCancel>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
                               <AlertDialogAction
                                 variant="destructive"
                                 onClick={() => handleDelete(notice.id)}
                               >
-                                공지 삭제
+                                Delete Notice
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -210,6 +218,6 @@ export default function NoticesPage() {
           </TableBody>
         </Table>
       </div>
-    </main>
+    </div>
   );
 }

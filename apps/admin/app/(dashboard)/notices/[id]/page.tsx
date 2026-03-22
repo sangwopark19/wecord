@@ -65,7 +65,8 @@ export default function EditNoticePage() {
         supabaseAdmin.from('communities').select('id, name').order('name'),
       ]);
 
-      if (communitiesRes.data) setCommunities(communitiesRes.data as Community[]);
+      if (communitiesRes.data)
+        setCommunities(communitiesRes.data as Community[]);
 
       if (noticeRes.data) {
         const n = noticeRes.data as NoticeData;
@@ -87,10 +88,11 @@ export default function EditNoticePage() {
 
   function validate(): boolean {
     const newErrors: Record<string, string> = {};
-    if (!communityId) newErrors.community = '커뮤니티를 선택해주세요';
-    if (!title.trim()) newErrors.title = '제목을 입력해주세요';
-    if (!body.trim()) newErrors.body = '내용을 입력해주세요';
-    if (isScheduled && !scheduledAt) newErrors.scheduledAt = '예약 발행 일시를 입력해주세요';
+    if (!communityId) newErrors.community = 'Please select a community';
+    if (!title.trim()) newErrors.title = 'Title is required';
+    if (!body.trim()) newErrors.body = 'Content is required';
+    if (isScheduled && !scheduledAt)
+      newErrors.scheduledAt = 'Scheduled date is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -139,36 +141,37 @@ export default function EditNoticePage() {
       router.push('/notices');
     } catch (err) {
       console.error('Failed to update notice:', err);
-      setErrors({ submit: '공지 수정에 실패했습니다. 다시 시도해주세요.' });
+      setErrors({ submit: 'Failed to update notice. Please try again.' });
     } finally {
       setSubmitting(false);
     }
   }
 
   if (loading) {
-    return (
-      <main className="p-8">
-        <p className="text-muted-foreground">불러오는 중...</p>
-      </main>
-    );
+    return <p className="text-muted-foreground">Loading...</p>;
   }
 
   return (
-    <main className="p-8 max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       <div className="flex items-center gap-4 mb-6">
         <Link href="/notices">
-          <Button variant="ghost" size="sm">← 목록으로</Button>
+          <Button variant="ghost" size="sm">
+            &larr; Back to List
+          </Button>
         </Link>
-        <h1 className="text-2xl font-bold">공지 수정</h1>
+        <h1 className="text-xl font-semibold leading-[1.2]">Edit Notice</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Community */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">커뮤니티</label>
-          <Select value={communityId} onValueChange={(v) => setCommunityId(v ?? '')}>
+          <label className="text-sm font-medium">Community</label>
+          <Select
+            value={communityId}
+            onValueChange={(v) => setCommunityId(v ?? '')}
+          >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="커뮤니티 선택" />
+              <SelectValue placeholder="Select community" />
             </SelectTrigger>
             <SelectContent>
               {communities.map((c) => (
@@ -185,11 +188,11 @@ export default function EditNoticePage() {
 
         {/* Title */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">제목</label>
+          <label className="text-sm font-medium">Title</label>
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="공지 제목"
+            placeholder="Notice title"
           />
           {errors.title && (
             <p className="text-sm text-destructive">{errors.title}</p>
@@ -198,11 +201,11 @@ export default function EditNoticePage() {
 
         {/* Body */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">내용</label>
+          <label className="text-sm font-medium">Content</label>
           <Textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            placeholder="공지 내용"
+            placeholder="Notice content"
             rows={8}
           />
           {errors.body && (
@@ -213,14 +216,14 @@ export default function EditNoticePage() {
         {/* Existing images */}
         {existingMediaUrls.length > 0 && (
           <div className="space-y-2">
-            <label className="text-sm font-medium">기존 이미지</label>
+            <label className="text-sm font-medium">Existing Images</label>
             <div className="flex flex-wrap gap-2">
               {existingMediaUrls.map((url, i) => (
                 <div key={i} className="relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={url}
-                    alt={`이미지 ${i + 1}`}
+                    alt={`Image ${i + 1}`}
                     className="w-20 h-20 object-cover rounded-lg border border-border"
                   />
                 </div>
@@ -231,16 +234,22 @@ export default function EditNoticePage() {
 
         {/* New images */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">새 이미지 추가 (선택)</label>
+          <label className="text-sm font-medium">
+            Add New Images (optional)
+          </label>
           <input
             type="file"
             multiple
             accept="image/*"
-            onChange={(e) => setImageFiles(Array.from(e.target.files ?? []))}
+            onChange={(e) =>
+              setImageFiles(Array.from(e.target.files ?? []))
+            }
             className="block w-full text-sm text-muted-foreground file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-muted file:text-foreground hover:file:bg-muted/80 cursor-pointer"
           />
           {imageFiles.length > 0 && (
-            <p className="text-xs text-muted-foreground">{imageFiles.length}개 선택됨</p>
+            <p className="text-xs text-muted-foreground">
+              {imageFiles.length} selected
+            </p>
           )}
         </div>
 
@@ -251,8 +260,11 @@ export default function EditNoticePage() {
             onCheckedChange={setIsPinned}
             id="pin-switch"
           />
-          <label htmlFor="pin-switch" className="text-sm font-medium cursor-pointer">
-            고정 공지
+          <label
+            htmlFor="pin-switch"
+            className="text-sm font-medium cursor-pointer"
+          >
+            Pin Notice
           </label>
         </div>
 
@@ -265,8 +277,11 @@ export default function EditNoticePage() {
                 onCheckedChange={setIsScheduled}
                 id="schedule-switch"
               />
-              <label htmlFor="schedule-switch" className="text-sm font-medium cursor-pointer">
-                예약 발행
+              <label
+                htmlFor="schedule-switch"
+                className="text-sm font-medium cursor-pointer"
+              >
+                Schedule Publication
               </label>
             </div>
             {isScheduled && (
@@ -277,7 +292,9 @@ export default function EditNoticePage() {
                   onChange={(e) => setScheduledAt(e.target.value)}
                 />
                 {errors.scheduledAt && (
-                  <p className="text-sm text-destructive">{errors.scheduledAt}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.scheduledAt}
+                  </p>
                 )}
               </div>
             )}
@@ -290,15 +307,21 @@ export default function EditNoticePage() {
 
         <div className="flex gap-3">
           <Button type="submit" disabled={submitting}>
-            {submitting ? '저장 중...' : isAlreadyPublished ? '수정' : isScheduled ? '예약 발행' : '공지 발행'}
+            {submitting
+              ? 'Saving...'
+              : isAlreadyPublished
+                ? 'Save Changes'
+                : isScheduled
+                  ? 'Schedule Notice'
+                  : 'Publish Notice'}
           </Button>
           <Link href="/notices">
             <Button type="button" variant="outline">
-              취소
+              Cancel
             </Button>
           </Link>
         </div>
       </form>
-    </main>
+    </div>
   );
 }
