@@ -96,10 +96,10 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Home Feed
 
-- [ ] **HOME-01**: User with 0 communities sees creator recommendation section (random, with profiles and members)
-- [ ] **HOME-02**: User with 1+ communities sees unified feed (Instagram-style infinite scroll)
-- [ ] **HOME-03**: Each post in unified feed shows community shortcut link
-- [ ] **HOME-04**: Home header shows Wecord logo + notification bell with badge
+- [x] **HOME-01**: User with 0 communities sees creator recommendation section (random, with profiles and members)
+- [x] **HOME-02**: User with 1+ communities sees unified feed (Instagram-style infinite scroll)
+- [x] **HOME-03**: Each post in unified feed shows community shortcut link
+- [x] **HOME-04**: Home header shows Wecord logo + notification bell with badge
 - [x] **HOME-05**: Home shows promotion banner carousel (admin-managed)
 
 ### Highlight Tab
@@ -120,15 +120,15 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Search
 
-- [ ] **SRCH-01**: User can search communities/creators from home [+] banner
-- [ ] **SRCH-02**: User can search posts within a community (full-text search)
-- [ ] **SRCH-03**: Search results display with keyword highlighting
+- [x] **SRCH-01**: User can search communities/creators from home [+] banner
+- [x] **SRCH-02**: User can search posts within a community (full-text search)
+- [x] **SRCH-03**: Search results display with keyword highlighting
 
 ### Community Following & Profile
 
-- [ ] **FLLW-01**: User can follow/unfollow other members within same community
-- [ ] **FLLW-02**: User can view follower/following list
-- [ ] **FLLW-03**: User can view community profile page (nickname, posts, comments, follower count)
+- [x] **FLLW-01**: User can follow/unfollow other members within same community
+- [x] **FLLW-02**: User can view follower/following list
+- [x] **FLLW-03**: User can view community profile page (nickname, posts, comments, follower count)
 - [x] **FLLW-04**: Following is restricted to same community members only (RLS enforced)
 
 ### Reporting & Safety

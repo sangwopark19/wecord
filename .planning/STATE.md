@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-22T06:02:17.501Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-22T06:09:55.655Z"
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 22
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -65,6 +65,7 @@ Plan: 3 of 3
 | Phase 04-highlights-notices-notifications-translation P05 | 1 | 2 tasks | 3 files |
 | Phase 05-home-feed-search-community-social P00 | 3 | 2 tasks | 19 files |
 | Phase 05-home-feed-search-community-social P01 | 3 | 2 tasks | 10 files |
+| Phase 05 P02 | 311 | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -127,6 +128,8 @@ Recent decisions affecting current work:
 - [Phase 05-home-feed-search-community-social]: FlashList 2.3.0 does not expose estimatedItemSize prop — removed from home tab FlashList (same pre-existing constraint as Phase 03-02)
 - [Phase 05-home-feed-search-community-social]: RecommendationSection uses dedicated useRecommendedCommunities query (order by member_count DESC) — useCommunitySearch guards empty string and would return nothing
 - [Phase 05-home-feed-search-community-social]: useAllUnreadNotificationCount mirrors useUnreadNotificationCount but removes community_id filter from both initial query and realtime subscription
+- [Phase 05]: PostCard header row extracted as separate Pressable — avoids nested Pressable tap collision; header navigates to profile, content navigates to post detail
+- [Phase 05]: HighlightedText uses toLowerCase comparison (not regex.test) — regex with gi flag advances lastIndex causing alternating match pattern on split result
 
 ### Pending Todos
 
@@ -143,6 +146,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T06:02:17.499Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-22T06:09:55.653Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None

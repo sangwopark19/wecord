@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Auth & Onboarding** - Google/Apple OAuth, global profile, dual-account identity, and creator curation flow (completed 2026-03-18)
 - [x] **Phase 3: Community & Core Content** - Community join with per-community persona, fan/creator feeds, comments, and likes (completed 2026-03-20)
 - [x] **Phase 4: Highlights, Notices, Notifications & Translation** - Highlight tab, notice system, async push notifications, and in-app translation (completed 2026-03-20)
-- [ ] **Phase 5: Home Feed, Search & Community Social** - Cross-community home feed, full-text search, community following, and community profiles
+- [x] **Phase 5: Home Feed, Search & Community Social** - Cross-community home feed, full-text search, community following, and community profiles (completed 2026-03-22)
 - [ ] **Phase 6: Safety & Admin Dashboard** - Content moderation, reporting, sanctions, and full admin operations dashboard
 - [ ] **Phase 7: Launch Polish** - More/account hub tab, Shop WebView, DM placeholder, App Store readiness
 
@@ -103,12 +103,12 @@ Plans:
   3. Home screen shows an admin-managed promotion banner carousel
   4. User can search for communities/creators from the home discovery entry point, and search for posts within a community using full-text search with keyword highlighting
   5. User can follow/unfollow other members within the same community (RLS-enforced), view follower/following lists, and visit a community profile page showing nickname, post count, and follower count
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 05-00-PLAN.md — Wave 0: DB migrations (promotion_banners + follow count trigger), test stubs, i18n home namespace
 - [x] 05-01-PLAN.md — home-feed Edge Function (cross-community cursor-paginated merge); Home tab (0-community recommendation view + 1+-community unified feed, notification bell badge, promotion banner carousel)
-- [ ] 05-02-PLAN.md — Search screens (in-community post full-text search with keyword highlighting); community following (follow/unfollow RLS-enforced, follower/following lists, community profile page)
+- [x] 05-02-PLAN.md — Search screens (in-community post full-text search with keyword highlighting); community following (follow/unfollow RLS-enforced, follower/following lists, community profile page)
 
 ### Phase 6: Safety & Admin Dashboard
 **Goal**: The platform has working content moderation before any public launch, and the admin has a complete operational dashboard to manage communities, creators, reports, and notices
@@ -153,6 +153,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
 | 3. Community & Core Content | 5/5 | Complete   | 2026-03-20 |
 | 4. Highlights, Notices, Notifications & Translation | 6/6 | Complete   | 2026-03-21 |
-| 5. Home Feed, Search & Community Social | 2/3 | In Progress|  |
+| 5. Home Feed, Search & Community Social | 3/3 | Complete   | 2026-03-22 |
 | 6. Safety & Admin Dashboard | 0/3 | Not started | - |
 | 7. Launch Polish | 0/2 | Not started | - |
