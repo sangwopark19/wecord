@@ -6,7 +6,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from '@wecord/shared/i18n';
-import { useCommunityProfile, useMemberPosts, useMemberPostCount } from '../../../../hooks/community/useCommunityProfile';
+import { useCommunityProfile, useMemberPosts, useMemberPostCount, useMemberComments, MemberComment } from '../../../../hooks/community/useCommunityProfile';
 import { useCommunityMember } from '../../../../hooks/community/useCommunityMember';
 import { useAuthStore } from '../../../../stores/authStore';
 import { FollowButton } from '../../../../components/community/FollowButton';
@@ -40,6 +40,7 @@ export default function CommunityProfileScreen() {
   const { data: profile, isLoading: profileLoading } = useCommunityProfile(memberId ?? '');
   const { data: memberPosts, isLoading: postsLoading } = useMemberPosts(memberId ?? '', id ?? '');
   const { data: postCount } = useMemberPostCount(memberId ?? '', id ?? '');
+  const { data: memberComments, isLoading: commentsLoading } = useMemberComments(memberId ?? '', id ?? '');
   const { data: myMembership } = useCommunityMember(id ?? '');
 
   const isOwn = !!user && profile?.user_id === user.id;
@@ -173,9 +174,36 @@ export default function CommunityProfileScreen() {
       )}
 
       {activeTab === 'comments' && (
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-body text-muted-foreground">{t('profile.tab.comments')}</Text>
-        </View>
+        <>
+          {commentsLoading ? (
+            <View className="flex-1 items-center justify-center">
+              <ActivityIndicator color="#00E5C3" />
+            </View>
+          ) : !memberComments?.length ? (
+            <View className="flex-1 items-center justify-center">
+              <Text className="text-body text-muted-foreground">{t('profile.comments.empty')}</Text>
+            </View>
+          ) : (
+            <FlatList
+              data={memberComments}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }: { item: MemberComment }) => (
+                <Pressable
+                  className="px-4 py-3 border-b border-border"
+                  onPress={() => router.push(`/(community)/${id}/post/${item.post_id}` as never)}
+                >
+                  <Text className="text-body text-foreground" numberOfLines={3}>
+                    {item.content}
+                  </Text>
+                  <Text className="text-label text-muted-foreground mt-1">
+                    {new Date(item.created_at).toLocaleDateString()}
+                  </Text>
+                </Pressable>
+              )}
+              contentContainerStyle={{ paddingBottom: 32 }}
+            />
+          )}
+        </>
       )}
     </View>
   );
