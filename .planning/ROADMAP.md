@@ -121,15 +121,16 @@ Plans:
   3. Spam rate limiting is enforced: more than 5 posts per minute results in a 1-hour temporary block
   4. Admin can view the report queue sorted by report count, preview reported content, and apply graduated sanctions (warning → 7d ban → 30d ban → permanent ban) with full sanction history
   5. Admin can create/edit/delete communities and creator accounts, register artist members, view member statistics, manage promotion banners, manage notices, and view the analytics dashboard (DAU/WAU/MAU, posts/comments per community, new signups)
-**Plans:** 6 plans
+**Plans:** 7 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — DB migration (soft delete, banned_words, analytics functions), i18n report namespace, mobile report hook (TDD) + report bottom sheet UI wired into PostCard/CommentRow
-- [ ] 06-02-PLAN.md — Admin login page (Google OAuth + role check), sidebar layout (8 menus), dashboard home (stat cards), notices migration into sidebar layout
-- [ ] 06-03-PLAN.md — moderate Edge Function (banned words + OpenAI Moderation API + spam rate limit), wire into post/comment creation hooks (async fire-and-forget)
-- [ ] 06-04-PLAN.md — Admin moderation page (report queue table + side panel with content preview, graduated sanctions, sanction history, content soft-delete)
-- [ ] 06-05-PLAN.md — Admin CRUD pages: communities, creators, members (with artist member registration), promotion banners
-- [ ] 06-06-PLAN.md — Analytics dashboard (recharts line charts, stat cards, 7d/30d/90d presets, top 10 communities table)
+- [ ] 06-01-PLAN.md — DB migration (soft delete, banned_words, analytics functions), i18n report namespace, mobile report hook (TDD)
+- [ ] 06-02-PLAN.md — Report bottom sheet UI + wire into PostCard/CommentRow/ReplyRow/PostDetailScreen
+- [ ] 06-03-PLAN.md — Admin login page (Google OAuth + role check), sidebar layout (8 menus), dashboard home (stat cards), notices migration into sidebar layout
+- [ ] 06-04-PLAN.md — moderate Edge Function (banned words + OpenAI Moderation API + spam rate limit), wire into post/comment creation hooks (async fire-and-forget)
+- [ ] 06-05-PLAN.md — Admin moderation page (report queue table + side panel with content preview, graduated sanctions, sanction history, content soft-delete)
+- [ ] 06-06-PLAN.md — Admin CRUD pages: communities, creators, members (with artist member registration), promotion banners
+- [ ] 06-07-PLAN.md — Analytics dashboard (recharts line charts, stat cards, 7d/30d/90d presets, top 10 communities table)
 
 ### Phase 7: Launch Polish
 **Goal**: All remaining user-facing surfaces are complete and the app is ready for App Store and Play Store submission
@@ -158,5 +159,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Community & Core Content | 5/5 | Complete   | 2026-03-20 |
 | 4. Highlights, Notices, Notifications & Translation | 6/6 | Complete   | 2026-03-21 |
 | 5. Home Feed, Search & Community Social | 3/4 | Gap closure | 2026-03-22 |
-| 6. Safety & Admin Dashboard | 0/6 | Not started | - |
+| 6. Safety & Admin Dashboard | 0/7 | Not started | - |
 | 7. Launch Polish | 0/2 | Not started | - |
