@@ -103,12 +103,13 @@ Plans:
   3. Home screen shows an admin-managed promotion banner carousel
   4. User can search for communities/creators from the home discovery entry point, and search for posts within a community using full-text search with keyword highlighting
   5. User can follow/unfollow other members within the same community (RLS-enforced), view follower/following lists, and visit a community profile page showing nickname, post count, and follower count
-**Plans:** 3/3 plans complete
+**Plans:** 4 plans (3 complete + 1 gap closure)
 
 Plans:
 - [x] 05-00-PLAN.md — Wave 0: DB migrations (promotion_banners + follow count trigger), test stubs, i18n home namespace
 - [x] 05-01-PLAN.md — home-feed Edge Function (cross-community cursor-paginated merge); Home tab (0-community recommendation view + 1+-community unified feed, notification bell badge, promotion banner carousel)
 - [x] 05-02-PLAN.md — Search screens (in-community post full-text search with keyword highlighting); community following (follow/unfollow RLS-enforced, follower/following lists, community profile page)
+- [ ] 05-03-PLAN.md — Gap closure: community profile comments tab (query comments_with_nickname, render member comment list)
 
 ### Phase 6: Safety & Admin Dashboard
 **Goal**: The platform has working content moderation before any public launch, and the admin has a complete operational dashboard to manage communities, creators, reports, and notices
@@ -153,6 +154,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
 | 3. Community & Core Content | 5/5 | Complete   | 2026-03-20 |
 | 4. Highlights, Notices, Notifications & Translation | 6/6 | Complete   | 2026-03-21 |
-| 5. Home Feed, Search & Community Social | 3/3 | Complete   | 2026-03-22 |
+| 5. Home Feed, Search & Community Social | 3/4 | Gap closure | 2026-03-22 |
 | 6. Safety & Admin Dashboard | 0/3 | Not started | - |
 | 7. Launch Polish | 0/2 | Not started | - |
