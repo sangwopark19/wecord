@@ -117,6 +117,7 @@
     "tab": { "followers": "팔로워", "following": "팔로잉", "posts": "게시글", "comments": "댓글" },
     "stat": { "posts": "게시글", "followers": "팔로워", "following": "팔로잉" },
     "followers": { "empty": "아직 팔로워가 없어요", "error": "목록을 불러오지 못했어요. 다시 시도해 주세요" },
-    "following": { "empty": "아직 팔로잉하는 멤버가 없어요", "error": "목록을 불러오지 못했어요. 다시 시도해 주세요" }
+    "following": { "empty": "아직 팔로잉하는 멤버가 없어요", "error": "목록을 불러오지 못했어요. 다시 시도해 주세요" },
+    "comments": { "empty": "아직 댓글이 없어요" }
   }
 }

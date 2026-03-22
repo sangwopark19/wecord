@@ -117,6 +117,7 @@
     "tab": { "followers": "粉丝", "following": "关注", "posts": "帖子", "comments": "评论" },
     "stat": { "posts": "帖子", "followers": "粉丝", "following": "关注" },
     "followers": { "empty": "还没有粉丝", "error": "加载列表失败，请重试" },
-    "following": { "empty": "还没有关注任何人", "error": "加载列表失败，请重试" }
+    "following": { "empty": "还没有关注任何人", "error": "加载列表失败，请重试" },
+    "comments": { "empty": "暂无评论" }
   }
 }

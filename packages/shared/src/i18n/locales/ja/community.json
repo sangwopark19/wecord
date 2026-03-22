@@ -117,6 +117,7 @@
     "tab": { "followers": "フォロワー", "following": "フォロー中", "posts": "投稿", "comments": "コメント" },
     "stat": { "posts": "投稿", "followers": "フォロワー", "following": "フォロー中" },
     "followers": { "empty": "まだフォロワーはいません", "error": "リストを読み込めませんでした。もう一度お試しください" },
-    "following": { "empty": "まだフォローしているメンバーはいません", "error": "リストを読み込めませんでした。もう一度お試しください" }
+    "following": { "empty": "まだフォローしているメンバーはいません", "error": "リストを読み込めませんでした。もう一度お試しください" },
+    "comments": { "empty": "まだコメントはありません" }
   }
 }

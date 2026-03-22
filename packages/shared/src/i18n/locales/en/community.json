@@ -117,6 +117,7 @@
     "tab": { "followers": "Followers", "following": "Following", "posts": "Posts", "comments": "Comments" },
     "stat": { "posts": "Posts", "followers": "Followers", "following": "Following" },
     "followers": { "empty": "No followers yet", "error": "Failed to load list. Please try again" },
-    "following": { "empty": "Not following anyone yet", "error": "Failed to load list. Please try again" }
+    "following": { "empty": "Not following anyone yet", "error": "Failed to load list. Please try again" },
+    "comments": { "empty": "No comments yet" }
   }
 }

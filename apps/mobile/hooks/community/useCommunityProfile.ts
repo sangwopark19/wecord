@@ -67,3 +67,34 @@ export function useMemberPostCount(memberId: string, communityId: string) {
     enabled: !!memberId && !!communityId,
   });
 }
+
+export interface MemberComment {
+  id: string;
+  post_id: string;
+  content: string;
+  author_nickname: string;
+  author_cm_id: string;
+  author_role: 'fan' | 'creator';
+  is_creator_reply: boolean;
+  like_count: number;
+  created_at: string;
+  parent_comment_id: string | null;
+}
+
+export function useMemberComments(memberId: string, communityId: string) {
+  return useQuery({
+    queryKey: ['memberComments', memberId, communityId],
+    queryFn: async (): Promise<MemberComment[]> => {
+      const { data, error } = await supabase
+        .from('comments_with_nickname')
+        .select('id, post_id, content, author_nickname, author_cm_id, author_role, is_creator_reply, like_count, created_at, parent_comment_id')
+        .eq('author_cm_id', memberId)
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+      return (data ?? []) as MemberComment[];
+    },
+    enabled: !!memberId && !!communityId,
+  });
+}
