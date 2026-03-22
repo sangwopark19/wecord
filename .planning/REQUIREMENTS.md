@@ -137,7 +137,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [x] **SAFE-02**: Duplicate report prevention (UNIQUE constraint)
 - [x] **SAFE-03**: Report confirmation feedback to user
 - [ ] **SAFE-04**: Content auto-moderation via OpenAI Moderation API on post/comment creation
-- [ ] **SAFE-05**: Banned word filter (PostgreSQL matching)
+- [x] **SAFE-05**: Banned word filter (PostgreSQL matching)
 - [ ] **SAFE-06**: Spam prevention (5 posts/min rate limit → 1hr temp block)
 
 ### Shop & DM Placeholder
