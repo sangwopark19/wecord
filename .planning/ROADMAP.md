@@ -129,7 +129,7 @@ Plans:
 - [x] 06-03-PLAN.md — Admin login page (Google OAuth + role check), sidebar layout (8 menus), dashboard home (stat cards), notices migration into sidebar layout
 - [x] 06-04-PLAN.md — moderate Edge Function (banned words + OpenAI Moderation API + spam rate limit), wire into post/comment creation hooks (async fire-and-forget)
 - [x] 06-05-PLAN.md — Admin moderation page (report queue table + side panel with content preview, graduated sanctions, sanction history, content soft-delete)
-- [ ] 06-06-PLAN.md — Admin CRUD pages: communities, creators, members (with artist member registration), promotion banners
+- [x] 06-06-PLAN.md — Admin CRUD pages: communities, creators, members (with artist member registration), promotion banners
 - [ ] 06-07-PLAN.md — Analytics dashboard (recharts line charts, stat cards, 7d/30d/90d presets, top 10 communities table)
 
 ### Phase 7: Launch Polish
