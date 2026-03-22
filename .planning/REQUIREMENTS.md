@@ -133,9 +133,9 @@ Requirements for MVP release. Each maps to roadmap phases.
 
 ### Reporting & Safety
 
-- [ ] **SAFE-01**: User can report posts/comments (reason: hate/spam/violence/copyright/other)
-- [ ] **SAFE-02**: Duplicate report prevention (UNIQUE constraint)
-- [ ] **SAFE-03**: Report confirmation feedback to user
+- [x] **SAFE-01**: User can report posts/comments (reason: hate/spam/violence/copyright/other)
+- [x] **SAFE-02**: Duplicate report prevention (UNIQUE constraint)
+- [x] **SAFE-03**: Report confirmation feedback to user
 - [ ] **SAFE-04**: Content auto-moderation via OpenAI Moderation API on post/comment creation
 - [ ] **SAFE-05**: Banned word filter (PostgreSQL matching)
 - [ ] **SAFE-06**: Spam prevention (5 posts/min rate limit → 1hr temp block)
