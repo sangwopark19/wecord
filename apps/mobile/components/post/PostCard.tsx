@@ -9,6 +9,7 @@ import { useTranslate } from '../../hooks/post/useTranslate';
 import { TranslateButton } from './TranslateButton';
 import { TranslatedTextBlock } from './TranslatedTextBlock';
 import { CommunityChip } from '../home/CommunityChip';
+import { HighlightedText } from '../search/HighlightedText';
 
 function formatRelativeTime(dateStr: string): string {
   const now = Date.now();
@@ -31,9 +32,10 @@ interface PostCardProps {
   clampLines?: number;
   communityId?: string;
   showCommunityChip?: boolean;
+  highlightQuery?: string;
 }
 
-export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, showCommunityChip }: PostCardProps) {
+export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, showCommunityChip, highlightQuery }: PostCardProps) {
   const router = useRouter();
   const { translatedText, isTranslated, isLoading, error, translate } = useTranslate(post.id, 'post');
 
@@ -78,12 +80,20 @@ export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, 
         </View>
 
         {/* Body */}
-        <Text
-          className="text-body font-regular text-foreground mt-2"
-          numberOfLines={clampLines === 0 ? undefined : clampLines}
-        >
-          {post.content}
-        </Text>
+        {highlightQuery ? (
+          <HighlightedText
+            text={post.content}
+            query={highlightQuery}
+            style={{ fontSize: 14, lineHeight: 21, color: '#FFFFFF', marginTop: 8 }}
+          />
+        ) : (
+          <Text
+            className="text-body font-regular text-foreground mt-2"
+            numberOfLines={clampLines === 0 ? undefined : clampLines}
+          >
+            {post.content}
+          </Text>
+        )}
 
         {/* Media */}
         {post.media_urls && post.media_urls.length > 0 && (

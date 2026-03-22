@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { View, Text, Pressable, RefreshControl } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, type FlashListRef } from '@shopify/flash-list';
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from '@wecord/shared/i18n';
 import { useFanFeed, PostWithNickname } from '../../../hooks/post/useFanFeed';
 import { PostCard } from '../../../components/post/PostCard';
@@ -36,8 +36,21 @@ function EmptyState() {
 export default function FanTab() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation('community');
+  const router = useRouter();
   const [sort, setSort] = useState<SortOption>('latest');
   const [filter, setFilter] = useState<FilterOption>('all');
+  const listRef = useRef<FlashListRef<PostWithNickname>>(null);
+  const shouldScrollToTop = useRef(false);
+
+  const handleSortChange = useCallback((s: SortOption) => {
+    setSort(s);
+    shouldScrollToTop.current = true;
+  }, []);
+
+  const handleFilterChange = useCallback((f: FilterOption) => {
+    setFilter(f);
+    shouldScrollToTop.current = true;
+  }, []);
 
   const {
     data,
@@ -48,6 +61,15 @@ export default function FanTab() {
     refetch,
     isRefetching,
   } = useFanFeed(id ?? '', sort, filter);
+
+  useEffect(() => {
+    if (shouldScrollToTop.current && data) {
+      requestAnimationFrame(() => {
+        listRef.current?.scrollToOffset({ offset: 0, animated: false });
+      });
+      shouldScrollToTop.current = false;
+    }
+  }, [data]);
 
   const posts = data?.pages.flatMap((page) => page) ?? [];
 
@@ -77,15 +99,25 @@ export default function FanTab() {
     return null;
   };
 
-  return (
-    <View className="flex-1 bg-background">
+  const ListHeader = () => (
+    <View>
+      {/* Search icon button */}
+      <View className="flex-row justify-end px-4 pt-2">
+        <Pressable
+          onPress={() => router.push(`/(community)/${id}/post-search` as never)}
+          style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
+          accessibilityRole="button"
+          accessibilityLabel={t('search.accessibilityLabel')}
+        >
+          <Ionicons name="search-outline" size={24} color="#999999" />
+        </Pressable>
+      </View>
       <SortFilterChipBar
         sort={sort}
         filter={filter}
-        onSortChange={setSort}
-        onFilterChange={setFilter}
+        onSortChange={handleSortChange}
+        onFilterChange={handleFilterChange}
       />
-
       {isError && (
         <View className="mx-4 mb-2 bg-card rounded-xl p-4 flex-row items-center justify-between">
           <Text className="text-body text-muted-foreground flex-1">
@@ -101,9 +133,13 @@ export default function FanTab() {
           </Pressable>
         </View>
       )}
+    </View>
+  );
 
-      {/* estimatedItemSize=120 — optimization hint (not a prop in FlashList 2.3.0; upgrade to 2.7+ enables it) */}
+  return (
+    <View className="flex-1 bg-background">
       <FlashList
+        ref={listRef}
         data={posts as PostWithNickname[]}
         getItemType={(item) => ((item as PostWithNickname).media_urls?.length ? 'media' : 'text')}
         renderItem={({ item }) => (
@@ -125,6 +161,7 @@ export default function FanTab() {
             tintColor="#00E5C3"
           />
         }
+        ListHeaderComponent={ListHeader}
         ListFooterComponent={ListFooter}
         ListEmptyComponent={isError ? null : EmptyState}
         contentContainerStyle={{ paddingBottom: 64 }}

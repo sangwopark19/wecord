@@ -1,7 +1,7 @@
 import { View, Text, Pressable, RefreshControl } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from '@wecord/shared/i18n';
 import { useCreatorFeed } from '../../../hooks/post/useCreatorFeed';
 import { PostWithNickname } from '../../../hooks/post/useFanFeed';
@@ -34,6 +34,7 @@ function EmptyState() {
 export default function ArtistTab() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation('community');
+  const router = useRouter();
 
   const {
     activeCommunityType,
@@ -83,6 +84,18 @@ export default function ArtistTab() {
 
   return (
     <View className="flex-1 bg-background">
+      {/* Search icon button */}
+      <View className="flex-row justify-end px-4 pt-2">
+        <Pressable
+          onPress={() => router.push(`/(community)/${communityId}/post-search` as never)}
+          style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
+          accessibilityRole="button"
+          accessibilityLabel={t('search.accessibilityLabel')}
+        >
+          <Ionicons name="search-outline" size={24} color="#999999" />
+        </Pressable>
+      </View>
+
       {/* Artist member scroll — shown only for group communities */}
       {activeCommunityType === 'group' && (
         <ArtistMemberScroll
