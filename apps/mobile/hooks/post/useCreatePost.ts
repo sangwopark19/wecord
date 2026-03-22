@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
-import { Alert } from 'react-native';
+import { readAsStringAsync } from 'expo-file-system/legacy';
+import { decode } from 'base64-arraybuffer';
+import { Platform, Alert } from 'react-native';
 import { supabase } from '../../lib/supabase';
 import { useAuthStore } from '../../stores/authStore';
 
@@ -22,12 +24,19 @@ async function compressAndUploadImage(
     { compress: 0.7, format: SaveFormat.JPEG }
   );
 
-  const response = await fetch(compressed.uri);
-  const blob = await response.blob();
+  let uploadData: ArrayBuffer | Blob;
+
+  if (Platform.OS === 'web') {
+    const response = await fetch(compressed.uri);
+    uploadData = await response.blob();
+  } else {
+    const base64 = await readAsStringAsync(compressed.uri, { encoding: 'base64' });
+    uploadData = decode(base64);
+  }
 
   const { error } = await supabase.storage
     .from('post-media')
-    .upload(path, blob, { contentType: 'image/jpeg', upsert: false });
+    .upload(path, uploadData, { contentType: 'image/jpeg', upsert: false });
 
   if (error) throw error;
 
@@ -39,12 +48,19 @@ async function compressAndUploadImage(
 }
 
 async function uploadVideo(uri: string, path: string): Promise<string> {
-  const response = await fetch(uri);
-  const blob = await response.blob();
+  let uploadData: ArrayBuffer | Blob;
+
+  if (Platform.OS === 'web') {
+    const response = await fetch(uri);
+    uploadData = await response.blob();
+  } else {
+    const base64 = await readAsStringAsync(uri, { encoding: 'base64' });
+    uploadData = decode(base64);
+  }
 
   const { error } = await supabase.storage
     .from('post-media')
-    .upload(path, blob, { contentType: 'video/mp4', upsert: false });
+    .upload(path, uploadData, { contentType: 'video/mp4', upsert: false });
 
   if (error) throw error;
 
@@ -105,9 +121,21 @@ export function useCreatePost() {
 
       return data;
     },
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['fanFeed', variables.communityId] });
       queryClient.invalidateQueries({ queryKey: ['creatorFeed', variables.communityId] });
+
+      // Async moderation — fire and forget (D-19: never block post creation)
+      if (data?.id) {
+        supabase.functions.invoke('moderate', {
+          body: {
+            target_id: data.id,
+            target_type: 'post',
+            content: variables.content,
+            author_id: user?.id,
+          },
+        }).catch(() => {}); // Silently ignore moderation errors
+      }
     },
   });
 }

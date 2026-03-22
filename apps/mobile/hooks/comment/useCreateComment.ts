@@ -57,22 +57,35 @@ export function useCreateComment() {
       const memberRole = memberData?.role ?? 'member';
       const isCreator = memberRole === 'creator';
 
-      const { error } = await supabase.from('comments').insert({
+      const { data, error } = await supabase.from('comments').insert({
         post_id: postId,
         author_id: user.id,
         parent_comment_id: parentCommentId,
         content: content.trim(),
         author_role: isCreator ? 'creator' : 'fan',
         is_creator_reply: isCreator && parentCommentId !== null,
-      });
+      }).select('id').single();
 
       if (error) throw error;
+      return data;
     },
 
-    onSuccess: (_data, { postId }: CreateCommentParams) => {
+    onSuccess: (data, { postId, content, communityId }: CreateCommentParams) => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       // Also invalidate the post to refresh comment_count
       queryClient.invalidateQueries({ queryKey: ['post', postId] });
+
+      // Async moderation — fire and forget (D-19: never block comment creation)
+      if (data?.id) {
+        supabase.functions.invoke('moderate', {
+          body: {
+            target_id: data.id,
+            target_type: 'comment',
+            content,
+            author_id: user?.id,
+          },
+        }).catch(() => {}); // Silently ignore moderation errors
+      }
     },
   });
 }
