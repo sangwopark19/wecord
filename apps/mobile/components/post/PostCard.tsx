@@ -8,6 +8,7 @@ import { LikeButton } from './LikeButton';
 import { useTranslate } from '../../hooks/post/useTranslate';
 import { TranslateButton } from './TranslateButton';
 import { TranslatedTextBlock } from './TranslatedTextBlock';
+import { CommunityChip } from '../home/CommunityChip';
 
 function formatRelativeTime(dateStr: string): string {
   const now = Date.now();
@@ -29,9 +30,10 @@ interface PostCardProps {
   onDelete?: () => void;
   clampLines?: number;
   communityId?: string;
+  showCommunityChip?: boolean;
 }
 
-export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId }: PostCardProps) {
+export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, showCommunityChip }: PostCardProps) {
   const router = useRouter();
   const { translatedText, isTranslated, isLoading, error, translate } = useTranslate(post.id, 'post');
 
@@ -42,6 +44,14 @@ export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId }
 
   return (
     <View className="bg-card rounded-xl p-4 mb-2">
+      {/* Community chip — shown in unified home feed */}
+      {showCommunityChip && (
+        <CommunityChip
+          communityId={post.community_id}
+          communityName={post.community_name}
+        />
+      )}
+
       {/* Tappable content area */}
       <Pressable
         onPress={handlePress}
