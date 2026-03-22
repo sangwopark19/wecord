@@ -28,6 +28,7 @@ interface CommentRowProps {
   onReply: (commentId: string) => void;
   onLike: () => void;
   onDelete?: () => void;
+  onReport?: () => void;
 }
 
 export function CommentRow({
@@ -36,6 +37,7 @@ export function CommentRow({
   onReply,
   onLike,
   onDelete,
+  onReport,
 }: CommentRowProps) {
   const isCreator = comment.author_role === 'creator';
   const isOwnComment = currentUserId === comment.author_id;
@@ -110,6 +112,18 @@ export function CommentRow({
                 accessibilityLabel="댓글 삭제"
               >
                 <Ionicons name="trash-outline" size={16} color="#999999" />
+              </Pressable>
+            )}
+
+            {!isOwnComment && onReport && (
+              <Pressable
+                onPress={onReport}
+                className="items-center justify-center"
+                style={{ minHeight: 44, minWidth: 44 }}
+                accessibilityRole="button"
+                accessibilityLabel="신고"
+              >
+                <Ionicons name="ellipsis-horizontal" size={16} color="#999999" />
               </Pressable>
             )}
           </View>

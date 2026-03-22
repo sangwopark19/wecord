@@ -27,9 +27,10 @@ interface ReplyRowProps {
   currentUserId?: string;
   onLike: () => void;
   onDelete?: () => void;
+  onReport?: () => void;
 }
 
-export function ReplyRow({ comment, currentUserId, onLike, onDelete }: ReplyRowProps) {
+export function ReplyRow({ comment, currentUserId, onLike, onDelete, onReport }: ReplyRowProps) {
   // is_creator_reply drives the creator highlight on reply rows
   const isCreatorReply = comment.is_creator_reply;
   const isOwnComment = currentUserId === comment.author_id;
@@ -96,6 +97,18 @@ export function ReplyRow({ comment, currentUserId, onLike, onDelete }: ReplyRowP
                 accessibilityLabel="댓글 삭제"
               >
                 <Ionicons name="trash-outline" size={16} color="#999999" />
+              </Pressable>
+            )}
+
+            {!isOwnComment && onReport && (
+              <Pressable
+                onPress={onReport}
+                className="items-center justify-center"
+                style={{ minHeight: 44, minWidth: 44 }}
+                accessibilityRole="button"
+                accessibilityLabel="신고"
+              >
+                <Ionicons name="ellipsis-horizontal" size={16} color="#999999" />
               </Pressable>
             )}
           </View>

@@ -11,6 +11,7 @@ import { TranslateButton } from './TranslateButton';
 import { TranslatedTextBlock } from './TranslatedTextBlock';
 import { CommunityChip } from '../home/CommunityChip';
 import { HighlightedText } from '../search/HighlightedText';
+import { showDeleteConfirmDialog } from './DeleteConfirmDialog';
 
 function formatRelativeTime(dateStr: string): string {
   const now = Date.now();
@@ -30,16 +31,29 @@ interface PostCardProps {
   post: PostWithNickname;
   onLike?: () => void;
   onDelete?: () => void;
+  onReport?: () => void;
   clampLines?: number;
   communityId?: string;
   showCommunityChip?: boolean;
   highlightQuery?: string;
 }
 
-export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, showCommunityChip, highlightQuery }: PostCardProps) {
+export function PostCard({ post, onLike, onDelete, onReport, clampLines = 3, communityId, showCommunityChip, highlightQuery }: PostCardProps) {
   const router = useRouter();
   const { user } = useAuthStore();
   const { translatedText, isTranslated, isLoading, error, translate } = useTranslate(post.id, 'post');
+
+  const isOwnPost = post.author_id === user?.id;
+
+  const handleMorePress = () => {
+    if (isOwnPost && onDelete) {
+      showDeleteConfirmDialog(onDelete);
+    } else if (!isOwnPost && onReport) {
+      onReport();
+    }
+  };
+
+  const showMoreButton = (isOwnPost && onDelete) || (!isOwnPost && onReport);
 
   const handlePostPress = () => {
     const cid = communityId ?? post.community_id;
@@ -149,9 +163,9 @@ export function PostCard({ post, onLike, onDelete, clampLines = 3, communityId, 
         </View>
 
         {/* More menu */}
-        {onDelete && (
+        {showMoreButton && (
           <Pressable
-            onPress={onDelete}
+            onPress={handleMorePress}
             className="ml-auto w-11 h-11 items-center justify-center"
             accessibilityRole="button"
             accessibilityLabel="더보기"

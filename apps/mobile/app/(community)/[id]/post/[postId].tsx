@@ -24,6 +24,7 @@ import { PostCard } from '../../../../components/post/PostCard';
 import { LikeButton } from '../../../../components/post/LikeButton';
 import { CommentRow } from '../../../../components/comment/CommentRow';
 import { ReplyRow } from '../../../../components/comment/ReplyRow';
+import { ReportBottomSheet } from '../../../../components/report/ReportBottomSheet';
 import { showDeleteConfirmDialog } from '../../../../components/post/DeleteConfirmDialog';
 import { PostWithNickname } from '../../../../hooks/post/useFanFeed';
 
@@ -44,6 +45,10 @@ export default function PostDetailScreen() {
   const [replyTarget, setReplyTarget] = useState<{
     commentId: string;
     nickname: string;
+  } | null>(null);
+  const [reportTarget, setReportTarget] = useState<{
+    type: 'post' | 'comment';
+    id: string;
   } | null>(null);
 
   const postQueryKey = ['post', postId];
@@ -201,16 +206,8 @@ export default function PostDetailScreen() {
               communityId={id}
               onLike={handlePostLike}
               onDelete={isOwnPost ? handleDeletePost : undefined}
+              onReport={!isOwnPost ? () => setReportTarget({ type: 'post', id: post.id }) : undefined}
             />
-            {/* Like button for post overlaid to replace the inline pressable in PostCard */}
-            <View className="flex-row items-center mt-1 pl-1">
-              <LikeButton
-                isLiked={post.isLiked}
-                likeCount={post.like_count}
-                onPress={handlePostLike}
-                size="md"
-              />
-            </View>
           </View>
 
           {/* Comment section */}
@@ -245,6 +242,11 @@ export default function PostDetailScreen() {
                             })
                         : undefined
                     }
+                    onReport={
+                      user?.id !== rootComment.author_id
+                        ? () => setReportTarget({ type: 'comment', id: rootComment.id })
+                        : undefined
+                    }
                   />
                   {rootComment.replies.map((reply) => (
                     <ReplyRow
@@ -259,6 +261,11 @@ export default function PostDetailScreen() {
                                 commentId: reply.id,
                                 postId: postId ?? '',
                               })
+                          : undefined
+                      }
+                      onReport={
+                        user?.id !== reply.author_id
+                          ? () => setReportTarget({ type: 'comment', id: reply.id })
                           : undefined
                       }
                     />
@@ -330,6 +337,14 @@ export default function PostDetailScreen() {
           )}
         </View>
       </KeyboardAvoidingView>
+
+      {/* Report bottom sheet */}
+      <ReportBottomSheet
+        visible={!!reportTarget}
+        targetType={reportTarget?.type ?? 'post'}
+        targetId={reportTarget?.id ?? ''}
+        onClose={() => setReportTarget(null)}
+      />
     </SafeAreaView>
   );
 }
