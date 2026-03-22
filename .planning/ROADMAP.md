@@ -130,7 +130,7 @@ Plans:
 - [x] 06-04-PLAN.md — moderate Edge Function (banned words + OpenAI Moderation API + spam rate limit), wire into post/comment creation hooks (async fire-and-forget)
 - [x] 06-05-PLAN.md — Admin moderation page (report queue table + side panel with content preview, graduated sanctions, sanction history, content soft-delete)
 - [x] 06-06-PLAN.md — Admin CRUD pages: communities, creators, members (with artist member registration), promotion banners
-- [ ] 06-07-PLAN.md — Analytics dashboard (recharts line charts, stat cards, 7d/30d/90d presets, top 10 communities table)
+- [x] 06-07-PLAN.md — Analytics dashboard (recharts line charts, stat cards, 7d/30d/90d presets, top 10 communities table)
 
 ### Phase 7: Launch Polish
 **Goal**: All remaining user-facing surfaces are complete and the app is ready for App Store and Play Store submission
