@@ -1,0 +1,16 @@
+{
+  "menuItem": "通報",
+  "selectReason": "通報理由を選択",
+  "reason": {
+    "hate": "ヘイトスピーチ",
+    "spam": "スパム",
+    "violence": "暴力",
+    "copyright": "著作権侵害",
+    "other": "その他"
+  },
+  "otherPlaceholder": "通報理由を入力してください",
+  "submit": "通報する",
+  "submitted": "通報が送信されました",
+  "duplicate": "すでに通報済みです",
+  "error": "通報の送信に失敗しました。もう一度お試しください。"
+}

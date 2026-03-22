@@ -1,0 +1,16 @@
+{
+  "menuItem": "Report",
+  "selectReason": "Select report reason",
+  "reason": {
+    "hate": "Hate speech",
+    "spam": "Spam",
+    "violence": "Violence",
+    "copyright": "Copyright infringement",
+    "other": "Other"
+  },
+  "otherPlaceholder": "Please describe the reason",
+  "submit": "Submit Report",
+  "submitted": "Report has been submitted",
+  "duplicate": "Already reported",
+  "error": "Failed to submit report. Please try again."
+}

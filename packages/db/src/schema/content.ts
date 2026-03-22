@@ -23,6 +23,7 @@ export const postsWithNicknameViewSql = sql`
   JOIN community_members cm ON cm.user_id = p.author_id AND cm.community_id = p.community_id
   LEFT JOIN artist_members am ON am.id = p.artist_member_id
   JOIN communities c ON c.id = p.community_id
+  WHERE p.deleted_at IS NULL
 `;
 
 export const posts = pgTable(
@@ -48,6 +49,7 @@ export const posts = pgTable(
     likeCount: integer('like_count').notNull().default(0),
     commentCount: integer('comment_count').notNull().default(0),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },
   (table) => [
     // SELECT: community members only
@@ -134,6 +136,7 @@ export const comments = pgTable(
     isCreatorReply: boolean('is_creator_reply').notNull().default(false),
     likeCount: integer('like_count').notNull().default(0),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },
   (table) => [
     // SELECT: community members (join through post -> community)

@@ -1,0 +1,16 @@
+{
+  "menuItem": "举报",
+  "selectReason": "选择举报原因",
+  "reason": {
+    "hate": "仇恨言论",
+    "spam": "垃圾信息",
+    "violence": "暴力内容",
+    "copyright": "侵犯版权",
+    "other": "其他"
+  },
+  "otherPlaceholder": "请描述举报原因",
+  "submit": "提交举报",
+  "submitted": "举报已提交",
+  "duplicate": "已举报",
+  "error": "举报提交失败，请重试。"
+}
