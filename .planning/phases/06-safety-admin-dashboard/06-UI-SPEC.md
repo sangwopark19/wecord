@@ -53,13 +53,13 @@ Exceptions:
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body | 14px | 400 (regular) | 1.5 |
-| Label | 12px | 500 (medium) | 1.4 |
+| Label | 12px | 400 (regular) | 1.4 |
 | Heading | 20px | 600 (semibold) | 1.2 |
 | Display | 28px | 600 (semibold) | 1.2 |
 
 Usage in this phase:
 - **Body (14px/400):** Table cell text, report details, form inputs, sidebar menu labels, chart axis labels
-- **Label (12px/500):** Badge text, table column headers, stat card labels, date range preset buttons, muted helper text
+- **Label (12px/400):** Badge text, table column headers, stat card labels, date range preset buttons, muted helper text. Visual distinction from body comes from the smaller size (12px vs 14px), not weight.
 - **Heading (20px/600):** Page titles ("Moderation", "Analytics"), section headers, side panel title
 - **Display (28px/600):** Dashboard stat card numbers (DAU, MAU), analytics highlight values
 
@@ -76,7 +76,7 @@ Usage in this phase:
 
 Accent reserved for:
 - Active sidebar menu item indicator (left border or background highlight)
-- Primary action buttons ("Take Action", "Save", "Create")
+- Primary action buttons ("Take Action", "Save Changes", "Create")
 - Chart line stroke color (primary metric line)
 - Stat card trend-up indicators
 - Active date range preset button
@@ -133,6 +133,18 @@ Additional semantic colors:
 
 ---
 
+## Focal Points
+
+| Screen | Focal Point |
+|--------|-------------|
+| Dashboard (home) | Stat cards row (DAU/WAU/MAU/Signups) -- the first thing the admin sees and reads |
+| Moderation | Report queue table -- the pending-reports table dominates the page and drives all actions |
+| Analytics | Line chart panel -- the DAU time-series chart is the primary visual anchor |
+| Communities / Creators / Members / Banners / Notices | DataTable -- the paginated list is the central element on all CRUD pages |
+| Mobile Report | Reason list -- the 5 vertically stacked reason rows are the sole interactive focus |
+
+---
+
 ## Interaction Contracts
 
 ### Mobile: Report Flow
@@ -161,6 +173,7 @@ Additional semantic colors:
 4. **Side panel content:** Full original content text + media preview + list of report reasons with counts + reporter count + "Take Action" button area
 5. **Take Action flow:** Dropdown select (warning / 7-day ban / 30-day ban / permanent ban) + reason textarea (required) + "Apply Sanction" button (accent) + "Delete Content" button (destructive)
 6. **Confirm destructive:** AlertDialog confirmation before applying any sanction or deleting content
+7. **Dismiss side panel:** "Close Panel" button (outline/ghost) or click outside the panel to dismiss without action
 
 ### Admin: Analytics Dashboard
 
@@ -223,7 +236,8 @@ Additional semantic colors:
 | Create banner CTA | Create Banner |
 | Create notice CTA | Create Notice |
 | Save CTA | Save Changes |
-| Cancel CTA | Cancel |
+| Dismiss side panel | Close Panel |
+| Discard form changes | Discard Changes |
 
 ---
 
