@@ -100,7 +100,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **HOME-02**: User with 1+ communities sees unified feed (Instagram-style infinite scroll)
 - [ ] **HOME-03**: Each post in unified feed shows community shortcut link
 - [ ] **HOME-04**: Home header shows Wecord logo + notification bell with badge
-- [ ] **HOME-05**: Home shows promotion banner carousel (admin-managed)
+- [x] **HOME-05**: Home shows promotion banner carousel (admin-managed)
 
 ### Highlight Tab
 
@@ -129,7 +129,7 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **FLLW-01**: User can follow/unfollow other members within same community
 - [ ] **FLLW-02**: User can view follower/following list
 - [ ] **FLLW-03**: User can view community profile page (nickname, posts, comments, follower count)
-- [ ] **FLLW-04**: Following is restricted to same community members only (RLS enforced)
+- [x] **FLLW-04**: Following is restricted to same community members only (RLS enforced)
 
 ### Reporting & Safety
 
