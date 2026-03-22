@@ -161,10 +161,10 @@ Requirements for MVP release. Each maps to roadmap phases.
 - [ ] **ADMN-02**: Admin can create/manage creator accounts
 - [ ] **ADMN-03**: Admin can register/manage artist members per community
 - [ ] **ADMN-04**: Admin can view community member list and statistics
-- [ ] **ADMN-05**: Admin can view report queue (sorted by count)
-- [ ] **ADMN-06**: Admin can preview reported content and take action (delete/warn/ban)
-- [ ] **ADMN-07**: Admin can apply graduated sanctions (warning → 7d ban → 30d ban → permanent)
-- [ ] **ADMN-08**: Admin can view sanction history and handle appeals
+- [x] **ADMN-05**: Admin can view report queue (sorted by count)
+- [x] **ADMN-06**: Admin can preview reported content and take action (delete/warn/ban)
+- [x] **ADMN-07**: Admin can apply graduated sanctions (warning → 7d ban → 30d ban → permanent)
+- [x] **ADMN-08**: Admin can view sanction history and handle appeals
 - [x] **ADMN-09**: Admin can view basic analytics dashboard (DAU/WAU/MAU, posts/comments per community, new signups)
 - [ ] **ADMN-10**: Admin can create/edit/delete promotion banners for home carousel
 - [x] **ADMN-11**: Admin can create/manage notices per community

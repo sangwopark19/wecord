@@ -121,7 +121,7 @@ Plans:
   3. Spam rate limiting is enforced: more than 5 posts per minute results in a 1-hour temporary block
   4. Admin can view the report queue sorted by report count, preview reported content, and apply graduated sanctions (warning → 7d ban → 30d ban → permanent ban) with full sanction history
   5. Admin can create/edit/delete communities and creator accounts, register artist members, view member statistics, manage promotion banners, manage notices, and view the analytics dashboard (DAU/WAU/MAU, posts/comments per community, new signups)
-**Plans:** 7 plans
+**Plans:** 5/7 plans executed
 
 Plans:
 - [x] 06-01-PLAN.md — DB migration (soft delete, banned_words, analytics functions), i18n report namespace, mobile report hook (TDD)
@@ -159,5 +159,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Community & Core Content | 5/5 | Complete   | 2026-03-20 |
 | 4. Highlights, Notices, Notifications & Translation | 6/6 | Complete   | 2026-03-21 |
 | 5. Home Feed, Search & Community Social | 3/4 | Gap closure | 2026-03-22 |
-| 6. Safety & Admin Dashboard | 0/7 | Not started | - |
+| 6. Safety & Admin Dashboard | 5/7 | In Progress|  |
 | 7. Launch Polish | 0/2 | Not started | - |
