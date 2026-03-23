@@ -55,7 +55,6 @@ export function NotificationRow({ notification, onPress }: NotificationRowProps)
         minHeight: 44,
         paddingHorizontal: 16,
         paddingVertical: 12,
-        backgroundColor: isUnread ? 'transparent' : 'transparent',
       }}
       className={isUnread ? 'bg-card' : 'bg-background'}
     >

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import type { Notification } from './useNotifications';
 
-export function useMarkNotificationRead(communityId: string) {
+export function useMarkNotificationRead(userId: string, communityId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -14,11 +14,10 @@ export function useMarkNotificationRead(communityId: string) {
       if (error) throw error;
     },
     onMutate: async (notificationId: string) => {
-      // Optimistic update: immediately set is_read in cache
-      await queryClient.cancelQueries({ queryKey: ['notifications', communityId] });
-      const previous = queryClient.getQueryData<Notification[]>(['notifications', communityId]);
+      await queryClient.cancelQueries({ queryKey: ['notifications', userId, communityId] });
+      const previous = queryClient.getQueryData<Notification[]>(['notifications', userId, communityId]);
 
-      queryClient.setQueryData<Notification[]>(['notifications', communityId], (old) =>
+      queryClient.setQueryData<Notification[]>(['notifications', userId, communityId], (old) =>
         (old ?? []).map((n) =>
           n.id === notificationId ? { ...n, is_read: true } : n
         )
@@ -28,16 +27,16 @@ export function useMarkNotificationRead(communityId: string) {
     },
     onError: (_err, _id, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(['notifications', communityId], context.previous);
+        queryClient.setQueryData(['notifications', userId, communityId], context.previous);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', communityId] });
+      queryClient.invalidateQueries({ queryKey: ['notifications', userId, communityId] });
     },
   });
 }
 
-export function useMarkAllRead(communityId: string) {
+export function useMarkAllRead(userId: string, communityId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -50,10 +49,10 @@ export function useMarkAllRead(communityId: string) {
       if (error) throw error;
     },
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['notifications', communityId] });
-      const previous = queryClient.getQueryData<Notification[]>(['notifications', communityId]);
+      await queryClient.cancelQueries({ queryKey: ['notifications', userId, communityId] });
+      const previous = queryClient.getQueryData<Notification[]>(['notifications', userId, communityId]);
 
-      queryClient.setQueryData<Notification[]>(['notifications', communityId], (old) =>
+      queryClient.setQueryData<Notification[]>(['notifications', userId, communityId], (old) =>
         (old ?? []).map((n) => ({ ...n, is_read: true }))
       );
 
@@ -61,11 +60,11 @@ export function useMarkAllRead(communityId: string) {
     },
     onError: (_err, _vars, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(['notifications', communityId], context.previous);
+        queryClient.setQueryData(['notifications', userId, communityId], context.previous);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', communityId] });
+      queryClient.invalidateQueries({ queryKey: ['notifications', userId, communityId] });
     },
   });
 }

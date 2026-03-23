@@ -1,8 +1,9 @@
-import { View, Text, Pressable, SectionList, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, SectionList, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@wecord/shared/i18n';
+import { useAuthStore } from '../../../stores/authStore';
 import { useNotifications, type Notification } from '../../../hooks/notification/useNotifications';
 import {
   useMarkNotificationRead,
@@ -42,7 +43,6 @@ function groupNotifications(
     } else if (created >= weekAgo) {
       thisWeekItems.push(n);
     }
-    // Older than a week: excluded from grouped list
   }
 
   const sections: NotificationSection[] = [];
@@ -57,24 +57,29 @@ export default function NotificationsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { t } = useTranslation('notification');
+  const { user } = useAuthStore();
 
   const communityId = id ?? '';
   const { data: notifications, isLoading, isError } = useNotifications(communityId);
-  const markRead = useMarkNotificationRead(communityId);
-  const markAllRead = useMarkAllRead(communityId);
+  const markRead = useMarkNotificationRead(user?.id ?? '', communityId);
+  const markAllRead = useMarkAllRead(user?.id ?? '', communityId);
 
   const handleNotificationPress = (notification: Notification) => {
-    // Mark as read
     if (!notification.is_read) {
       markRead.mutate(notification.id);
     }
 
-    // Navigate to deep link
     if (notification.data?.post_id) {
       router.push(`/(community)/${communityId}/post/${notification.data.post_id}` as never);
     } else if (notification.data?.notice_id) {
       router.push(`/(community)/${communityId}/notices` as never);
     }
+  };
+
+  const handleMarkAllRead = () => {
+    markAllRead.mutate(undefined, {
+      onSuccess: () => Alert.alert('', t('markAllReadSuccess', { defaultValue: '모든 알림을 읽음 처리했습니다' })),
+    });
   };
 
   const sections = groupNotifications(notifications ?? [], {
@@ -90,7 +95,6 @@ export default function NotificationsScreen() {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-between',
           paddingHorizontal: 16,
           paddingVertical: 12,
           borderBottomWidth: 1,
@@ -106,14 +110,24 @@ export default function NotificationsScreen() {
           <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
         </Pressable>
 
-        <Text className="text-display font-semibold text-foreground">
+        <Text className="text-display font-semibold text-foreground" style={{ flex: 1 }}>
           {t('title')}
         </Text>
 
         <Pressable
-          onPress={() => markAllRead.mutate()}
+          onPress={() => router.push(`/(community)/${communityId}/notification-preferences` as never)}
           accessibilityRole="button"
-          style={{ minHeight: 44, justifyContent: 'center', paddingLeft: 8 }}
+          accessibilityLabel="알림 설정"
+          style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 8 }}
+        >
+          <Ionicons name="settings-outline" size={22} color="#FFFFFF" />
+        </Pressable>
+
+        <Pressable
+          onPress={handleMarkAllRead}
+          disabled={markAllRead.isPending}
+          accessibilityRole="button"
+          style={{ minHeight: 44, justifyContent: 'center', paddingLeft: 8, opacity: markAllRead.isPending ? 0.5 : 1 }}
         >
           <Text style={{ color: '#00E5C3' }} className="text-body">
             모두 읽음
