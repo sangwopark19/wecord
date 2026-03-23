@@ -21,7 +21,7 @@ function HomeNotificationBell() {
 
   return (
     <Pressable
-      onPress={() => router.push('/(community)/notifications' as never)}
+      onPress={() => router.push('/(tabs)/notifications' as never)}
       accessibilityRole="button"
       accessibilityLabel={count > 0 ? `알림, ${count}개 읽지 않음` : '알림'}
       style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}
