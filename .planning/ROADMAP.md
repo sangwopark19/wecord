@@ -84,14 +84,17 @@ Plans:
   3. User receives push notification for creator posts, comments on own posts, liked posts, followed member posts, and notices — all via async pgmq fan-out (post creation is not blocked)
   4. Unread notification badge on the bell icon updates in real-time via Supabase Realtime
   5. User can tap a translate button on any post or comment to see the translated text in their preferred language; results are cached (post_translations table) and the user can toggle between original and translated
-**Plans:** 6/6 plans complete
+**Plans:** 8 plans (6 complete + 2 gap closure)
 
 Plans:
 - [x] 04-00-PLAN.md — Wave 0: test stub files for Phase 4 hooks (Nyquist compliance) (completed 2026-03-21)
-- [ ] 04-01-PLAN.md — DB migration (push_tokens, notifications.community_id), Supabase extensions (pgmq/pg_cron/pg_net), highlight Edge Function, Highlight tab UI (5 sections), i18n namespaces (highlight/notification/notice/translation)
-- [ ] 04-02-PLAN.md — Admin notice CRUD (Next.js + shadcn), mobile notice list/detail screens, pg_cron scheduled publishing, pgmq async fan-out notice-publish trigger
-- [ ] 04-03-PLAN.md — notify Edge Function (Expo Push API fan-out), pgmq-based DB triggers (creator post/comment/like), push token registration, notification list/preferences screens, bell badge with Realtime (NOTF-08)
-- [ ] 04-04-PLAN.md — translate Edge Function (cache-first: DB -> Google Translate API -> DB), TranslateButton/TranslatedTextBlock components, wire into PostCard/CommentRow/ReplyRow
+- [x] 04-01-PLAN.md — DB migration (push_tokens, notifications.community_id), Supabase extensions (pgmq/pg_cron/pg_net), highlight Edge Function, Highlight tab UI (5 sections), i18n namespaces (highlight/notification/notice/translation)
+- [x] 04-02-PLAN.md — Admin notice CRUD (Next.js + shadcn), mobile notice list/detail screens, pg_cron scheduled publishing, pgmq async fan-out notice-publish trigger
+- [x] 04-03-PLAN.md — notify Edge Function (Expo Push API fan-out), pgmq-based DB triggers (creator post/comment/like), push token registration, notification list/preferences screens, bell badge with Realtime (NOTF-08)
+- [x] 04-04-PLAN.md — translate Edge Function (cache-first: DB -> Google Translate API -> DB), TranslateButton/TranslatedTextBlock components, wire into PostCard/CommentRow/ReplyRow
+- [x] 04-05-PLAN.md — UAT fixes (push token crash, edge function deployment, admin env, notifications query)
+- [ ] 04-06-PLAN.md — Gap closure: global notifications route for home tab bell, fix community badge NULL community_id filter
+- [ ] 04-07-PLAN.md — Gap closure: notification read state UX (query key fix, row bg, markAll feedback, settings link), translate API key setup
 
 ### Phase 5: Home Feed, Search & Community Social
 **Goal**: Returning users see a unified cross-community feed; new users see curated recommendations; users can find content and connect with other members within communities
@@ -157,7 +160,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Foundation | 4/4 | Complete   | 2026-03-18 |
 | 2. Auth & Onboarding | 2/2 | Complete   | 2026-03-18 |
 | 3. Community & Core Content | 5/5 | Complete   | 2026-03-20 |
-| 4. Highlights, Notices, Notifications & Translation | 6/6 | Complete   | 2026-03-21 |
-| 5. Home Feed, Search & Community Social | 3/4 | Gap closure | 2026-03-22 |
-| 6. Safety & Admin Dashboard | 5/7 | In Progress|  |
+| 4. Highlights, Notices, Notifications & Translation | 6/8 | Gap closure | 2026-03-21 |
+| 5. Home Feed, Search & Community Social | 4/4 | Complete | 2026-03-22 |
+| 6. Safety & Admin Dashboard | 7/7 | Complete |  |
 | 7. Launch Polish | 0/2 | Not started | - |
