@@ -12,7 +12,7 @@ export function useUnreadNotificationCount(userId: string, communityId: string):
       .from('notifications')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
-      .eq('community_id', communityId)
+      .or(`community_id.eq.${communityId},community_id.is.null`)
       .eq('is_read', false)
       .then(({ count: initialCount }) => {
         setCount(initialCount ?? 0);
@@ -47,7 +47,7 @@ export function useUnreadNotificationCount(userId: string, communityId: string):
             .from('notifications')
             .select('*', { count: 'exact', head: true })
             .eq('user_id', userId)
-            .eq('community_id', communityId)
+            .or(`community_id.eq.${communityId},community_id.is.null`)
             .eq('is_read', false)
             .then(({ count: newCount }) => {
               setCount(newCount ?? 0);
