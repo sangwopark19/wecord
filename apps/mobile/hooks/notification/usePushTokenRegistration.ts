@@ -34,17 +34,21 @@ async function registerForPushNotificationsAsync(userId: string) {
     });
   }
 
-  const tokenData = await Notifications.getExpoPushTokenAsync({
-    projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID,
-  });
+  try {
+    const tokenData = await Notifications.getExpoPushTokenAsync({
+      projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID,
+    });
 
-  await supabase.from('push_tokens').upsert(
-    {
-      user_id: userId,
-      token: tokenData.data,
-      platform: Platform.OS,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: 'user_id' }
-  );
+    await supabase.from('push_tokens').upsert(
+      {
+        user_id: userId,
+        token: tokenData.data,
+        platform: Platform.OS,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id' }
+    );
+  } catch (e) {
+    console.warn('Push token registration failed (expected in Expo Go):', e);
+  }
 }

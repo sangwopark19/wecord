@@ -74,7 +74,26 @@ export default function NoticesPage() {
         .order('created_at', { ascending: false }),
       supabaseAdmin.from('communities').select('id, name'),
     ]);
-    if (noticesRes.data) setNotices(noticesRes.data as Notice[]);
+
+    let fetchedNotices = (noticesRes.data ?? []) as Notice[];
+
+    // Auto-publish scheduled notices whose scheduled_at is in the past
+    const now = new Date().toISOString();
+    const pastScheduled = fetchedNotices.filter(
+      (n) => n.scheduled_at && !n.published_at && n.scheduled_at <= now
+    );
+    if (pastScheduled.length > 0) {
+      const ids = pastScheduled.map((n) => n.id);
+      await supabaseAdmin
+        .from('notices')
+        .update({ published_at: now })
+        .in('id', ids);
+      fetchedNotices = fetchedNotices.map((n) =>
+        ids.includes(n.id) ? { ...n, published_at: now } : n
+      );
+    }
+
+    setNotices(fetchedNotices);
     if (communitiesRes.data) setCommunities(communitiesRes.data as Community[]);
     setLoading(false);
   }

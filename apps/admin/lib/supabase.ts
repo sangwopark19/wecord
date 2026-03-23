@@ -1,9 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { supabaseBrowser } from './supabase-browser';
 
-export const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
-    auth: { autoRefreshToken: false, persistSession: false },
-  }
-);
+// Re-export browser client as supabaseAdmin for dashboard pages
+// All dashboard pages are client components, so they need the browser client
+export const supabaseAdmin = supabaseBrowser;

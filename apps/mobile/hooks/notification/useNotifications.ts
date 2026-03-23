@@ -16,12 +16,12 @@ export function useNotifications(communityId: string) {
   const { user } = useAuthStore();
 
   return useQuery<Notification[]>({
-    queryKey: ['notifications', communityId],
+    queryKey: ['notifications', user?.id, communityId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('notifications')
         .select('id, type, title, body, data, is_read, created_at')
-        .eq('community_id', communityId)
+        .eq('user_id', user!.id)
         .order('created_at', { ascending: false })
         .limit(50);
       if (error) throw error;

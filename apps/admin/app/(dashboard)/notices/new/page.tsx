@@ -79,12 +79,15 @@ export default function NewNoticePage() {
 
     setSubmitting(true);
     try {
+      const { data: { user } } = await supabaseAdmin.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
       const uploadedUrls =
         imageFiles.length > 0 ? await uploadImages() : [];
 
       const insertData = {
         community_id: communityId,
-        author_id: '00000000-0000-0000-0000-000000000000', // admin placeholder
+        author_id: user.id,
         title: title.trim(),
         content: body.trim(),
         media_urls: uploadedUrls.length > 0 ? uploadedUrls : null,
