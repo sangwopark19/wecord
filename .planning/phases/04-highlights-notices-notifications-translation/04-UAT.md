@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 04-highlights-notices-notifications-translation
 source: [04-00-SUMMARY.md, 04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03-SUMMARY.md, 04-04-SUMMARY.md, 04-05-SUMMARY.md]
 started: 2026-03-22T00:00:00Z
-updated: 2026-03-23T03:25:00Z
+updated: 2026-03-23T03:30:00Z
 ---
 
 ## Current Test
@@ -82,47 +82,72 @@ blocked: 0
   reason: "User reported: 미읽은 알림 빨간색 원형배지 알림이 앱 홈탭에선 뜨는데 커뮤니티 내부에선 안뜸"
   severity: major
   test: 6
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "useUnreadNotificationCount가 community_id로 필터하지만, 테스트 데이터의 community_id가 NULL이라 항상 0 반환"
+  artifacts:
+    - path: "apps/mobile/hooks/notification/useUnreadNotificationCount.ts"
+      issue: "community_id 필터가 NULL 데이터와 불일치"
+    - path: "packages/supabase/migrations/20260320100000_phase4_push_tokens_community_id.sql"
+      issue: "nullable community_id 추가 시 backfill 누락"
+  missing:
+    - "기존 notifications 데이터의 community_id backfill"
+  debug_session: ".planning/debug/notification-badge-community.md"
 
 - truth: "벨 아이콘 탭 시 알림 목록 화면으로 이동하고 시간별 그룹화된 알림 표시"
   status: failed
   reason: "User reported: 앱 홈탭에서 알림을 클릭하면 무한로딩됨"
   severity: blocker
   test: 7
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "HomeNotificationBell이 /(community)/notifications로 이동 → Expo Router가 [id]=notifications로 해석 → 존재하지 않는 커뮤니티 조회 → 무한 로딩"
+  artifacts:
+    - path: "apps/mobile/app/(tabs)/index.tsx"
+      issue: "line 24: 잘못된 네비게이션 경로 '/(community)/notifications'"
+  missing:
+    - "글로벌 알림 화면 라우트 생성 또는 홈탭 벨 네비게이션 경로 수정"
+  debug_session: ".planning/debug/notification-list-loading.md"
 
 - truth: "알림 탭 시 읽음 처리 및 관련 콘텐츠로 이동, 모두 읽음 버튼 피드백"
   status: failed
   reason: "User reported: 알림 텍스트를 눌러도 아무반응 없음. 모두 읽음 버튼을 누르면 전부 읽음 처리는 되는거같은데 어떤 반응이 없어서 사용자가 헷갈림"
   severity: major
   test: 8
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "3가지: (1) useMarkNotificationRead query key가 useNotifications와 불일치 → 캐시 무효화 실패, (2) NotificationRow inline backgroundColor가 NativeWind 클래스 오버라이드, (3) 모두 읽음 버튼에 피드백 UI 없음"
+  artifacts:
+    - path: "apps/mobile/hooks/notification/useMarkNotificationRead.ts"
+      issue: "query key 2세그먼트 vs useNotifications 3세그먼트 불일치"
+    - path: "apps/mobile/components/notification/NotificationRow.tsx"
+      issue: "line 58: inline backgroundColor가 항상 transparent → NativeWind 클래스 무효화"
+    - path: "apps/mobile/app/(community)/[id]/notifications.tsx"
+      issue: "markAllRead에 onSuccess 콜백/피드백 없음"
+  missing:
+    - "query key 통일 (userId 포함)"
+    - "inline backgroundColor 제거"
+    - "모두 읽음 성공 피드백 추가"
+  debug_session: ".planning/debug/notification-tap-readall.md"
 
 - truth: "알림 설정 화면에서 4개의 스위치로 알림 타입별 on/off 제어"
   status: failed
   reason: "User reported: 알림 설정화면이 보이지 않음"
   severity: major
   test: 9
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "notification-preferences.tsx 화면은 구현되어 있지만, 앱 어디서도 이 라우트로 이동하는 버튼/링크가 없음 (orphaned route)"
+  artifacts:
+    - path: "apps/mobile/app/(community)/[id]/notifications.tsx"
+      issue: "헤더에 설정 아이콘/버튼 누락"
+    - path: "apps/mobile/app/(community)/[id]/notification-preferences.tsx"
+      issue: "완전히 구현되어 있지만 접근 불가"
+  missing:
+    - "알림 목록 헤더에 설정 아이콘 추가 → notification-preferences 라우트로 이동"
+  debug_session: ".planning/debug/notification-settings-missing.md"
 
 - truth: "번역 버튼 탭 시 번역된 텍스트가 원문 아래에 표시"
   status: failed
   reason: "User reported: Translation failed. Please try again. 에러 — Edge Function translate가 500 Internal Server Error 반환"
   severity: blocker
   test: 10
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "GOOGLE_TRANSLATE_API_KEY Supabase secret이 원격 프로젝트에 설정되지 않음 — 코드 문제 아님, 배포 설정 누락"
+  artifacts:
+    - path: "packages/supabase/functions/translate/index.ts"
+      issue: "line 57-63: API 키 없으면 500 반환 (의도된 동작)"
+  missing:
+    - "Google Cloud Translation API 키 생성 및 supabase secrets set으로 등록"
+  debug_session: ".planning/debug/translate-edge-function-500.md"
