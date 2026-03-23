@@ -93,7 +93,7 @@ Plans:
 - [x] 04-03-PLAN.md — notify Edge Function (Expo Push API fan-out), pgmq-based DB triggers (creator post/comment/like), push token registration, notification list/preferences screens, bell badge with Realtime (NOTF-08)
 - [x] 04-04-PLAN.md — translate Edge Function (cache-first: DB -> Google Translate API -> DB), TranslateButton/TranslatedTextBlock components, wire into PostCard/CommentRow/ReplyRow
 - [x] 04-05-PLAN.md — UAT fixes (push token crash, edge function deployment, admin env, notifications query)
-- [ ] 04-06-PLAN.md — Gap closure: global notifications route for home tab bell, fix community badge NULL community_id filter
+- [x] 04-06-PLAN.md — Gap closure: global notifications route for home tab bell, fix community badge NULL community_id filter
 - [ ] 04-07-PLAN.md — Gap closure: notification read state UX (query key fix, row bg, markAll feedback, settings link), translate API key setup
 
 ### Phase 5: Home Feed, Search & Community Social

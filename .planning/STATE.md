@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 06-07-PLAN.md
-last_updated: "2026-03-22T07:53:17.647Z"
+stopped_at: Completed 04-06-PLAN.md
+last_updated: "2026-03-23T05:02:56.377Z"
 progress:
   total_phases: 7
-  completed_phases: 6
-  total_plans: 30
-  completed_plans: 30
+  completed_phases: 5
+  total_plans: 32
+  completed_plans: 31
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-18)
 
 **Core value:** BL/GL 크리에이터와 팬이 언어 장벽 없이 소통할 수 있는 전용 커뮤니티 공간 (커뮤니티별 페르소나 분리 + 자동번역)
-**Current focus:** Phase 06 — safety-admin-dashboard
+**Current focus:** Phase 04 — highlights-notices-notifications-translation
 
 ## Current Position
 
-Phase: 7
-Plan: Not started
+Phase: 04 (highlights-notices-notifications-translation) — EXECUTING
+Plan: 2 of 8
 
 ## Performance Metrics
 
@@ -74,6 +74,7 @@ Plan: Not started
 | Phase 06 P05 | 2 | 1 tasks | 2 files |
 | Phase 06 P06 | 4 | 2 tasks | 6 files |
 | Phase 06 P07 | 2 | 1 tasks | 3 files |
+| Phase 04-highlights-notices-notifications-translation P06 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -151,6 +152,8 @@ Recent decisions affecting current work:
 - [Phase 06]: Supabase profiles join returns array; normalize with profilesArr?.[0] pattern
 - [Phase 06]: promotion_banners uses sort_order (not display_order), no title column; adapted UI accordingly
 - [Phase 06]: WAU/MAU computed as sum of daily active user counts (approximation acceptable for admin dashboard)
+- [Phase 04-06]: Global notifications screen placed in (tabs) group with href:null for hidden tab navigation
+- [Phase 04-06]: Used .or() PostgREST filter for community_id to include NULL values in unread badge count
 
 ### Pending Todos
 
@@ -167,6 +170,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T07:48:35.178Z
-Stopped at: Completed 06-07-PLAN.md
+Last session: 2026-03-23T05:02:56.375Z
+Stopped at: Completed 04-06-PLAN.md
 Resume file: None
