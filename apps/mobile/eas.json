@@ -11,7 +11,6 @@
       "distribution": "internal"
     },
     "production": {
-      "_comment": "07-03 Task 6: production build profile. autoIncrement bumps iOS buildNumber + Android versionCode automatically. environment=production binds EAS env vars created via `eas env:create --environment production --name EXPO_PUBLIC_SUPABASE_URL ...` (see 07-03-MANUAL-FOLLOWUP.md). channel=production matches expo-updates channel for OTA delivery.",
       "environment": "production",
       "autoIncrement": true,
       "channel": "production"
@@ -19,7 +18,6 @@
   },
   "submit": {
     "production": {
-      "_comment": "07-03 Task 6: submission credentials. ios.ascAppId comes from App Store Connect after the app record is created (NOT before — Apple generates the numeric ID on first creation). android.serviceAccountKeyPath points to a JSON service-account key downloaded from Google Cloud Console with Play Console API access; NEVER commit the JSON itself (it's in .gitignore). track=internal uploads to internal testing first; promote to production track manually in Play Console.",
       "ios": {
         "ascAppId": "TBD_REPLACE_AFTER_APP_STORE_CONNECT_RECORD_CREATION"
       },
