@@ -7,6 +7,7 @@ import {
   Pressable,
   Alert,
   Linking,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -43,6 +44,24 @@ export default function MoreScreen() {
   const privacyUrl = `${PRIVACY_URL_BASE}?lang=${lang}`;
 
   const handleLogoutPress = useCallback(() => {
+    // T-7-05: signOut clears state; Task 6 wires queryClient.clear via
+    // a registered onSignOut callback. Caller owns navigation.
+    const performLogout = async () => {
+      await useAuthStore.getState().signOut();
+      router.replace('/(auth)/login');
+    };
+
+    // React Native Web's Alert.alert does not support multi-button confirm
+    // dialogs — `onPress` callbacks never fire, so the destructive Confirm
+    // would be unreachable in `expo --web`. Fall back to the browser's
+    // native confirm so logout actually works on the web target.
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined' && window.confirm(t('logout.dialogTitle'))) {
+        void performLogout();
+      }
+      return;
+    }
+
     Alert.alert(
       t('logout.dialogTitle'),
       undefined,
@@ -51,12 +70,7 @@ export default function MoreScreen() {
         {
           text: t('logout.dialogConfirm'),
           style: 'destructive',
-          onPress: async () => {
-            // T-7-05: signOut clears state; Task 6 wires queryClient.clear via
-            // a registered onSignOut callback. Caller owns navigation.
-            await useAuthStore.getState().signOut();
-            router.replace('/(auth)/login');
-          },
+          onPress: performLogout,
         },
       ],
       { cancelable: true }
