@@ -30,6 +30,7 @@ export default function SettingsScreen() {
   const router = useRouter();
   const { t, i18n } = useTranslation('settings');
   const { t: tMore } = useTranslation('more');
+  const { t: tAccount } = useTranslation('account');
   const profile = useAuthStore((s) => s.profile);
   const [pushEnabled, setPushEnabled] = useState(false);
 
@@ -142,6 +143,21 @@ export default function SettingsScreen() {
             right="value"
             value={APP_VERSION}
             isLast
+          />
+        </View>
+
+        {/* Phase 7 / D-37 — Destructive group. In-app deletion path is
+            ≤3 taps (Home → More → Settings → Delete account) per Google
+            Play DMA + Apple Guideline 4.8. */}
+        <View className="mt-6 mx-4 bg-card rounded-xl overflow-hidden mb-12">
+          <SettingsRow
+            label={tAccount('deleteAccount.rowLabel')}
+            destructive
+            right="chevron"
+            isFirst
+            isLast
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onPress={() => router.push('/(more)/delete-account/warning' as any)}
           />
         </View>
       </ScrollView>

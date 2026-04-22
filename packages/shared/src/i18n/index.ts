@@ -12,6 +12,9 @@ import koHome from './locales/ko/home.json';
 import koReport from './locales/ko/report.json';
 import koMore from './locales/ko/more.json';
 import koSettings from './locales/ko/settings.json';
+import koShop from './locales/ko/shop.json';
+import koDm from './locales/ko/dm.json';
+import koAccount from './locales/ko/account.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enCommunity from './locales/en/community.json';
@@ -23,6 +26,9 @@ import enHome from './locales/en/home.json';
 import enReport from './locales/en/report.json';
 import enMore from './locales/en/more.json';
 import enSettings from './locales/en/settings.json';
+import enShop from './locales/en/shop.json';
+import enDm from './locales/en/dm.json';
+import enAccount from './locales/en/account.json';
 import thCommon from './locales/th/common.json';
 import thAuth from './locales/th/auth.json';
 import thCommunity from './locales/th/community.json';
@@ -60,6 +66,10 @@ import jaSettings from './locales/ja/settings.json';
 export const SUPPORTED_LANGUAGES = ['ko', 'en', 'th', 'zh', 'ja'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
+// Phase 7 / 07-02: shop / dm / account namespaces. ko + en are authored;
+// th / zh / ja fall back to the ko bundle (same strategy used in 07-01 for new
+// surfaces — translations follow in v1.0.1 patch). EN is the i18next fallbackLng,
+// so missing keys still render in English at runtime.
 const resources = {
   ko: {
     common: koCommon,
@@ -73,6 +83,9 @@ const resources = {
     report: koReport,
     more: koMore,
     settings: koSettings,
+    shop: koShop,
+    dm: koDm,
+    account: koAccount,
   },
   en: {
     common: enCommon,
@@ -86,6 +99,9 @@ const resources = {
     report: enReport,
     more: enMore,
     settings: enSettings,
+    shop: enShop,
+    dm: enDm,
+    account: enAccount,
   },
   th: {
     common: thCommon,
@@ -99,6 +115,9 @@ const resources = {
     report: thReport,
     more: thMore,
     settings: thSettings,
+    shop: koShop,
+    dm: koDm,
+    account: koAccount,
   },
   zh: {
     common: zhCommon,
@@ -112,6 +131,9 @@ const resources = {
     report: zhReport,
     more: zhMore,
     settings: zhSettings,
+    shop: koShop,
+    dm: koDm,
+    account: koAccount,
   },
   ja: {
     common: jaCommon,
@@ -125,6 +147,9 @@ const resources = {
     report: jaReport,
     more: jaMore,
     settings: jaSettings,
+    shop: koShop,
+    dm: koDm,
+    account: koAccount,
   },
 };
 
@@ -146,6 +171,9 @@ export function initI18n(languageCode?: string) {
         'report',
         'more',
         'settings',
+        'shop',
+        'dm',
+        'account',
       ],
       defaultNS: 'common',
       interpolation: { escapeValue: false },
