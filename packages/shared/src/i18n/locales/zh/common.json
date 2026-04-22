@@ -1,6 +1,13 @@
 {
   "appName": "Wecord",
   "loading": "Loading...",
+  "tabs": {
+    "home": "首页",
+    "community": "社区",
+    "shop": "Shop",
+    "dm": "DM",
+    "more": "更多"
+  },
   "cta": {
     "join": "Join Community",
     "confirm": "Confirm"

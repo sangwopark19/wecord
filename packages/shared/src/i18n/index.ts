@@ -10,6 +10,8 @@ import koNotice from './locales/ko/notice.json';
 import koTranslation from './locales/ko/translation.json';
 import koHome from './locales/ko/home.json';
 import koReport from './locales/ko/report.json';
+import koMore from './locales/ko/more.json';
+import koSettings from './locales/ko/settings.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enCommunity from './locales/en/community.json';
@@ -19,6 +21,8 @@ import enNotice from './locales/en/notice.json';
 import enTranslation from './locales/en/translation.json';
 import enHome from './locales/en/home.json';
 import enReport from './locales/en/report.json';
+import enMore from './locales/en/more.json';
+import enSettings from './locales/en/settings.json';
 import thCommon from './locales/th/common.json';
 import thAuth from './locales/th/auth.json';
 import thCommunity from './locales/th/community.json';
@@ -28,6 +32,8 @@ import thNotice from './locales/th/notice.json';
 import thTranslation from './locales/th/translation.json';
 import thHome from './locales/th/home.json';
 import thReport from './locales/th/report.json';
+import thMore from './locales/th/more.json';
+import thSettings from './locales/th/settings.json';
 import zhCommon from './locales/zh/common.json';
 import zhAuth from './locales/zh/auth.json';
 import zhCommunity from './locales/zh/community.json';
@@ -37,6 +43,8 @@ import zhNotice from './locales/zh/notice.json';
 import zhTranslation from './locales/zh/translation.json';
 import zhHome from './locales/zh/home.json';
 import zhReport from './locales/zh/report.json';
+import zhMore from './locales/zh/more.json';
+import zhSettings from './locales/zh/settings.json';
 import jaCommon from './locales/ja/common.json';
 import jaAuth from './locales/ja/auth.json';
 import jaCommunity from './locales/ja/community.json';
@@ -46,6 +54,8 @@ import jaNotice from './locales/ja/notice.json';
 import jaTranslation from './locales/ja/translation.json';
 import jaHome from './locales/ja/home.json';
 import jaReport from './locales/ja/report.json';
+import jaMore from './locales/ja/more.json';
+import jaSettings from './locales/ja/settings.json';
 
 export const SUPPORTED_LANGUAGES = ['ko', 'en', 'th', 'zh', 'ja'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
@@ -61,6 +71,8 @@ const resources = {
     translation: koTranslation,
     home: koHome,
     report: koReport,
+    more: koMore,
+    settings: koSettings,
   },
   en: {
     common: enCommon,
@@ -72,6 +84,8 @@ const resources = {
     translation: enTranslation,
     home: enHome,
     report: enReport,
+    more: enMore,
+    settings: enSettings,
   },
   th: {
     common: thCommon,
@@ -83,6 +97,8 @@ const resources = {
     translation: thTranslation,
     home: thHome,
     report: thReport,
+    more: thMore,
+    settings: thSettings,
   },
   zh: {
     common: zhCommon,
@@ -94,6 +110,8 @@ const resources = {
     translation: zhTranslation,
     home: zhHome,
     report: zhReport,
+    more: zhMore,
+    settings: zhSettings,
   },
   ja: {
     common: jaCommon,
@@ -105,6 +123,8 @@ const resources = {
     translation: jaTranslation,
     home: jaHome,
     report: jaReport,
+    more: jaMore,
+    settings: jaSettings,
   },
 };
 
@@ -114,7 +134,19 @@ export function initI18n(languageCode?: string) {
       resources,
       lng: languageCode ?? 'en',
       fallbackLng: 'en',
-      ns: ['common', 'auth', 'community', 'highlight', 'notification', 'notice', 'translation', 'home', 'report'],
+      ns: [
+        'common',
+        'auth',
+        'community',
+        'highlight',
+        'notification',
+        'notice',
+        'translation',
+        'home',
+        'report',
+        'more',
+        'settings',
+      ],
       defaultNS: 'common',
       interpolation: { escapeValue: false },
     });

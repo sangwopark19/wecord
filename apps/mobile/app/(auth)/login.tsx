@@ -275,30 +275,13 @@ export default function LoginScreen() {
         {/* Spacer — push buttons toward center */}
         <View className="flex-1" />
 
-        {/* OAuth Buttons */}
+        {/* OAuth Buttons — Apple FIRST (T-7-07 / Apple Guideline 4.8) */}
         <View className="w-full gap-y-3 mb-4">
-          {/* Google OAuth button */}
-          <TouchableOpacity
-            onPress={signInWithGoogle}
-            disabled={isLoading}
-            className="w-full flex-row items-center justify-center bg-white border border-[#1A1A1A] rounded-[28px] h-[52px] px-4"
-            activeOpacity={0.8}
-          >
-            {loadingGoogle ? (
-              <ActivityIndicator color="#000000" size="small" />
-            ) : (
-              <>
-                <Text className="text-black font-semibold text-[16px] mr-2">G</Text>
-                <Text className="text-[#00E5C3] font-semibold text-[16px]">
-                  {t('login.google_cta')}
-                </Text>
-              </>
-            )}
-          </TouchableOpacity>
-
-          {/* Apple OAuth button */}
+          {/* Apple OAuth button — must render at or above Google */}
           {Platform.OS === 'ios' ? (
             <TouchableOpacity
+              testID="apple-signin-button"
+              accessibilityLabel={t('login.apple_cta')}
               onPress={signInWithApple}
               disabled={isLoading}
               className="w-full flex-row items-center justify-center bg-black border border-white rounded-[28px] h-[52px] px-4"
@@ -317,6 +300,8 @@ export default function LoginScreen() {
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
+              testID="apple-signin-button"
+              accessibilityLabel={t('login.apple_cta')}
               onPress={signInWithAppleWeb}
               disabled={isLoading}
               className="w-full flex-row items-center justify-center bg-black border border-white rounded-[28px] h-[52px] px-4"
@@ -334,6 +319,27 @@ export default function LoginScreen() {
               )}
             </TouchableOpacity>
           )}
+
+          {/* Google OAuth button */}
+          <TouchableOpacity
+            testID="google-signin-button"
+            accessibilityLabel={t('login.google_cta')}
+            onPress={signInWithGoogle}
+            disabled={isLoading}
+            className="w-full flex-row items-center justify-center bg-white border border-[#1A1A1A] rounded-[28px] h-[52px] px-4"
+            activeOpacity={0.8}
+          >
+            {loadingGoogle ? (
+              <ActivityIndicator color="#000000" size="small" />
+            ) : (
+              <>
+                <Text className="text-black font-semibold text-[16px] mr-2">G</Text>
+                <Text className="text-[#00E5C3] font-semibold text-[16px]">
+                  {t('login.google_cta')}
+                </Text>
+              </>
+            )}
+          </TouchableOpacity>
         </View>
 
         {/* Error message */}

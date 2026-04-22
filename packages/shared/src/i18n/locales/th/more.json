@@ -1,0 +1,46 @@
+{
+  "tabLabel": "เพิ่มเติม",
+  "profileCard": { "editButton": "แก้ไขโปรไฟล์" },
+  "sections": {
+    "joinedCommunities": "คอมมิวนิตี้ของฉัน",
+    "settings": "ตั้งค่า",
+    "about": "เกี่ยวกับแอป"
+  },
+  "joinedCommunities": {
+    "emptyHeading": "ยังไม่มีคอมมิวนิตี้",
+    "emptyBody": "ค้นหาครีเอเตอร์ที่คุณชอบจากแท็บหน้าหลัก",
+    "myNicknameLabel": "ชื่อเล่นของฉัน: {{nickname}}",
+    "viewAll": "ดูทั้งหมด"
+  },
+  "logout": {
+    "rowLabel": "ออกจากระบบ",
+    "dialogTitle": "ต้องการออกจากระบบใช่ไหม?",
+    "dialogCancel": "ยกเลิก",
+    "dialogConfirm": "ออกจากระบบ"
+  },
+  "deleteAccount": { "rowLabel": "ลบบัญชี" },
+  "about": { "versionLabel": "เวอร์ชัน" },
+  "profileEdit": {
+    "screenTitle": "แก้ไขโปรไฟล์",
+    "saveCta": "บันทึก",
+    "saveCtaSaving": "กำลังบันทึก…",
+    "nicknameLabel": "ชื่อเล่น",
+    "nicknameHelper": "2–20 ตัวอักษร · อนุญาตให้ซ้ำได้",
+    "nicknameErrorLength": "กรุณาใส่ตั้งแต่ 2 ถึง 20 ตัวอักษร",
+    "bioLabel": "แนะนำตัว",
+    "bioHelper": "{{count}}/150",
+    "avatarActions": {
+      "title": "รูปโปรไฟล์",
+      "camera": "ถ่ายภาพ",
+      "library": "เลือกจากอัลบั้ม",
+      "useDefault": "ใช้รูปเริ่มต้น",
+      "remove": "ลบรูปภาพ",
+      "cancel": "ยกเลิก"
+    },
+    "toasts": {
+      "uploadError": "อัปโหลดรูปภาพไม่สำเร็จ ลองอีกครั้ง",
+      "saveSuccess": "บันทึกโปรไฟล์แล้ว",
+      "saveError": "บันทึกไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง"
+    }
+  }
+}

@@ -9,14 +9,18 @@ export interface Profile {
   userId: string;
   globalNickname: string;
   avatarUrl: string | null;
+  bio: string | null;
   language: SupportedLanguage;
   onboardingCompleted: boolean;
   dateOfBirth: string | null;
+  dmLaunchNotify: boolean;
 }
 
 interface OnboardingData {
   dateOfBirth: string | null;
 }
+
+type OnSignOutCallback = () => void | Promise<void>;
 
 interface AuthState {
   session: Session | null;
@@ -24,11 +28,19 @@ interface AuthState {
   profile: Profile | null;
   loading: boolean;
   onboardingData: OnboardingData | null;
+  onSignOut: OnSignOutCallback | null;
   setSession: (session: Session | null) => void;
   setProfile: (profile: Profile | null) => void;
   setOnboardingData: (data: OnboardingData) => void;
   initialize: () => Promise<void>;
   signOut: () => Promise<void>;
+  /**
+   * Register a one-shot cleanup callback invoked from inside `signOut()`
+   * after auth state has been cleared. Returned function unregisters.
+   * Used to wire `queryClient.clear` (T-7-05) without an authStore →
+   * TanStack import cycle.
+   */
+  registerOnSignOut: (cb: OnSignOutCallback) => () => void;
 }
 
 const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['ko', 'en', 'th', 'zh', 'ja'];
@@ -47,7 +59,7 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
   // Try fetching existing profile
   const { data: existingProfile, error: fetchError } = await supabase
     .from('profiles')
-    .select('user_id, global_nickname, avatar_url, language, onboarding_completed, date_of_birth')
+    .select('user_id, global_nickname, avatar_url, bio, language, onboarding_completed, date_of_birth, dm_launch_notify')
     .eq('user_id', userId)
     .single();
 
@@ -58,9 +70,11 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
       userId: existingProfile.user_id,
       globalNickname: existingProfile.global_nickname,
       avatarUrl: existingProfile.avatar_url,
+      bio: existingProfile.bio ?? null,
       language: existingProfile.language as SupportedLanguage,
       onboardingCompleted: existingProfile.onboarding_completed,
       dateOfBirth: existingProfile.date_of_birth,
+      dmLaunchNotify: existingProfile.dm_launch_notify ?? false,
     };
   }
 
@@ -78,7 +92,7 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
       language,
       onboarding_completed: false,
     })
-    .select('user_id, global_nickname, avatar_url, language, onboarding_completed, date_of_birth')
+    .select('user_id, global_nickname, avatar_url, bio, language, onboarding_completed, date_of_birth, dm_launch_notify')
     .single();
 
   if (upsertError || !newProfile) {
@@ -91,9 +105,11 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
     userId: newProfile.user_id,
     globalNickname: newProfile.global_nickname,
     avatarUrl: newProfile.avatar_url,
+    bio: newProfile.bio ?? null,
     language: newProfile.language as SupportedLanguage,
     onboardingCompleted: newProfile.onboarding_completed,
     dateOfBirth: newProfile.date_of_birth,
+    dmLaunchNotify: newProfile.dm_launch_notify ?? false,
   };
 }
 
@@ -103,6 +119,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   profile: null,
   loading: true,
   onboardingData: null,
+  onSignOut: null,
 
   setSession: (session) => {
     set({ session, user: session?.user ?? null });
@@ -114,6 +131,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   setOnboardingData: (data) => {
     set({ onboardingData: data });
+  },
+
+  registerOnSignOut: (cb) => {
+    set({ onSignOut: cb });
+    return () => {
+      // Only clear if the registered cb is still the same one — avoids races
+      // where one consumer unregisters after another has registered.
+      if (get().onSignOut === cb) set({ onSignOut: null });
+    };
   },
 
   initialize: async () => {
@@ -156,7 +182,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   signOut: async () => {
-    await supabase.auth.signOut();
-    set({ session: null, user: null, profile: null, onboardingData: null });
+    // T-7-05: state and cache MUST be cleared even when network errors out
+    // mid-signout. We swallow the error from supabase.auth.signOut to avoid
+    // the user staying authenticated locally while the upstream call retries.
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.warn('[Auth] supabase.auth.signOut threw — clearing local state anyway', err);
+    } finally {
+      const cb = get().onSignOut;
+      set({ session: null, user: null, profile: null, onboardingData: null });
+      if (cb) {
+        try {
+          await cb();
+        } catch (err) {
+          // Logout MUST complete; never rethrow from cleanup.
+          console.warn('[Auth] onSignOut callback threw', err);
+        }
+      }
+    }
   },
 }));

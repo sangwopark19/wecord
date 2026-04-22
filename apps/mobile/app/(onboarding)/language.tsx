@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from '@wecord/shared/i18n';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,16 +7,10 @@ import i18n from '@wecord/shared/i18n';
 import { PrimaryCTAButton } from '../../components/PrimaryCTAButton';
 import { useAuthStore } from '../../stores/authStore';
 import { supabase } from '../../lib/supabase';
-
-type SupportedLanguage = 'ko' | 'en' | 'th' | 'zh' | 'ja';
-
-const LANGUAGES: { code: SupportedLanguage; label: string }[] = [
-  { code: 'ko', label: '한국어' },
-  { code: 'en', label: 'English' },
-  { code: 'th', label: 'ภาษาไทย' },
-  { code: 'zh', label: '中文' },
-  { code: 'ja', label: '日本語' },
-];
+import {
+  LanguagePicker,
+  type SupportedLanguage,
+} from '../../components/settings/LanguagePicker';
 
 export default function LanguageScreen() {
   const { t } = useTranslation('auth');
@@ -55,36 +49,14 @@ export default function LanguageScreen() {
           {t('language.title')}
         </Text>
 
-        <FlatList
-          data={LANGUAGES}
-          keyExtractor={(item) => item.code}
-          className="mt-4"
-          ItemSeparatorComponent={() => <View className="h-2" />}
-          renderItem={({ item }) => {
-            const isSelected = item.code === selectedLanguage;
-            return (
-              <Pressable
-                onPress={() => {
-                  setSelectedLanguage(item.code);
-                  i18n.changeLanguage(item.code);
-                }}
-                className={`flex-row items-center justify-between h-[52px] rounded-xl px-4 bg-card ${
-                  isSelected ? 'border-2 border-teal' : 'border-2 border-transparent'
-                }`}
-              >
-                <Text className="text-body font-regular text-foreground">{item.label}</Text>
-                <View
-                  className={`w-5 h-5 rounded-full border-2 items-center justify-center ${
-                    isSelected ? 'border-teal' : 'border-subtle'
-                  }`}
-                >
-                  {isSelected && (
-                    <View className="w-[10px] h-[10px] rounded-full bg-teal" />
-                  )}
-                </View>
-              </Pressable>
-            );
+        <LanguagePicker
+          value={selectedLanguage}
+          onChange={(code) => {
+            setSelectedLanguage(code);
+            // Onboarding still previews the change live (parent commits on CTA).
+            i18n.changeLanguage(code);
           }}
+          mode="onboarding"
         />
       </View>
 

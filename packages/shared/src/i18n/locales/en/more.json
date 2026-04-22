@@ -1,0 +1,46 @@
+{
+  "tabLabel": "More",
+  "profileCard": { "editButton": "Edit profile" },
+  "sections": {
+    "joinedCommunities": "My Communities",
+    "settings": "Settings",
+    "about": "About"
+  },
+  "joinedCommunities": {
+    "emptyHeading": "No communities yet",
+    "emptyBody": "Discover creators on the Home tab.",
+    "myNicknameLabel": "My nickname: {{nickname}}",
+    "viewAll": "View all"
+  },
+  "logout": {
+    "rowLabel": "Log out",
+    "dialogTitle": "Log out?",
+    "dialogCancel": "Cancel",
+    "dialogConfirm": "Log out"
+  },
+  "deleteAccount": { "rowLabel": "Delete account" },
+  "about": { "versionLabel": "Version" },
+  "profileEdit": {
+    "screenTitle": "Edit profile",
+    "saveCta": "Save",
+    "saveCtaSaving": "Saving…",
+    "nicknameLabel": "Nickname",
+    "nicknameHelper": "2–20 characters · duplicates allowed",
+    "nicknameErrorLength": "Enter between 2 and 20 characters.",
+    "bioLabel": "Bio",
+    "bioHelper": "{{count}}/150",
+    "avatarActions": {
+      "title": "Profile photo",
+      "camera": "Take photo",
+      "library": "Choose from library",
+      "useDefault": "Use default avatar",
+      "remove": "Remove photo",
+      "cancel": "Cancel"
+    },
+    "toasts": {
+      "uploadError": "Couldn't upload photo. Try again.",
+      "saveSuccess": "Profile saved.",
+      "saveError": "Couldn't save. Try again in a moment."
+    }
+  }
+}

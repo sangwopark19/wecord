@@ -1,6 +1,13 @@
 {
   "appName": "Wecord",
   "loading": "Loading...",
+  "tabs": {
+    "home": "ホーム",
+    "community": "コミュニティ",
+    "shop": "Shop",
+    "dm": "DM",
+    "more": "その他"
+  },
   "cta": {
     "join": "Join Community",
     "confirm": "Confirm"
