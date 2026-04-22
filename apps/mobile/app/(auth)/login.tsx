@@ -13,6 +13,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useTranslation } from '@wecord/shared/i18n';
 import { supabase } from '../../lib/supabase';
 
@@ -54,6 +55,7 @@ async function handleOAuthCallbackUrl(urlString: string): Promise<boolean> {
 
 export default function LoginScreen() {
   const { t } = useTranslation('auth');
+  const router = useRouter();
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingApple, setLoadingApple] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -363,6 +365,19 @@ export default function LoginScreen() {
                 </Text>
               </>
             )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            testID="email-signin-button"
+            accessibilityLabel={t('login.email_cta')}
+            onPress={() => router.push('/(auth)/email-login')}
+            disabled={isLoading}
+            className="w-full flex-row items-center justify-center bg-surface/60 border border-border rounded-[28px] h-[54px] px-4"
+            activeOpacity={0.85}
+          >
+            <Text className="text-foreground font-semibold text-[16px]">
+              {t('login.email_cta')}
+            </Text>
           </TouchableOpacity>
         </View>
 
