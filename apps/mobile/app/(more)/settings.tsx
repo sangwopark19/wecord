@@ -22,9 +22,20 @@ const LANG_LABEL: Record<SupportedLanguage, string> = {
 const APP_VERSION: string = (require('../../app.json') as { expo: { version: string } }).expo
   .version;
 
-// TODO(07-03): replace with production admin URL.
-const TERMS_URL_BASE = 'https://wecord-docs.pages.dev/terms';
-const PRIVACY_URL_BASE = 'https://wecord-docs.pages.dev/privacy';
+// 07-03 Task 3: production admin domain. Replace `wecord-docs.pages.dev` if
+// the Cloudflare Pages deploy lands on a different project name OR if you
+// later wire a custom domain (e.g. `wecord.app`) per the branded-domain row
+// in 07-SUBMISSION-CHECKLIST.md. The legal pages are served by the
+// apps/admin (public) route group shipped in 07-03 Task 1.
+//
+// Manual cutover: see .planning/phases/07-launch-polish/07-03-MANUAL-FOLLOWUP.md
+// step "Cloudflare Pages deploy" — once the deploy returns a stable URL,
+// update PROD_ADMIN_URL here AND in apps/mobile/app/(tabs)/more.tsx (single
+// source of truth would require a config module — kept inline for now to
+// avoid a circular import with @wecord/shared).
+const PROD_ADMIN_URL = 'https://wecord-docs.pages.dev';
+const TERMS_URL_BASE = `${PROD_ADMIN_URL}/terms`;
+const PRIVACY_URL_BASE = `${PROD_ADMIN_URL}/privacy`;
 
 export default function SettingsScreen() {
   const router = useRouter();

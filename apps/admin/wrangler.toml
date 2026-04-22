@@ -1,0 +1,61 @@
+# wrangler.toml — Cloudflare Pages deployment template for apps/admin.
+#
+# This file provides the STRUCTURE for the production Cloudflare Pages
+# deploy of apps/admin. The legacy `wrangler.jsonc` (workers config) stays
+# for `wrangler dev` / preview workflows; this `wrangler.toml` is the
+# Pages-specific deployment surface.
+#
+# Plan ref: 07-03-PLAN.md Task 1 (Step 6 — wrangler.toml check) + Task 2
+# (Cloudflare Pages deploy checkpoint).
+#
+# IMPORTANT: This file is a TEMPLATE. The deploy command in 07-03-MANUAL-FOLLOWUP.md
+# (Step "Cloudflare Pages deploy") is what actually pushes to Pages — Claude
+# cannot run `wrangler pages deploy` from this worktree (no Cloudflare API
+# token, no project provisioned). Replace placeholders before first deploy.
+
+# REPLACE: pick a project name in the Cloudflare dashboard. Recommendation
+# from RESEARCH Pitfall 7 — use `wecord-docs` so the assigned domain becomes
+# `wecord-docs.pages.dev` (Apple-review-friendly, matches the URL hardcoded
+# at apps/mobile/app/(more)/settings.tsx PROD_ADMIN_URL).
+name = "wecord-docs"
+
+# Pages compat — match wrangler.jsonc compatibility_date.
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Output directory produced by `pnpm build` via @opennextjs/cloudflare.
+# Verify with: `cd apps/admin && pnpm build && ls .open-next/assets`.
+# REPLACE if you migrate away from @opennextjs/cloudflare.
+pages_build_output_dir = ".open-next/assets"
+
+# Environment variable bindings — supplied at deploy time, NOT committed.
+# These are Pages-side env vars that the Next.js Server Components / Edge
+# routes can read at request time. The (public) routes themselves do not
+# need these — they're static legal text — but the (dashboard) routes do.
+#
+# To set in Cloudflare dashboard:
+#   Pages → wecord-docs → Settings → Environment variables
+#
+# To set via CLI (after `wrangler login`):
+#   wrangler pages secret put NEXT_PUBLIC_SUPABASE_URL --project-name=wecord-docs
+#   wrangler pages secret put NEXT_PUBLIC_SUPABASE_ANON_KEY --project-name=wecord-docs
+#
+# [vars]
+#   NEXT_PUBLIC_SUPABASE_URL = "https://<PROD_REF>.supabase.co"   # REPLACE after Task 4
+#   NEXT_PUBLIC_SUPABASE_ANON_KEY = "<PROD_ANON_KEY>"             # REPLACE after Task 4
+#
+# Service role key MUST NEVER appear here — it stays in Supabase function secrets only
+# (per RESEARCH Pitfall 9 + Plan 07-02 deletion Edge Function).
+
+# ----- Public route group acceptance contract -----
+# After deploy, all of the following MUST return HTTP 200 to anonymous curl:
+#   /                              (admin login redirect — handled by (dashboard))
+#   /privacy        /privacy?lang=en
+#   /terms          /terms?lang=en
+#   /account-delete-request
+#   /support        /support?lang=en
+#
+# These five routes are the App Store / Play Console reviewer surface
+# (Apple Guideline 4.8 + Google Play DMA). See 07-SUBMISSION-CHECKLIST.md
+# Production Infrastructure table for the exact URLs that go into the
+# console fields.
