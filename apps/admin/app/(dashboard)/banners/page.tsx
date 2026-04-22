@@ -216,7 +216,6 @@ export default function BannersPage() {
           {formImageUrl.trim() && (
             <div className="space-y-2">
               <label className="text-sm font-medium">Preview</label>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={formImageUrl}
                 alt="Banner preview"
@@ -268,7 +267,6 @@ export default function BannersPage() {
               banners.map((banner) => (
                 <TableRow key={banner.id}>
                   <TableCell>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={banner.image_url}
                       alt="Banner"

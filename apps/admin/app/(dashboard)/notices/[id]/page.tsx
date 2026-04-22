@@ -220,7 +220,6 @@ export default function EditNoticePage() {
             <div className="flex flex-wrap gap-2">
               {existingMediaUrls.map((url, i) => (
                 <div key={i} className="relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={url}
                     alt={`Image ${i + 1}`}

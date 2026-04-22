@@ -30,7 +30,6 @@ export default function CompleteScreen() {
     }
 
     void finishOnboarding();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
