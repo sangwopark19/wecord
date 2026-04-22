@@ -6,6 +6,7 @@ import { initI18n } from '@wecord/shared';
 import { useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { useFonts } from 'expo-font';
 import { queryClient } from '../lib/queryClient';
 import { useAuthStore } from '../stores/authStore';
 
@@ -67,6 +68,22 @@ function AuthGuard() {
 }
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Pretendard: require('pretendard/dist/public/static/alternative/Pretendard-Regular.ttf'),
+    'Pretendard-SemiBold': require('pretendard/dist/public/static/alternative/Pretendard-SemiBold.ttf'),
+    'Pretendard-Bold': require('pretendard/dist/public/static/alternative/Pretendard-Bold.ttf'),
+    'Pretendard-ExtraBold': require('pretendard/dist/public/static/alternative/Pretendard-ExtraBold.ttf'),
+    'Pretendard-Black': require('pretendard/dist/public/static/alternative/Pretendard-Black.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return (
+      <View className="flex-1 bg-background items-center justify-center">
+        <ActivityIndicator color="#FFFFFF" size="small" />
+      </View>
+    );
+  }
+
   return (
     <ActionSheetProvider>
       <QueryClientProvider client={queryClient}>
@@ -76,7 +93,7 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: false,
-              contentStyle: { backgroundColor: '#000000' },
+              contentStyle: { backgroundColor: '#0B0B0F' },
             }}
           />
         </View>
