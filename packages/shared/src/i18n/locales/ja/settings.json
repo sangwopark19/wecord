@@ -1,0 +1,16 @@
+{
+  "screenTitle": "設定",
+  "language": { "rowLabel": "言語" },
+  "push": {
+    "rowLabel": "プッシュ通知",
+    "helperOff": "システム設定で通知をオンにしてください",
+    "helperOn": "新しいコメントとお知らせの通知を受け取ります",
+    "openSettingsCta": "設定を開く",
+    "openSettingsCancel": "キャンセル"
+  },
+  "perCommunity": { "rowLabel": "コミュニティ別通知設定" },
+  "legal": {
+    "termsRow": "利用規約",
+    "privacyRow": "プライバシーポリシー"
+  }
+}

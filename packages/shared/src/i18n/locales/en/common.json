@@ -1,6 +1,13 @@
 {
   "appName": "Wecord",
   "loading": "Loading...",
+  "tabs": {
+    "home": "Home",
+    "community": "Community",
+    "shop": "Shop",
+    "dm": "DM",
+    "more": "More"
+  },
   "cta": {
     "join": "Join Community",
     "confirm": "Confirm"

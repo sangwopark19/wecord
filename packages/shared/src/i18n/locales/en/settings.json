@@ -1,0 +1,16 @@
+{
+  "screenTitle": "Settings",
+  "language": { "rowLabel": "Language" },
+  "push": {
+    "rowLabel": "Push notifications",
+    "helperOff": "Turn on notifications in system settings.",
+    "helperOn": "Receive new comment and notice alerts.",
+    "openSettingsCta": "Open Settings",
+    "openSettingsCancel": "Cancel"
+  },
+  "perCommunity": { "rowLabel": "Per-community notifications" },
+  "legal": {
+    "termsRow": "Terms of Service",
+    "privacyRow": "Privacy Policy"
+  }
+}

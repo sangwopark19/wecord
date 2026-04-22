@@ -1,0 +1,46 @@
+{
+  "tabLabel": "その他",
+  "profileCard": { "editButton": "プロフィール編集" },
+  "sections": {
+    "joinedCommunities": "参加中のコミュニティ",
+    "settings": "設定",
+    "about": "アプリ情報"
+  },
+  "joinedCommunities": {
+    "emptyHeading": "まだ参加中のコミュニティがありません",
+    "emptyBody": "ホームでお気に入りのクリエイターを見つけましょう",
+    "myNicknameLabel": "マイニックネーム: {{nickname}}",
+    "viewAll": "すべて見る"
+  },
+  "logout": {
+    "rowLabel": "ログアウト",
+    "dialogTitle": "ログアウトしますか?",
+    "dialogCancel": "キャンセル",
+    "dialogConfirm": "ログアウト"
+  },
+  "deleteAccount": { "rowLabel": "アカウント削除" },
+  "about": { "versionLabel": "バージョン" },
+  "profileEdit": {
+    "screenTitle": "プロフィール編集",
+    "saveCta": "保存",
+    "saveCtaSaving": "保存中…",
+    "nicknameLabel": "ニックネーム",
+    "nicknameHelper": "2~20文字 · 重複可",
+    "nicknameErrorLength": "2文字以上20文字以下で入力してください",
+    "bioLabel": "自己紹介",
+    "bioHelper": "{{count}}/150",
+    "avatarActions": {
+      "title": "プロフィール写真",
+      "camera": "カメラで撮影",
+      "library": "アルバムから選択",
+      "useDefault": "デフォルトに変更",
+      "remove": "写真を削除",
+      "cancel": "キャンセル"
+    },
+    "toasts": {
+      "uploadError": "写真をアップロードできませんでした。もう一度お試しください",
+      "saveSuccess": "プロフィールを保存しました",
+      "saveError": "保存できませんでした。しばらくしてから再試行してください"
+    }
+  }
+}

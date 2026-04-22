@@ -1,6 +1,13 @@
 {
   "appName": "Wecord",
   "loading": "로딩 중...",
+  "tabs": {
+    "home": "홈",
+    "community": "커뮤니티",
+    "shop": "Shop",
+    "dm": "DM",
+    "more": "더보기"
+  },
   "cta": {
     "join": "커뮤니티 가입",
     "confirm": "확인"

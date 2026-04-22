@@ -8,6 +8,7 @@ export default defineConfig({
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
     alias: {
       'react-native': 'react-native-web',
+      '@expo/react-native-action-sheet': new URL('./tests/__mocks__/action-sheet.ts', import.meta.url).pathname,
     },
   },
 });

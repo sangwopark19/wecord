@@ -1,0 +1,46 @@
+{
+  "tabLabel": "更多",
+  "profileCard": { "editButton": "编辑个人资料" },
+  "sections": {
+    "joinedCommunities": "我的社区",
+    "settings": "设置",
+    "about": "应用信息"
+  },
+  "joinedCommunities": {
+    "emptyHeading": "还没有加入社区",
+    "emptyBody": "在主页发现你喜欢的创作者吧",
+    "myNicknameLabel": "我的昵称: {{nickname}}",
+    "viewAll": "查看全部"
+  },
+  "logout": {
+    "rowLabel": "退出登录",
+    "dialogTitle": "确定要退出登录吗?",
+    "dialogCancel": "取消",
+    "dialogConfirm": "退出"
+  },
+  "deleteAccount": { "rowLabel": "删除账号" },
+  "about": { "versionLabel": "版本" },
+  "profileEdit": {
+    "screenTitle": "编辑个人资料",
+    "saveCta": "保存",
+    "saveCtaSaving": "保存中…",
+    "nicknameLabel": "昵称",
+    "nicknameHelper": "2–20 个字符 · 允许重名",
+    "nicknameErrorLength": "请输入 2 到 20 个字符",
+    "bioLabel": "简介",
+    "bioHelper": "{{count}}/150",
+    "avatarActions": {
+      "title": "头像",
+      "camera": "拍照",
+      "library": "从相册选择",
+      "useDefault": "使用默认头像",
+      "remove": "删除照片",
+      "cancel": "取消"
+    },
+    "toasts": {
+      "uploadError": "照片上传失败,请重试",
+      "saveSuccess": "个人资料已保存",
+      "saveError": "保存失败,请稍后重试"
+    }
+  }
+}

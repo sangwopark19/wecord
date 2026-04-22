@@ -1,0 +1,16 @@
+{
+  "screenTitle": "设置",
+  "language": { "rowLabel": "语言" },
+  "push": {
+    "rowLabel": "推送通知",
+    "helperOff": "请在系统设置中开启通知",
+    "helperOn": "接收新评论和公告通知",
+    "openSettingsCta": "打开设置",
+    "openSettingsCancel": "取消"
+  },
+  "perCommunity": { "rowLabel": "按社区设置通知" },
+  "legal": {
+    "termsRow": "服务条款",
+    "privacyRow": "隐私政策"
+  }
+}

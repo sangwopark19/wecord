@@ -1,0 +1,16 @@
+{
+  "screenTitle": "ตั้งค่า",
+  "language": { "rowLabel": "ภาษา" },
+  "push": {
+    "rowLabel": "การแจ้งเตือนแบบพุช",
+    "helperOff": "เปิดการแจ้งเตือนในการตั้งค่าระบบ",
+    "helperOn": "รับการแจ้งเตือนความคิดเห็นและประกาศใหม่",
+    "openSettingsCta": "เปิดการตั้งค่า",
+    "openSettingsCancel": "ยกเลิก"
+  },
+  "perCommunity": { "rowLabel": "การแจ้งเตือนตามคอมมิวนิตี้" },
+  "legal": {
+    "termsRow": "เงื่อนไขการให้บริการ",
+    "privacyRow": "นโยบายความเป็นส่วนตัว"
+  }
+}
