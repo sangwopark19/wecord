@@ -23,7 +23,7 @@ export function NoticeListCard({ notice, onPress }: NoticeListCardProps) {
       {notice.is_pinned && (
         <View className="flex-row items-center mb-1">
           <View
-            style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#00E5C3', marginRight: 4 }}
+            style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#8B5CF6', marginRight: 4 }}
           />
         </View>
       )}

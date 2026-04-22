@@ -140,7 +140,7 @@ export function ReportBottomSheet({
                 {t(`reason.${reason}`)}
               </Text>
               {report.isPending && selectedReason === reason && (
-                <ActivityIndicator size="small" color="#00E5C3" />
+                <ActivityIndicator size="small" color="#8B5CF6" />
               )}
             </Pressable>
           ))}
@@ -172,7 +172,7 @@ export function ReportBottomSheet({
                 style={{
                   backgroundColor:
                     otherText.trim().length > 0 && !report.isPending
-                      ? '#00E5C3'
+                      ? '#8B5CF6'
                       : '#333333',
                   borderRadius: 8,
                   paddingVertical: 12,

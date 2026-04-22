@@ -136,7 +136,7 @@ export default function ProfileEditScreen() {
           >
             <Text
               className={`text-heading font-semibold ${
-                canSave ? 'text-teal' : 'text-muted-foreground'
+                canSave ? 'text-accent' : 'text-muted-foreground'
               }`}
             >
               {isPending ? t('profileEdit.saveCtaSaving') : t('profileEdit.saveCta')}

@@ -18,7 +18,7 @@ export function LikeButton({ isLiked, likeCount, onPress, size = 'md' }: LikeBut
   const scale = useSharedValue(1);
 
   const iconSize = size === 'sm' ? 16 : 20;
-  const tealColor = '#00E5C3';
+  const activeColor = '#F472B6';
   const defaultColor = '#999999';
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -48,7 +48,7 @@ export function LikeButton({ isLiked, likeCount, onPress, size = 'md' }: LikeBut
         <Ionicons
           name={isLiked ? 'heart' : 'heart-outline'}
           size={iconSize}
-          color={isLiked ? tealColor : defaultColor}
+          color={isLiked ? activeColor : defaultColor}
         />
       </Animated.View>
       <Text

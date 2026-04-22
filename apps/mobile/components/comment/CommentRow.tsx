@@ -58,7 +58,7 @@ export function CommentRow({
           {/* Nickname row */}
           <View className="flex-row items-center gap-2 flex-wrap">
             <Text
-              className={`text-body font-semibold ${isCreator ? 'text-teal' : 'text-foreground'}`}
+              className={`text-body font-semibold ${isCreator ? 'text-accent' : 'text-foreground'}`}
             >
               {comment.author.community_nickname}
             </Text>

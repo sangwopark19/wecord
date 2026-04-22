@@ -23,11 +23,11 @@ export function TranslateButton({ isTranslated, isLoading, error, onPress }: Tra
         accessibilityLabel={isTranslated ? t('showOriginal') : t('translate')}
       >
         {isLoading ? (
-          <ActivityIndicator size={16} color="#00E5C3" />
+          <ActivityIndicator size={16} color="#8B5CF6" />
         ) : (
-          <Ionicons name="language-outline" size={14} color="#00E5C3" />
+          <Ionicons name="language-outline" size={14} color="#8B5CF6" />
         )}
-        <Text className="text-label font-regular ml-1" style={{ color: '#00E5C3' }}>
+        <Text className="text-label font-regular ml-1" style={{ color: '#8B5CF6' }}>
           {isLoading ? t('loading') : isTranslated ? t('showOriginal') : t('translate')}
         </Text>
       </Pressable>

@@ -21,8 +21,8 @@ export function PrimaryCTAButton({
   const bgClass = isDisabledState
     ? 'bg-input'
     : pressed
-      ? 'bg-teal-dark'
-      : 'bg-teal';
+      ? 'bg-accent-dark'
+      : 'bg-accent';
 
   return (
     <Pressable

@@ -19,7 +19,7 @@ function AnimatedDot({ isActive }: { isActive: boolean }) {
 
   return (
     <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-      <View className={`w-2 h-2 rounded-full ${isActive ? 'bg-teal' : 'bg-input'}`} />
+      <View className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent' : 'bg-input'}`} />
     </Animated.View>
   );
 }

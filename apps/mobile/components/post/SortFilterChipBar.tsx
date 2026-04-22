@@ -21,7 +21,7 @@ function Chip({ label, active, onPress }: ChipProps) {
   return (
     <Pressable
       onPress={onPress}
-      className={`px-3 py-1.5 rounded-full mr-2 ${active ? 'bg-teal' : 'bg-card'}`}
+      className={`px-3 py-1.5 rounded-full mr-2 ${active ? 'bg-accent' : 'bg-card'}`}
       style={{ minHeight: 32, justifyContent: 'center' }}
       accessibilityRole="button"
       accessibilityLabel={label}

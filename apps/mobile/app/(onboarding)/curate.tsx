@@ -60,12 +60,12 @@ function CreatorCard({
           overflow: 'hidden',
         }}
         className={`bg-card py-4 px-2 items-center ${
-          isSelected ? 'border-2 border-teal' : 'border-2 border-transparent'
+          isSelected ? 'border-2 border-accent' : 'border-2 border-transparent'
         }`}
       >
         {isSelected && (
           <View className="absolute top-2 right-2 z-10">
-            <Ionicons name="checkmark-circle" size={16} color="#00E5C3" />
+            <Ionicons name="checkmark-circle" size={16} color="#8B5CF6" />
           </View>
         )}
         {item.cover_image_url ? (
@@ -76,7 +76,7 @@ function CreatorCard({
         ) : (
           <View
             style={{ width: 60, height: 60, borderRadius: 30 }}
-            className="bg-teal items-center justify-center"
+            className="bg-accent items-center justify-center"
           >
             <Text className="text-heading font-semibold text-[#000000]">
               {item.name.charAt(0).toUpperCase()}

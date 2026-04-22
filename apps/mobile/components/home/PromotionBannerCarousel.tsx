@@ -130,7 +130,7 @@ export function PromotionBannerCarousel({ banners }: PromotionBannerCarouselProp
                 width: 6,
                 height: 6,
                 borderRadius: 3,
-                backgroundColor: index === currentIndex ? '#00E5C3' : '#2A2A2A',
+                backgroundColor: index === currentIndex ? '#8B5CF6' : '#2A2A2A',
               }}
             />
           ))}

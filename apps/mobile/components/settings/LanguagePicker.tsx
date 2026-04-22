@@ -37,16 +37,16 @@ export function LanguagePicker({ value, onChange }: Props) {
             accessibilityLabel={item.label}
             onPress={() => onChange(item.code)}
             className={`flex-row items-center justify-between h-[52px] rounded-xl px-4 bg-card ${
-              isSelected ? 'border-2 border-teal' : 'border-2 border-transparent'
+              isSelected ? 'border-2 border-accent' : 'border-2 border-transparent'
             }`}
           >
             <Text className="text-body font-regular text-foreground">{item.label}</Text>
             <View
               className={`w-5 h-5 rounded-full border-2 items-center justify-center ${
-                isSelected ? 'border-teal' : 'border-subtle'
+                isSelected ? 'border-accent' : 'border-subtle'
               }`}
             >
-              {isSelected && <View className="w-[10px] h-[10px] rounded-full bg-teal" />}
+              {isSelected && <View className="w-[10px] h-[10px] rounded-full bg-accent" />}
             </View>
           </Pressable>
         );

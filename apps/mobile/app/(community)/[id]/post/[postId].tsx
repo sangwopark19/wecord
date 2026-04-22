@@ -324,7 +324,7 @@ export default function PostDetailScreen() {
               <Ionicons
                 name="send"
                 size={22}
-                color={hasContent && !createComment.isPending ? '#00E5C3' : '#666666'}
+                color={hasContent && !createComment.isPending ? '#8B5CF6' : '#666666'}
               />
             </Pressable>
           </View>

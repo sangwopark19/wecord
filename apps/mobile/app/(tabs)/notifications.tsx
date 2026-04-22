@@ -199,7 +199,7 @@ export default function GlobalNotificationsScreen() {
           accessibilityRole="button"
           style={{ minHeight: 44, justifyContent: 'center', paddingLeft: 8 }}
         >
-          <Text style={{ color: '#00E5C3' }} className="text-body">
+          <Text style={{ color: '#8B5CF6' }} className="text-body">
             {t('markAllRead')}
           </Text>
         </Pressable>

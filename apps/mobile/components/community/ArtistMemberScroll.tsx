@@ -146,14 +146,14 @@ export function ArtistMemberScroll({
     >
       <View
         className={`w-14 h-14 rounded-full bg-card items-center justify-center ${
-          selectedMemberId === null ? 'border-2 border-teal' : ''
+          selectedMemberId === null ? 'border-2 border-accent' : ''
         }`}
         style={{ width: 56, height: 56 }}
       >
         <Ionicons
           name="grid-outline"
           size={24}
-          color={selectedMemberId === null ? '#00E5C3' : '#999999'}
+          color={selectedMemberId === null ? '#8B5CF6' : '#999999'}
         />
       </View>
       <Text
@@ -186,7 +186,7 @@ export function ArtistMemberScroll({
             borderRadius: 28,
             overflow: 'hidden',
             borderWidth: isSelected ? 2 : 0,
-            borderColor: isSelected ? '#00E5C3' : 'transparent',
+            borderColor: isSelected ? '#8B5CF6' : 'transparent',
           }}
           className="bg-card"
         >

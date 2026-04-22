@@ -53,7 +53,7 @@ export function ReplyRow({ comment, currentUserId, onLike, onDelete, onReport }:
           {/* Nickname row */}
           <View className="flex-row items-center gap-2 flex-wrap">
             <Text
-              className={`text-body font-semibold ${isCreatorReply ? 'text-teal' : 'text-foreground'}`}
+              className={`text-body font-semibold ${isCreatorReply ? 'text-accent' : 'text-foreground'}`}
             >
               {comment.author.community_nickname}
             </Text>

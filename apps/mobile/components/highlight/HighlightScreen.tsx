@@ -90,7 +90,7 @@ export default function HighlightScreen({ communityId }: HighlightScreenProps) {
           accessibilityRole="button"
           style={{ marginTop: 16, minHeight: 44, justifyContent: 'center' }}
         >
-          <Text style={{ color: '#00E5C3' }} className="text-body">
+          <Text style={{ color: '#8B5CF6' }} className="text-body">
             {t('retry')}
           </Text>
         </Pressable>
@@ -124,7 +124,7 @@ export default function HighlightScreen({ communityId }: HighlightScreenProps) {
         <RefreshControl
           refreshing={isRefetching}
           onRefresh={refetch}
-          tintColor="#00E5C3"
+          tintColor="#8B5CF6"
         />
       }
     >

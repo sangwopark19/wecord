@@ -67,7 +67,7 @@ export function SettingsRow({
         <Switch
           value={!!switchValue}
           onValueChange={onSwitchChange}
-          trackColor={{ false: '#2A2A2A', true: '#00E5C3' }}
+          trackColor={{ false: '#2A2A2A', true: '#8B5CF6' }}
           thumbColor="#FFFFFF"
           accessibilityRole="switch"
         />

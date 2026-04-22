@@ -129,7 +129,7 @@ export default function NotificationsScreen() {
           accessibilityRole="button"
           style={{ minHeight: 44, justifyContent: 'center', paddingLeft: 8, opacity: markAllRead.isPending ? 0.5 : 1 }}
         >
-          <Text style={{ color: '#00E5C3' }} className="text-body">
+          <Text style={{ color: '#8B5CF6' }} className="text-body">
             모두 읽음
           </Text>
         </Pressable>

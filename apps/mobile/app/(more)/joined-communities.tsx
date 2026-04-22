@@ -37,7 +37,7 @@ export default function JoinedCommunitiesScreen() {
       </View>
 
       {isLoading ? (
-        <ActivityIndicator className="mt-12" color="#00E5C3" />
+        <ActivityIndicator className="mt-12" color="#8B5CF6" />
       ) : (data ?? []).length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">
           <Ionicons name="people-outline" size={48} color="#666666" />

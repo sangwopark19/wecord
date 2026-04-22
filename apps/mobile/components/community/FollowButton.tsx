@@ -22,7 +22,7 @@ export function FollowButton({ followerCmId, followingCmId, isOwnProfile, nickna
         className="rounded-full px-6 py-2 items-center justify-center bg-card border border-border"
         style={{ minWidth: 80, minHeight: 36 }}
       >
-        <ActivityIndicator color="#00E5C3" size="small" />
+        <ActivityIndicator color="#8B5CF6" size="small" />
       </View>
     );
   }
@@ -66,7 +66,7 @@ export function FollowButton({ followerCmId, followingCmId, isOwnProfile, nickna
       className={
         isFollowing
           ? 'bg-card border border-border rounded-full px-6 py-2 items-center justify-center'
-          : 'bg-teal rounded-full px-6 py-2 items-center justify-center'
+          : 'bg-accent rounded-full px-6 py-2 items-center justify-center'
       }
       accessibilityRole="button"
       accessibilityState={{ selected: !!isFollowing }}

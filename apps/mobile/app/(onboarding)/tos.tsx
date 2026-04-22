@@ -53,7 +53,7 @@ export default function TosScreen() {
         >
           <View
             className={`w-5 h-5 rounded items-center justify-center ${
-              accepted ? 'bg-teal' : 'bg-input'
+              accepted ? 'bg-accent' : 'bg-input'
             }`}
           >
             {accepted && (

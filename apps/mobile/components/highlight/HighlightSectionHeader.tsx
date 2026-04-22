@@ -21,7 +21,7 @@ export function HighlightSectionHeader({ title, onSeeMore }: HighlightSectionHea
           accessibilityRole="button"
           style={{ minHeight: 44, justifyContent: 'center' }}
         >
-          <Text style={{ color: '#00E5C3' }} className="text-label">
+          <Text style={{ color: '#8B5CF6' }} className="text-label">
             {t('seeMore')}
           </Text>
         </Pressable>

@@ -42,7 +42,7 @@ interface NotificationRowProps {
 export function NotificationRow({ notification, onPress }: NotificationRowProps) {
   const { t } = useTranslation('notification');
   const isUnread = !notification.is_read;
-  const iconColor = isUnread ? '#00E5C3' : '#999999';
+  const iconColor = isUnread ? '#8B5CF6' : '#999999';
   const textColor = isUnread ? undefined : undefined; // handled via className
 
   return (
@@ -87,7 +87,7 @@ export function NotificationRow({ notification, onPress }: NotificationRowProps)
             width: 8,
             height: 8,
             borderRadius: 4,
-            backgroundColor: '#00E5C3',
+            backgroundColor: '#8B5CF6',
             marginLeft: 8,
           }}
         />

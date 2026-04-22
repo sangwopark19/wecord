@@ -23,7 +23,7 @@ export default function NoticeDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-background items-center justify-center">
-        <ActivityIndicator color="#00E5C3" />
+        <ActivityIndicator color="#8B5CF6" />
       </SafeAreaView>
     );
   }
@@ -48,7 +48,7 @@ export default function NoticeDetailScreen() {
             accessibilityRole="button"
             style={{ marginTop: 16, minHeight: 44, justifyContent: 'center' }}
           >
-            <Text style={{ color: '#00E5C3' }} className="text-body">
+            <Text style={{ color: '#8B5CF6' }} className="text-body">
               {t('retry')}
             </Text>
           </Pressable>

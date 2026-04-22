@@ -29,7 +29,7 @@ export function NoticeRow({ notice, onPress }: NoticeRowProps) {
         notice.is_pinned
           ? {
               borderLeftWidth: 2,
-              borderLeftColor: '#00E5C3',
+              borderLeftColor: '#8B5CF6',
               backgroundColor: '#1A1A1A', // bg-card equivalent
             }
           : {
@@ -39,11 +39,11 @@ export function NoticeRow({ notice, onPress }: NoticeRowProps) {
             },
       ]}
     >
-      {/* Title row — pinned shows teal dot */}
+      {/* Title row — pinned shows accent dot */}
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
         {notice.is_pinned && (
           <View
-            style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#00E5C3', flexShrink: 0 }}
+            style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#8B5CF6', flexShrink: 0 }}
           />
         )}
         <Text

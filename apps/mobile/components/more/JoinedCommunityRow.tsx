@@ -36,7 +36,7 @@ export function JoinedCommunityRow({ community, isLast }: Props) {
           height: 40,
           borderRadius: 20,
           overflow: 'hidden',
-          backgroundColor: '#00E5C3',
+          backgroundColor: '#8B5CF6',
           alignItems: 'center',
           justifyContent: 'center',
         }}

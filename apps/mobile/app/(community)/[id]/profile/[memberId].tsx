@@ -127,11 +127,11 @@ export default function CommunityProfileScreen() {
           className="flex-1 py-3 items-center"
           onPress={() => setActiveTab('posts')}
         >
-          <Text className={activeTab === 'posts' ? 'text-body font-semibold text-teal' : 'text-body text-muted-foreground'}>
+          <Text className={activeTab === 'posts' ? 'text-body font-semibold text-accent' : 'text-body text-muted-foreground'}>
             {t('profile.tab.posts')}
           </Text>
           {activeTab === 'posts' && (
-            <View className="absolute bottom-0 left-4 right-4 h-0.5 bg-teal" />
+            <View className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent" />
           )}
         </Pressable>
 
@@ -139,11 +139,11 @@ export default function CommunityProfileScreen() {
           className="flex-1 py-3 items-center"
           onPress={() => setActiveTab('comments')}
         >
-          <Text className={activeTab === 'comments' ? 'text-body font-semibold text-teal' : 'text-body text-muted-foreground'}>
+          <Text className={activeTab === 'comments' ? 'text-body font-semibold text-accent' : 'text-body text-muted-foreground'}>
             {t('profile.tab.comments')}
           </Text>
           {activeTab === 'comments' && (
-            <View className="absolute bottom-0 left-4 right-4 h-0.5 bg-teal" />
+            <View className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent" />
           )}
         </Pressable>
       </View>
@@ -153,7 +153,7 @@ export default function CommunityProfileScreen() {
         <>
           {postsLoading ? (
             <View className="flex-1 items-center justify-center">
-              <ActivityIndicator color="#00E5C3" />
+              <ActivityIndicator color="#8B5CF6" />
             </View>
           ) : (
             <FlashList
@@ -177,7 +177,7 @@ export default function CommunityProfileScreen() {
         <>
           {commentsLoading ? (
             <View className="flex-1 items-center justify-center">
-              <ActivityIndicator color="#00E5C3" />
+              <ActivityIndicator color="#8B5CF6" />
             </View>
           ) : !memberComments?.length ? (
             <View className="flex-1 items-center justify-center">

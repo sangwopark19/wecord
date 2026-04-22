@@ -6,10 +6,10 @@ import { useDmLaunchNotify } from '../../hooks/dm/useDmLaunchNotify';
 
 // DMPL-01 / D-27. Centered placeholder for the DM tab until v1.1.
 //
-// Layout: chatbubbles-outline icon (96px teal) → display heading → muted body
+// Layout: chatbubbles-outline icon (96px accent) → display heading → muted body
 // (max 280px) → CTA. CTA toggles between two states based on
 // profile.dmLaunchNotify:
-//   - false → PrimaryCTAButton "출시되면 알려주세요" (filled teal)
+//   - false → PrimaryCTAButton "출시되면 알려주세요" (filled accent)
 //   - true  → outline-variant "알림 등록 완료" with check icon (re-tap shows
 //             the alreadyNotifiedToast Alert from the hook)
 export function DmPlaceholder() {
@@ -21,7 +21,7 @@ export function DmPlaceholder() {
       className="flex-1 items-center justify-center bg-background"
       style={{ paddingHorizontal: 32 }}
     >
-      <Ionicons name="chatbubbles-outline" size={96} color="#00E5C3" />
+      <Ionicons name="chatbubbles-outline" size={96} color="#8B5CF6" />
       <Text
         className="text-display font-semibold text-foreground text-center"
         style={{ marginTop: 24 }}
@@ -40,10 +40,10 @@ export function DmPlaceholder() {
             onPress={notify}
             accessibilityRole="button"
             accessibilityLabel={t('dm:notifiedState')}
-            className="mx-4 h-[52px] flex-row items-center justify-center rounded-[28px] border-2 border-teal"
+            className="mx-4 h-[52px] flex-row items-center justify-center rounded-[28px] border-2 border-accent"
           >
-            <Ionicons name="checkmark" size={20} color="#00E5C3" />
-            <Text className="text-heading font-semibold text-teal ml-2">
+            <Ionicons name="checkmark" size={20} color="#8B5CF6" />
+            <Text className="text-heading font-semibold text-accent ml-2">
               {t('dm:notifiedState')}
             </Text>
           </Pressable>

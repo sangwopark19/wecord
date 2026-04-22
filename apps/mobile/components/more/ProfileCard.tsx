@@ -24,7 +24,7 @@ export function ProfileCard({ profile }: Props) {
           height: 56,
           borderRadius: 28,
           overflow: 'hidden',
-          backgroundColor: '#00E5C3',
+          backgroundColor: '#8B5CF6',
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -52,7 +52,7 @@ export function ProfileCard({ profile }: Props) {
         accessibilityLabel={t('profileCard.editButton')}
         style={{ minHeight: 44, justifyContent: 'center' }}
       >
-        <Text className="text-label text-teal">{t('profileCard.editButton')}</Text>
+        <Text className="text-label text-accent">{t('profileCard.editButton')}</Text>
       </Pressable>
     </View>
   );

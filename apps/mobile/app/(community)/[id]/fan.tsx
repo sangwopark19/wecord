@@ -129,7 +129,7 @@ export default function FanTab() {
             accessibilityLabel="다시 시도"
             className="ml-2"
           >
-            <Text className="text-teal text-body font-semibold">{t('common.retry')}</Text>
+            <Text className="text-accent text-body font-semibold">{t('common.retry')}</Text>
           </Pressable>
         </View>
       )}
@@ -158,7 +158,7 @@ export default function FanTab() {
           <RefreshControl
             refreshing={isRefetching}
             onRefresh={refetch}
-            tintColor="#00E5C3"
+            tintColor="#8B5CF6"
           />
         }
         ListHeaderComponent={ListHeader}

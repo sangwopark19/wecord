@@ -73,7 +73,7 @@ export default function FollowerListScreen() {
 
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator color="#00E5C3" />
+          <ActivityIndicator color="#8B5CF6" />
         </View>
       ) : (followers?.length ?? 0) === 0 ? (
         <View className="flex-1 items-center justify-center px-8">

@@ -33,7 +33,7 @@ function PreferenceRow({ label, description, value, onChange }: PreferenceRowPro
       <Switch
         value={value}
         onValueChange={onChange}
-        trackColor={{ false: '#3A3A3A', true: '#00E5C3' }}
+        trackColor={{ false: '#3A3A3A', true: '#8B5CF6' }}
         thumbColor="#FFFFFF"
       />
     </View>

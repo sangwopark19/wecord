@@ -7,7 +7,7 @@ interface HighlightedTextProps {
   highlightColor?: string;
 }
 
-export function HighlightedText({ text, query, style, highlightColor = '#00E5C3' }: HighlightedTextProps) {
+export function HighlightedText({ text, query, style, highlightColor = '#8B5CF6' }: HighlightedTextProps) {
   if (!query.trim()) return <Text style={style}>{text}</Text>;
 
   const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

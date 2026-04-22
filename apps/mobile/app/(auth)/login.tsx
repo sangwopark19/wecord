@@ -334,7 +334,7 @@ export default function LoginScreen() {
             ) : (
               <>
                 <Text className="text-black font-semibold text-[16px] mr-2">G</Text>
-                <Text className="text-[#00E5C3] font-semibold text-[16px]">
+                <Text className="text-[#8B5CF6] font-semibold text-[16px]">
                   {t('login.google_cta')}
                 </Text>
               </>

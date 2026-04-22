@@ -66,7 +66,7 @@ export default function MoreScreen() {
   if (!profile) {
     return (
       <SafeAreaView className="flex-1 bg-background items-center justify-center">
-        <ActivityIndicator color="#00E5C3" />
+        <ActivityIndicator color="#8B5CF6" />
       </SafeAreaView>
     );
   }
@@ -87,7 +87,7 @@ export default function MoreScreen() {
           {t('sections.joinedCommunities')}
         </Text>
         {isLoading ? (
-          <ActivityIndicator className="my-4" color="#00E5C3" />
+          <ActivityIndicator className="my-4" color="#8B5CF6" />
         ) : (joined ?? []).length === 0 ? (
           <View className="bg-card rounded-xl mx-4 p-8 items-center">
             <Text className="text-heading font-semibold text-foreground text-center">

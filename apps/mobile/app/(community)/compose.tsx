@@ -204,10 +204,10 @@ export default function ComposeScreen() {
           accessibilityState={{ disabled: !canPublish }}
         >
           {isPublishing ? (
-            <ActivityIndicator size="small" color="#00E5C3" />
+            <ActivityIndicator size="small" color="#8B5CF6" />
           ) : (
             <Text
-              className={`text-body font-semibold ${canPublish ? 'text-teal' : 'text-subtle'}`}
+              className={`text-body font-semibold ${canPublish ? 'text-accent' : 'text-subtle'}`}
             >
               {t('post.compose.publish')}
             </Text>

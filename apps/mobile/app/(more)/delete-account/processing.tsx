@@ -36,7 +36,7 @@ export default function DeleteAccountProcessingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background items-center justify-center">
-      <ActivityIndicator size="large" color="#00E5C3" />
+      <ActivityIndicator size="large" color="#8B5CF6" />
       <Text className="text-body text-muted-foreground mt-6">
         {t('account:deleteAccount.processing')}
       </Text>

@@ -19,11 +19,11 @@ export function CommunityChip({ communityId, communityName }: CommunityChipProps
       style={{ alignSelf: 'flex-start', marginBottom: 8 }}
     >
       <View
-        className="flex-row items-center border border-teal rounded-full px-2 py-0.5"
+        className="flex-row items-center border border-accent rounded-full px-2 py-0.5"
         style={{ gap: 4 }}
       >
-        <Ionicons name="people-outline" size={12} color="#00E5C3" />
-        <Text className="text-label text-teal">{communityName}</Text>
+        <Ionicons name="people-outline" size={12} color="#8B5CF6" />
+        <Text className="text-label text-accent">{communityName}</Text>
       </View>
     </Pressable>
   );
