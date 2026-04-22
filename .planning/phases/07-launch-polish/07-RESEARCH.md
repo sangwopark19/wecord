@@ -1052,27 +1052,31 @@ export default function PrivacyPage({ searchParams }: { searchParams: Promise<{ 
 | A7 | `notification_preferences` 테이블에 `user_id` 컬럼이 있고 RLS가 service_role DELETE 허용 | Pattern 3 | service_role은 RLS bypass [VERIFIED via Supabase docs] |
 | A8 | Apple Sign-In 버튼이 현재 `(auth)/login.tsx`에 존재 | Apple Guideline checklist | Phase 2 `02-01-PLAN.md`에 명시 — verified |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **`expo-tracking-transparency` 플러그인의 Info.plist 주입 동작** (A5)
    - What we know: 공식 문서는 plugin이 key를 자동 주입한다고 명시. CONTEXT D-36은 "설치하나 사용 없음 선언"을 요구.
    - What's unclear: plugin을 설치하고 `userTrackingPermission`을 설정하지 않으면 Info.plist에 key가 들어가는지, 빈 문자열이 들어가는지, 아예 key가 없는지.
    - Recommendation: **Plan 07-02 초반에 실험 task 추가** — `npx expo prebuild --platform ios --no-install`로 Info.plist 생성 후 key 존재 여부 확인. 만약 빈 문자열이 들어간다면 Apple이 ATT 사용 선언으로 오인할 가능성 있어 **plugin 자체를 설치하지 않는** 것이 더 안전.
+   - **RESOLVED — Package NOT installed as Expo plugin. app.json plugins array will not include "expo-tracking-transparency". Info.plist will not get NSUserTrackingUsageDescription injected. App Store Connect "Data Used to Track You" answered "No". Rationale: App does no tracking; Apple does not require the key when tracking is absent. (Decided in 07-03 Task 6.)**
 
 2. **Apple 심사용 demo 계정 전략**
    - What we know: Apple reviewer가 Google/Apple OAuth를 직접 쓰기 곤란. 통상 이메일/패스워드 로그인이 있거나 "bypass code" 제공.
    - What's unclear: Wecord는 OAuth only. Reviewer는 실제 Apple ID로 Sign-In해야 함.
    - Recommendation: App Store Connect "App Review Information" 필드에 "This app uses Google/Apple OAuth only. Please sign in with your own Apple ID or use the pre-provisioned test account at apple-reviewer@wecord.app / [pw]. Hide My Email is fully supported." 메모 필수. Plan 07-02 submission task에 명시.
+   - **RESOLVED — A dedicated demo account will be created with seed data and its credentials entered into App Store Connect 'App Review Information'. Account is scoped to production Supabase so Apple reviewers see a realistic state. (Decided in 07-03 Task 8.)**
 
 3. **프로덕션 Supabase OAuth client secret 회전**
    - What we know: 현재 dev 프로젝트의 Google/Apple OAuth client ID는 아마 localhost + dev supabase URL로 등록.
    - What's unclear: 프로덕션용 OAuth client를 새로 발급할지, 기존 client에 URI만 추가할지.
    - Recommendation: **별도 OAuth client 발급** — 키 compromise 리스크 격리. Plan 07-02 Google Cloud Console / Apple Developer Portal task에 명시.
+   - **RESOLVED — Production Supabase project gets its own Google Cloud OAuth 2.0 client + Apple Services ID. Dev credentials remain in dev project. Redirect URIs: new https://<prod-ref>.supabase.co/auth/v1/callback registered in both Google + Apple consoles. (Decided in 07-03 Task 5.)**
 
 4. **Custom domain 타이밍**
    - What we know: D-31은 `*.pages.dev` 기본 도메인 사용. 커스텀 도메인은 CONTEXT deferred.
    - What's unclear: 만약 Apple이 pages.dev URL로 reject하면 v1.0 출시 delay. 미리 wecord.app 같은 도메인을 구매해 두는 것이 안전할지.
    - Recommendation: **Plan 07-02에 optional task로 "커스텀 도메인 대비 확보"** — 도메인 구매만 선행, Cloudflare 연결은 거부 시 실행. 8,000원 정도 비용 대비 리스크가 큼.
+   - **RESOLVED — Deferred to v1.0.1 patch. MVP launch uses <project>.pages.dev as the Apple-submitted Privacy URL and admin host. Domain purchase + DNS migration runbook tracked as backlog item. (Acceptable risk per CONTEXT Deferred Ideas.)**
 
 ## Validation Architecture
 

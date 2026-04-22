@@ -68,7 +68,7 @@
 | `packages/shared/src/i18n/locales/{ko,en}/settings.json` | config/i18n | — | 위 동일 | exact |
 | `packages/shared/src/i18n/locales/{ko,en}/shop.json` | config/i18n | — | 위 동일 | exact |
 | `packages/shared/src/i18n/locales/{ko,en}/dm.json` | config/i18n | — | 위 동일 | exact |
-| `packages/shared/src/i18n/locales/{ko,en}/legal.json` | config/i18n | — | 위 동일 | exact |
+| `packages/shared/src/i18n/locales/{ko,en}/account.json` | config/i18n | — | 위 동일 (delete-account flow copy; replaces planned-but-unused legal.json — legal labels live in settings.json and admin legal content lives in apps/admin/lib/legal-content.ts) | exact |
 
 ### Admin app public routes (4)
 
@@ -1014,7 +1014,7 @@ export interface Profile {
 
 ---
 
-### 26. `packages/shared/src/i18n/locales/{ko,en}/{more,settings,shop,dm,legal}.json`
+### 26. `packages/shared/src/i18n/locales/{ko,en}/{more,settings,shop,dm,account}.json`
 
 **Analog:** `packages/shared/src/i18n/locales/ko/common.json` (flat key structure)
 
@@ -1031,14 +1031,15 @@ export interface Profile {
 
 **What to copy:** Namespaced object 패턴 (cta / empty / error groups), flat JSON (deep nesting 2단계까지).
 
-**What to change for Phase 7:**
-- 신규 5 namespace × 2 languages = 10 파일.
-- UI-SPEC Copywriting Contract의 모든 카피를 namespace별로 분배:
-  - `more.json`: tab label, profile card button, section headers, 가입 커뮤니티 empty state, logout/delete row labels, version label.
-  - `settings.json`: screen title, language/push/community-specific row labels + helpers, terms/privacy row labels.
-  - `shop.json`: tab label, header title, aria labels, error fallback (heading/body/retry), external link toast.
-  - `dm.json`: tab label, coming soon heading/body, Notify Me CTA, Notified state, already-notified toast.
-  - `legal.json`: privacy/terms page headings, language toggle, last-updated prefix.
+**What to change for Phase 7 (CORRECTED):**
+- **legal.json is NOT needed as a separate namespace.** The legal row labels ("서비스 이용약관", "개인정보처리방침") are already in settings.json (settings.legal.termsRow / settings.legal.privacyRow) and the hosted legal content lives in apps/admin/lib/legal-content.ts. Admin-side language toggle strings live in admin locale files (KO + EN) directly rendered by apps/admin/app/(public)/layout.tsx.
+- 신규 5 mobile namespaces × 2 languages = 10 파일:
+  - `more.json` (Plan 07-01 Wave 0): tab label, profile card button, section headers, 가입 커뮤니티 empty state, logout/delete row labels, version label.
+  - `settings.json` (Plan 07-01 Wave 0): screen title, language/push/community-specific row labels + helpers, terms/privacy row labels (these subsume legal.json use cases).
+  - `shop.json` (Plan 07-02 Wave 0): tab label, header title, aria labels, error fallback (heading/body/retry), external link toast.
+  - `dm.json` (Plan 07-02 Wave 0): tab label, coming soon heading/body, Notify Me CTA, Notified state, already-notified toast.
+  - `account.json` (Plan 07-02 Wave 0): delete-account screen copy — warningHeading / warningBody / continueCta / confirmLabel / confirmPlaceholder / finalCta / successToast / failureToast.
+- Admin-side legal copy (KO + EN only) is NOT in the shared i18n system — it lives directly in `apps/admin/lib/legal-content.ts` as exported string constants consumed via `dangerouslySetInnerHTML`.
 - i18n loader 등록 필요: `packages/shared/src/i18n/index.ts`의 resources에 5 namespace 추가 (기존 `common`, `auth`, `community` 등과 동일 구조).
 
 ---

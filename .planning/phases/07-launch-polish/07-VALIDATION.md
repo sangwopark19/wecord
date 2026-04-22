@@ -54,8 +54,8 @@ Tasks are mapped at REQ-ID / decision granularity. Plan files may further split 
 | DM notify preference | 07-02 | 2 | DMPL-02 | T-7-06 | RLS self-update only on profiles.dm_launch_notify | unit | `pnpm test tests/dm/useDmLaunchNotify.test.ts` | ❌ W0 | ⬜ pending |
 | Delete account client hook | 07-02 | 3 | D-37 | T-7-02 | JWT required; auth cleared on 200 | unit | `pnpm test tests/account/useDeleteAccount.test.ts` | ❌ W0 | ⬜ pending |
 | delete-user Edge Function (auth) | 07-02 | 3 | D-37 | T-7-02 | 401 when no JWT; only own user deletable | integration | `cd packages/supabase && deno test functions/delete-user/index.test.ts` | ❌ W0 | ⬜ pending |
-| delete_account RPC cascade order | 07-02 | 3 | D-37 | T-7-02 | Orphans never left; ordered cascade | SQL integration | `psql -c "SELECT test_delete_account();"` | ❌ W0 | ⬜ pending |
-| Login snapshot (Apple prominence) | 07-02 | 3 | D-32 (SHOP/MORE auth) | T-7-07 | Apple equal/above Google | unit (render snapshot) | `pnpm test tests/auth/login-snapshot.test.tsx` | ❌ W0 (update) | ⬜ pending |
+| delete_account RPC cascade order | 07-02 | 3 | D-37 | T-7-02 | Orphans never left; ordered cascade | SQL smoke (post-migration) | `psql -c "SELECT wv_test_delete_account_smoke();"` | ❌ W0 (smoke helper migration) | ⬜ pending |
+| Login snapshot (Apple prominence) | 07-01 | 2 | D-32 (SHOP/MORE auth) | T-7-07 | Apple equal/above Google | unit (render snapshot) | `pnpm test tests/auth/login-snapshot.test.tsx` | ⚠️ Updates existing file (see Manual-Only table) | ⬜ pending |
 | /privacy public route 200 | 07-02 | 4 | D-31 | — | No auth gating; HTML 200 | integration (curl, post-deploy) | `curl -sf "$APPS_ADMIN_URL/privacy"` | Manual | ⬜ pending |
 | /terms public route 200 | 07-02 | 4 | D-31 | — | No auth gating; HTML 200 | integration (curl, post-deploy) | `curl -sf "$APPS_ADMIN_URL/terms"` | Manual | ⬜ pending |
 | Production EAS build env parity | 07-02 | 4 | D-33 | — | Correct EXPO_PUBLIC_SUPABASE_URL | manual (EAS logs) | EAS build artifact env inspection | Manual | ⬜ pending |
@@ -77,7 +77,6 @@ Wave 0 creates the test stubs + mocks so every later wave can commit against an 
 - [ ] `apps/mobile/tests/settings/push-switch.test.ts` — stubs for MORE-04 permission reconciliation
 - [ ] `apps/mobile/tests/community/useMyCommunities.test.ts` — stubs for MORE-03 joined communities query
 - [ ] `apps/mobile/tests/auth/signOut.test.ts` — stubs for MORE-05 sign-out side-effects
-- [ ] `apps/mobile/tests/auth/login-snapshot.test.tsx` — extend existing login snapshot to lock Apple-prominence (D-32)
 - [ ] `apps/mobile/tests/shop/ShopWebView.test.tsx` — render stubs for SHOP-01
 - [ ] `apps/mobile/tests/shop/external-link-block.test.ts` — stubs for SHOP-02 `onShouldStartLoadWithRequest`
 - [ ] `apps/mobile/tests/shop/navigation-state.test.ts` — stubs for SHOP-02 `canGoBack` toggling
@@ -88,6 +87,7 @@ Wave 0 creates the test stubs + mocks so every later wave can commit against an 
 - [ ] Shared vitest config update in `apps/mobile/vitest.config.ts` — add mocks for `react-native-webview`, `@expo/react-native-action-sheet`, `expo-web-browser`, `expo-tracking-transparency` (if the plan chooses to install it)
 - [ ] `packages/supabase/migrations/<timestamp>_add_dm_launch_notify.sql` — schema migration (DMPL-02 prerequisite; without it, `useDmLaunchNotify` test has nothing to hit)
 - [ ] `packages/supabase/migrations/<timestamp>_delete_account_rpc.sql` — plpgsql `delete_account(uuid)` function (D-37 prerequisite)
+- [ ] `packages/supabase/migrations/20260422000004_phase7_delete_account_smoke.sql` — plpgsql `wv_test_delete_account_smoke()` helper function for SQL smoke test (D-37 test prerequisite, local-only guard)
 
 ---
 
@@ -97,6 +97,7 @@ Phase 7 is the launch gate — several verifications can only be asserted on rea
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
+| Login snapshot (Apple prominence) — test file UPDATE | D-32 / T-7-07 | Test file already exists; no Wave 0 stub applicable. Updating an existing snapshot file requires touching login.tsx + test in Plan 07-01 Task 7 (Wave 2). Phase gate re-runs it in Plan 07-03 Task 3. | After Plan 07-01 Task 7: `cd apps/mobile && pnpm test tests/auth/login-snapshot.test.tsx` must exit 0; Plan 07-03 Task 3 re-runs it as the pre-submission gate |
 | Real-device push notification delivery (Phase 4 carry-over) | D-33 launch gate | Expo Push + APNs/FCM cannot be simulated | Install production EAS build on iPhone + Pixel, send test notification via Expo Push API, confirm delivery |
 | Apple Sign-In with Hide My Email relay | D-32 | Requires real Apple ID + Apple servers | Sign in with Hide My Email option, confirm profile created, confirm logout + re-login works |
 | iOS TestFlight install → 5-tab smoke | D-33, D-34 | Pre-submission sanity | Internal TestFlight → install → 5 탭 전환 · 커뮤니티 진입 · 프로필 편집 · 글/댓글 작성 · 언어 변경 · 로그아웃 |
