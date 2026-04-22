@@ -74,8 +74,8 @@ CREATE TRIGGER notice_insert_trigger
 SELECT cron.schedule(
   'drain-notify-queue',
   '5 seconds',
-  $$
-  DO $$
+  $drain$
+  DO $inner$
   DECLARE
     v_msg RECORD;
     v_functions_url TEXT;
@@ -104,6 +104,6 @@ SELECT cron.schedule(
       PERFORM pgmq.archive('notify_queue', v_msg.msg_id);
     END LOOP;
   END;
-  $$;
-  $$
+  $inner$;
+  $drain$
 );

@@ -16,6 +16,8 @@ CREATE POLICY "push_tokens_anon_block" ON push_tokens FOR ALL
 -- Add community_id to notifications for efficient per-community filtering
 ALTER TABLE notifications ADD COLUMN community_id uuid REFERENCES communities(id);
 CREATE INDEX idx_notifications_community ON notifications(user_id, community_id, created_at DESC);
+-- Replace idx_notifications_unread from initial_schema with an is_read-keyed variant
+DROP INDEX IF EXISTS idx_notifications_unread;
 CREATE INDEX idx_notifications_unread ON notifications(user_id, is_read) WHERE is_read = false;
 
 -- Enable pgmq and pg_cron extensions

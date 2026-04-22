@@ -2,6 +2,14 @@
 -- These were in migrations 20260320200000, 20260320300000, 20260321000000
 -- but those were marked as applied without actually running.
 -- This migration extracts only the trigger functions and triggers (no extensions/queue/cron).
+-- Drop existing triggers first so the migration is idempotent when earlier
+-- migrations did run (e.g. in a fresh CI database or local dev reset).
+DROP TRIGGER IF EXISTS notice_publish_trigger ON notices;
+DROP TRIGGER IF EXISTS notice_insert_trigger ON notices;
+DROP TRIGGER IF EXISTS posts_creator_notify_trigger ON posts;
+DROP TRIGGER IF EXISTS comments_notify_trigger ON comments;
+DROP TRIGGER IF EXISTS likes_notify_trigger ON likes;
+DROP TRIGGER IF EXISTS posts_member_notify_trigger ON posts;
 
 -- Also schedule the notice publisher cron job
 SELECT cron.schedule(

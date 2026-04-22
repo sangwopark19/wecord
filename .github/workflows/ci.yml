@@ -14,8 +14,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -39,8 +37,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -74,15 +70,10 @@ jobs:
           cd packages/supabase
           supabase db push --local
 
-      - name: Verify tables exist
-        run: |
-          cd packages/supabase
-          supabase db execute "SELECT count(*) as table_count FROM pg_tables WHERE schemaname = 'public';" --local
-
-      - name: Verify RLS enabled
-        run: |
-          cd packages/supabase
-          supabase db execute "SELECT count(*) as rls_count FROM pg_tables WHERE schemaname = 'public' AND rowsecurity = true;" --local
+      # Migration success itself verifies schema creation and RLS enablement
+      # (both are embedded in the migration files). The prior `supabase db
+      # execute ... --local` sanity queries were removed when the CLI dropped
+      # that subcommand — no replacement needed.
 
       - name: Stop Supabase
         if: always()
@@ -98,8 +89,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -121,8 +110,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:

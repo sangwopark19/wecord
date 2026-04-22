@@ -1,4 +1,12 @@
 -- Phase 6: Soft delete, banned words, analytics functions
+
+-- Drop dependent views first so ALTER TABLE ADD COLUMN does not attempt to
+-- reshape them (p.* / c.* expansion shifts existing view-column positions,
+-- which Postgres rejects with "cannot change name of view column"). The
+-- views are recreated below with soft-delete filtering.
+DROP VIEW IF EXISTS posts_with_nickname;
+DROP VIEW IF EXISTS comments_with_nickname;
+
 -- 1. Add deleted_at to posts
 ALTER TABLE posts ADD COLUMN deleted_at TIMESTAMPTZ DEFAULT NULL;
 

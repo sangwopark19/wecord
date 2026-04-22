@@ -80,6 +80,10 @@ Plan: Not started
 
 ## Accumulated Context
 
+### Roadmap Evolution
+
+- Phase 8 added: Fetch design file from Anthropic and implement wecord.html (https://api.anthropic.com/v1/design/h/l00PLmrunZZdTLsxQ8ZYPw?open_file=wecord.html)
+
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
@@ -169,6 +173,14 @@ None yet.
 - [Pre-Phase 7]: Apple OAuth requires live privacy policy URL before first TestFlight — plan URL hosting alongside Phase 7 App Store checklist
 - [02-01]: generate-nickname Edge Function needs manual deploy: `supabase functions deploy generate-nickname`
 - [02-01]: EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY env vars needed in .env.local for dev
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260422-m4b | fix PR CI pnpm version conflict | 2026-04-22 | 51a42f5 | [260422-m4b-fix-pr-ci-pnpm-version-conflict](./quick/260422-m4b-fix-pr-ci-pnpm-version-conflict/) |
+
+Last activity: 2026-04-22 - Completed quick task 260422-m4b: fix PR CI pnpm version conflict
 
 ## Session Continuity
 

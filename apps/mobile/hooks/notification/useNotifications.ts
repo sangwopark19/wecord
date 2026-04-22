@@ -4,7 +4,7 @@ import { useAuthStore } from '../../stores/authStore';
 
 export interface Notification {
   id: string;
-  type: 'creator_post' | 'comment' | 'like' | 'notice' | 'member_post' | 'system';
+  type: 'creator_post' | 'comment' | 'like' | 'notice' | 'member_post' | 'system' | 'live';
   title: string;
   body: string;
   data: Record<string, string> | null;

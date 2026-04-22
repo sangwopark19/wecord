@@ -165,3 +165,13 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 5. Home Feed, Search & Community Social | 4/4 | Complete | 2026-03-22 |
 | 6. Safety & Admin Dashboard | 7/7 | Complete |  |
 | 7. Launch Polish | 0/3 | Planned | - |
+
+### Phase 8: Fetch design file from Anthropic and implement wecord.html (https://api.anthropic.com/v1/design/h/l00PLmrunZZdTLsxQ8ZYPw?open_file=wecord.html)
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 7
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 8 to break down)

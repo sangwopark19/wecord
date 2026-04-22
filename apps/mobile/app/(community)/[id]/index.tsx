@@ -41,6 +41,15 @@ interface Community {
   name: string;
   cover_image_url: string | null;
   type: 'solo' | 'group';
+  member_count: number;
+}
+
+const SOCIAL_LINKS: ReadonlyArray<string> = ['Website', 'YouTube', 'Instagram', 'X', 'TikTok'];
+
+function formatMemberCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
+  return `${n}`;
 }
 
 // Pill icon button over hero cover
@@ -283,7 +292,7 @@ export default function CommunityMainScreen() {
     queryFn: async (): Promise<Community | null> => {
       const { data, error } = await supabase
         .from('communities')
-        .select('id, name, cover_image_url, type')
+        .select('id, name, cover_image_url, type, member_count')
         .eq('id', id)
         .single();
       if (error) throw error;
@@ -382,7 +391,7 @@ export default function CommunityMainScreen() {
             />
           </View>
         </View>
-        {/* Community meta — label + hero name */}
+        {/* Community meta — label + hero name + social pills */}
         <View className="absolute left-0 right-0 px-4" style={{ bottom: 72 }}>
           <Text
             style={{
@@ -393,7 +402,7 @@ export default function CommunityMainScreen() {
               marginBottom: 8,
             }}
           >
-            COMMUNITY
+            COMMUNITY · {formatMemberCount(community.member_count ?? 0)}
           </Text>
           <Text
             style={{
@@ -407,6 +416,38 @@ export default function CommunityMainScreen() {
           >
             {community.name}
           </Text>
+          <View
+            style={{
+              marginTop: 10,
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: 6,
+            }}
+          >
+            {SOCIAL_LINKS.map((label) => (
+              <View
+                key={label}
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 4,
+                  borderRadius: 20,
+                  backgroundColor: 'rgba(255,255,255,0.12)',
+                  borderWidth: 1,
+                  borderColor: 'rgba(255,255,255,0.14)',
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#FFFFFF',
+                    fontFamily: 'Pretendard-SemiBold',
+                    fontSize: 11,
+                  }}
+                >
+                  {label}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
 

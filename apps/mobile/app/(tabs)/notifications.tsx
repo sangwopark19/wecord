@@ -1,8 +1,9 @@
-import { View, Text, Pressable, SectionList, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, SectionList, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@wecord/shared/i18n';
+import { useState } from 'react';
 import { useAuthStore } from '../../stores/authStore';
 import { supabase } from '../../lib/supabase';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -140,9 +141,27 @@ function useMarkNotificationReadGlobal() {
 import { NotificationRow } from '../../components/notification/NotificationRow';
 import { NotificationGroupHeader } from '../../components/notification/NotificationGroupHeader';
 
+type FilterKey = 'all' | 'live' | 'artist' | 'comments' | 'events';
+
+const FILTERS: ReadonlyArray<{ id: FilterKey; label: string; types: Notification['type'][] | null }> = [
+  { id: 'all', label: 'All', types: null },
+  { id: 'live', label: 'Live', types: ['live'] },
+  { id: 'artist', label: 'Artist', types: ['creator_post', 'member_post'] },
+  { id: 'comments', label: 'Comments', types: ['comment', 'like'] },
+  { id: 'events', label: 'Events', types: ['notice', 'system'] },
+];
+
+function applyFilter(list: Notification[], filter: FilterKey): Notification[] {
+  const spec = FILTERS.find((f) => f.id === filter);
+  if (!spec || spec.types === null) return list;
+  const allowed = new Set(spec.types);
+  return list.filter((n) => allowed.has(n.type));
+}
+
 export default function GlobalNotificationsScreen() {
   const router = useRouter();
   const { t } = useTranslation('notification');
+  const [filter, setFilter] = useState<FilterKey>('all');
 
   const { data: notifications, isLoading, isError } = useGlobalNotifications();
   const markRead = useMarkNotificationReadGlobal();
@@ -161,7 +180,8 @@ export default function GlobalNotificationsScreen() {
     }
   };
 
-  const sections = groupNotifications(notifications ?? [], {
+  const filtered = applyFilter(notifications ?? [], filter);
+  const sections = groupNotifications(filtered, {
     today: t('groups.today'),
     yesterday: t('groups.yesterday'),
     thisWeek: t('groups.thisWeek'),
@@ -204,6 +224,41 @@ export default function GlobalNotificationsScreen() {
           </Text>
         </Pressable>
       </View>
+
+      {/* Filter chip row */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingVertical: 10 }}
+      >
+        {FILTERS.map((f) => {
+          const active = f.id === filter;
+          return (
+            <Pressable
+              key={f.id}
+              onPress={() => setFilter(f.id)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+              style={{
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 16,
+                backgroundColor: active ? '#FFFFFF' : 'rgba(255,255,255,0.06)',
+              }}
+            >
+              <Text
+                style={{
+                  color: active ? '#0B0B0F' : 'rgba(235,235,245,0.62)',
+                  fontFamily: active ? 'Pretendard-Bold' : 'Pretendard-SemiBold',
+                  fontSize: 12,
+                }}
+              >
+                {f.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
 
       {/* Content */}
       {isLoading ? (

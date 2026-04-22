@@ -8,8 +8,11 @@ import { useHomeFeed } from '../../hooks/home/useHomeFeed';
 import { usePromotionBanners } from '../../hooks/home/usePromotionBanners';
 import { useAllUnreadNotificationCount } from '../../hooks/notification/useAllUnreadNotificationCount';
 import { PromotionBannerCarousel } from '../../components/home/PromotionBannerCarousel';
-import { RecommendationSection } from '../../components/home/RecommendationSection';
 import { HomeSearchBar } from '../../components/home/HomeSearchBar';
+import { OnLiveRail } from '../../components/home/OnLiveRail';
+import { ArtistDMRail } from '../../components/home/ArtistDMRail';
+import { MyCommunitiesRail } from '../../components/home/MyCommunitiesRail';
+import { DiscoverGrid } from '../../components/home/DiscoverGrid';
 import { PostCard } from '../../components/post/PostCard';
 import { useTranslation } from '@wecord/shared/i18n';
 import type { PostWithNickname } from '../../hooks/post/useFanFeed';
@@ -32,7 +35,7 @@ function HomeIconButton({
         width: 36,
         height: 36,
         borderRadius: 18,
-        backgroundColor: 'rgba(255,255,255,0.06)',
+        backgroundColor: 'rgba(0,0,0,0.35)',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -56,7 +59,7 @@ function HomeNotificationBell() {
         width: 36,
         height: 36,
         borderRadius: 18,
-        backgroundColor: 'rgba(255,255,255,0.06)',
+        backgroundColor: 'rgba(0,0,0,0.35)',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -95,6 +98,42 @@ function HomeNotificationBell() {
   );
 }
 
+function HomeHeader({ overBanner }: { overBanner: boolean }) {
+  return (
+    <View
+      style={{
+        position: overBanner ? 'absolute' : 'relative',
+        top: overBanner ? 0 : undefined,
+        left: 0,
+        right: 0,
+        zIndex: 2,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingTop: 10,
+        paddingBottom: overBanner ? 10 : 12,
+      }}
+    >
+      <Text
+        style={{
+          fontFamily: 'Pretendard-ExtraBold',
+          fontSize: 22,
+          letterSpacing: -0.5,
+          color: '#FFFFFF',
+        }}
+      >
+        wecord
+      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <HomeIconButton name="search-outline" label="검색" />
+        <HomeIconButton name="mail-outline" label="DM" />
+        <HomeNotificationBell />
+      </View>
+    </View>
+  );
+}
+
 export default function HomeScreen() {
   const { t } = useTranslation('home');
   const { data: bannerData } = usePromotionBanners();
@@ -111,31 +150,12 @@ export default function HomeScreen() {
   } = useHomeFeed();
 
   const posts = data?.pages.flat() ?? [];
+  const hasBanner = banners.length > 0;
 
-  return (
-    <SafeAreaView className="flex-1 bg-background">
-      {/* Header — wecord wordmark + icon row (Variation A) */}
-      <View className="flex-row justify-between items-center px-4 pt-2 pb-3">
-        <Text
-          style={{
-            fontFamily: 'Pretendard-ExtraBold',
-            fontSize: 22,
-            letterSpacing: -0.5,
-            color: '#FFFFFF',
-          }}
-        >
-          wecord
-        </Text>
-        <View className="flex-row items-center" style={{ gap: 6 }}>
-          <HomeIconButton name="search-outline" label="검색" />
-          <HomeIconButton name="mail-outline" label="DM" />
-          <HomeNotificationBell />
-        </View>
-      </View>
-
-      {/* Body — conditional on community membership */}
-      {isNewUser ? (
-        // 0-community view: search bar + banner + recommendation grid
+  if (isNewUser) {
+    return (
+      <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+        <HomeHeader overBanner={false} />
         <ScrollView
           contentContainerStyle={{ paddingBottom: 64 }}
           refreshControl={
@@ -147,57 +167,113 @@ export default function HomeScreen() {
             />
           }
         >
-          <View className="mt-2">
+          <View style={{ marginTop: 8 }}>
             <HomeSearchBar />
           </View>
-          <View className="mt-3">
-            <PromotionBannerCarousel banners={banners} />
-          </View>
-          <RecommendationSection />
-        </ScrollView>
-      ) : (
-        // 1+-community view: unified FlashList feed with banner as header
-        <>
-          {isError && (
-            <View className="mx-4 mb-2 bg-card rounded-xl p-4 flex-row items-center justify-between">
-              <Text className="text-body text-muted-foreground flex-1">{t('error')}</Text>
-              <Pressable
-                onPress={() => refetch()}
-                accessibilityRole="button"
-                accessibilityLabel="다시 시도"
-                className="ml-2"
-              >
-                <Text className="text-accent text-body font-semibold">다시 시도</Text>
-              </Pressable>
+          {hasBanner && (
+            <View style={{ marginTop: 12 }}>
+              <PromotionBannerCarousel banners={banners} />
             </View>
           )}
-          <FlashList
-            data={posts as PostWithNickname[]}
-            keyExtractor={(item) => (item as PostWithNickname).id}
-            ListHeaderComponent={<PromotionBannerCarousel banners={banners} />}
-            renderItem={({ item }) => (
-              <View className="px-4">
-                <PostCard
-                  post={item as PostWithNickname}
-                  showCommunityChip
-                  communityId={(item as PostWithNickname).community_id}
-                />
-              </View>
-            )}
-            onEndReached={() => fetchNextPage()}
-            onEndReachedThreshold={0.5}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefetching}
-                onRefresh={refetch}
-                tintColor="#8B5CF6"
-                colors={['#8B5CF6']}
-              />
-            }
-            contentContainerStyle={{ paddingBottom: 64 }}
-          />
-        </>
+          <OnLiveRail />
+          <DiscoverGrid />
+          <View style={{ height: 24 }} />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView className="flex-1 bg-background" edges={hasBanner ? [] : ['top']}>
+      {isError && (
+        <View
+          style={{
+            marginHorizontal: 16,
+            marginTop: 12,
+            backgroundColor: '#15151B',
+            borderRadius: 12,
+            padding: 16,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Text style={{ color: 'rgba(235,235,245,0.62)', flex: 1 }}>{t('error')}</Text>
+          <Pressable
+            onPress={() => refetch()}
+            accessibilityRole="button"
+            accessibilityLabel="다시 시도"
+            style={{ marginLeft: 8 }}
+          >
+            <Text style={{ color: '#8B5CF6', fontFamily: 'Pretendard-SemiBold' }}>다시 시도</Text>
+          </Pressable>
+        </View>
       )}
+      <FlashList
+        data={posts as PostWithNickname[]}
+        keyExtractor={(item) => (item as PostWithNickname).id}
+        ListHeaderComponent={
+          <View>
+            {hasBanner ? (
+              <View style={{ position: 'relative' }}>
+                <HomeHeader overBanner={true} />
+                <PromotionBannerCarousel banners={banners} />
+              </View>
+            ) : (
+              <HomeHeader overBanner={false} />
+            )}
+            <OnLiveRail />
+            <ArtistDMRail />
+            <MyCommunitiesRail />
+            <DiscoverGrid />
+            <View
+              style={{
+                paddingHorizontal: 16,
+                paddingTop: 28,
+                paddingBottom: 8,
+              }}
+            >
+              <Text
+                style={{
+                  color: '#FFFFFF',
+                  fontFamily: 'Pretendard-Bold',
+                  fontSize: 18,
+                  letterSpacing: -0.3,
+                }}
+              >
+                {t('feed.heading', { defaultValue: 'Latest from your communities' })}
+              </Text>
+            </View>
+          </View>
+        }
+        ListFooterComponent={
+          isFetchingNextPage ? (
+            <View style={{ paddingVertical: 16, alignItems: 'center' }}>
+              <Text style={{ color: 'rgba(235,235,245,0.38)' }}>…</Text>
+            </View>
+          ) : null
+        }
+        renderItem={({ item }) => (
+          <View style={{ paddingHorizontal: 16 }}>
+            <PostCard
+              post={item as PostWithNickname}
+              showCommunityChip
+              communityId={(item as PostWithNickname).community_id}
+            />
+          </View>
+        )}
+        onEndReached={() => fetchNextPage()}
+        onEndReachedThreshold={0.5}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={refetch}
+            tintColor="#8B5CF6"
+            colors={['#8B5CF6']}
+          />
+        }
+        contentContainerStyle={{ paddingBottom: 64 }}
+      />
     </SafeAreaView>
   );
 }

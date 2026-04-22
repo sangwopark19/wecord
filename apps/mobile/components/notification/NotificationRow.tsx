@@ -1,6 +1,7 @@
 import { Pressable, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@wecord/shared/i18n';
+import { Avatar, getSeedFromString } from '../common/CoverGrad';
 import type { Notification } from '../../hooks/notification/useNotifications';
 
 function getRelativeTime(createdAt: string): string {
@@ -17,20 +18,27 @@ function getRelativeTime(createdAt: string): string {
   return `${diffDay}일 전`;
 }
 
-function getTypeIcon(type: Notification['type']): keyof typeof Ionicons.glyphMap {
+type NotificationType = Notification['type'];
+
+function getBadgeConfig(type: NotificationType): {
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+} | null {
   switch (type) {
-    case 'comment':
-      return 'chatbox-outline';
+    case 'live':
+      return { icon: 'radio-outline', color: '#E11D48' };
     case 'like':
-      return 'heart-outline';
-    case 'notice':
-      return 'megaphone-outline';
+      return { icon: 'heart', color: '#F472B6' };
+    case 'comment':
+      return { icon: 'chatbubble', color: '#8B5CF6' };
     case 'creator_post':
-      return 'document-text-outline';
+      return { icon: 'star', color: '#8B5CF6' };
+    case 'notice':
+      return { icon: 'megaphone', color: '#F59E0B' };
     case 'member_post':
-      return 'person-outline';
+      return { icon: 'person', color: '#22D3EE' };
     default:
-      return 'notifications-outline';
+      return null;
   }
 }
 
@@ -42,8 +50,17 @@ interface NotificationRowProps {
 export function NotificationRow({ notification, onPress }: NotificationRowProps) {
   const { t } = useTranslation('notification');
   const isUnread = !notification.is_read;
-  const iconColor = isUnread ? '#8B5CF6' : '#999999';
-  const textColor = isUnread ? undefined : undefined; // handled via className
+  const isLive = notification.type === 'live';
+  const badge = getBadgeConfig(notification.type);
+  const avatarSeed = getSeedFromString(
+    (notification.data?.community_id as string | undefined) ??
+      (notification.data?.nickname as string | undefined) ??
+      notification.id
+  );
+  const avatarName =
+    (notification.data?.nickname as string | undefined) ??
+    notification.title.slice(0, 2) ??
+    'N';
 
   return (
     <Pressable
@@ -54,20 +71,55 @@ export function NotificationRow({ notification, onPress }: NotificationRowProps)
         alignItems: 'center',
         minHeight: 44,
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingVertical: 14,
+        backgroundColor: isLive && isUnread ? 'rgba(225,29,72,0.08)' : 'transparent',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(255,255,255,0.08)',
       }}
-      className={isUnread ? 'bg-card' : 'bg-background'}
     >
-      {/* Left: type icon */}
-      <View style={{ marginRight: 12, alignItems: 'center', justifyContent: 'center' }}>
-        <Ionicons name={getTypeIcon(notification.type)} size={24} color={iconColor} />
+      {/* Left: avatar with badge overlay */}
+      <View style={{ marginRight: 12, position: 'relative' }}>
+        <Avatar name={avatarName} seed={avatarSeed} size={44} />
+        {badge && (
+          <View
+            style={{
+              position: 'absolute',
+              right: -2,
+              bottom: -2,
+              width: 20,
+              height: 20,
+              borderRadius: 10,
+              backgroundColor: badge.color,
+              borderWidth: 2,
+              borderColor: '#0B0B0F',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Ionicons name={badge.icon} size={10} color="#FFFFFF" />
+          </View>
+        )}
       </View>
 
-      {/* Center: body and time */}
-      <View style={{ flex: 1, gap: 2 }}>
+      {/* Center: title + body */}
+      <View style={{ flex: 1, gap: 3, minWidth: 0 }}>
         <Text
-          className={`text-body font-regular ${isUnread ? 'text-foreground' : 'text-muted-foreground'}`}
-          numberOfLines={2}
+          numberOfLines={1}
+          style={{
+            color: isUnread ? '#FFFFFF' : 'rgba(235,235,245,0.62)',
+            fontFamily: 'Pretendard-SemiBold',
+            fontSize: 13,
+          }}
+        >
+          {notification.title}
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={{
+            color: 'rgba(235,235,245,0.62)',
+            fontFamily: 'Pretendard-Regular',
+            fontSize: 12,
+          }}
         >
           {t(`types.${notification.type}`, {
             defaultValue: notification.body,
@@ -75,23 +127,19 @@ export function NotificationRow({ notification, onPress }: NotificationRowProps)
             memberName: notification.data?.memberName,
           })}
         </Text>
-        <Text className="text-label text-muted-foreground">
-          {getRelativeTime(notification.created_at)}
-        </Text>
       </View>
 
-      {/* Right: unread dot */}
-      {isUnread && (
-        <View
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            backgroundColor: '#8B5CF6',
-            marginLeft: 8,
-          }}
-        />
-      )}
+      {/* Right: time */}
+      <Text
+        style={{
+          color: 'rgba(235,235,245,0.38)',
+          fontFamily: 'Pretendard-Regular',
+          fontSize: 11,
+          marginLeft: 8,
+        }}
+      >
+        {getRelativeTime(notification.created_at)}
+      </Text>
     </Pressable>
   );
 }
