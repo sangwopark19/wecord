@@ -180,9 +180,9 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260422-m4b | fix PR CI pnpm version conflict | 2026-04-22 | 51a42f5 | [260422-m4b-fix-pr-ci-pnpm-version-conflict](./quick/260422-m4b-fix-pr-ci-pnpm-version-conflict/) |
 | 260422-naz | redesign login screen to match splash mock | 2026-04-22 | f70ef9e | [20260422-login-splash-redesign](./quick/20260422-login-splash-redesign/) |
-| 260422-nir | add admin sidebar sign-out button (web logout) | 2026-04-22 | b0c6424 | [260422-nir-logout](./quick/260422-nir-logout/) |
+| 260422-nir | fix mobile logout in expo --web (Alert→confirm) + admin sidebar sign-out (incidental) | 2026-04-22 | c1828d6 | [260422-nir-logout](./quick/260422-nir-logout/) |
 
-Last activity: 2026-04-22 - Completed quick task 260422-nir: add admin sidebar sign-out button (web logout)
+Last activity: 2026-04-22 - Completed quick task 260422-nir: fix mobile logout in expo --web (RN Web Alert.alert multi-button polyfill bug) + admin sidebar sign-out button (incidental)
 
 ## Session Continuity
 
