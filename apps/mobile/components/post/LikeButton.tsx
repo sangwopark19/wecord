@@ -26,10 +26,11 @@ export function LikeButton({ isLiked, likeCount, onPress, size = 'md' }: LikeBut
   }));
 
   const handlePress = () => {
-    // Spring scale: 1.0 -> 1.2 -> 1.0
+    // Reset to 1 first to ensure animation always triggers
+    scale.value = 1;
     scale.value = withSequence(
-      withSpring(1.2, { damping: 10, stiffness: 200 }),
-      withSpring(1.0, { damping: 10, stiffness: 200 })
+      withSpring(1.3, { damping: 8, stiffness: 300 }),
+      withSpring(1.0, { damping: 8, stiffness: 300 })
     );
     onPress();
   };
