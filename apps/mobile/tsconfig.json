@@ -2,11 +2,25 @@
   "extends": "../../tooling/typescript/expo.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./*"],
-      "@wecord/shared": ["../../packages/shared/src"],
-      "@wecord/shared/*": ["../../packages/shared/src/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@wecord/shared": [
+        "../../packages/shared/src"
+      ],
+      "@wecord/shared/*": [
+        "../../packages/shared/src/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "nativewind-env.d.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "nativewind-env.d.ts",
+    "expo-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
