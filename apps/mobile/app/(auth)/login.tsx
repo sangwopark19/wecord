@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Platform,
   SafeAreaView,
+  Linking,
 } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
@@ -16,6 +17,44 @@ import { supabase } from '../../lib/supabase';
 WebBrowser.maybeCompleteAuthSession();
 
 const redirectTo = makeRedirectUri({ scheme: 'wecord', path: 'auth/callback' });
+
+/**
+ * Extract and exchange OAuth code/tokens from a callback URL string.
+ * Returns true if auth was completed, false otherwise.
+ */
+async function handleOAuthCallbackUrl(urlString: string): Promise<boolean> {
+  try {
+    const url = new URL(urlString);
+    // PKCE flow: code in query params
+    const code = url.searchParams.get('code');
+    if (code) {
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if (error) {
+        console.error('[OAuth] exchangeCodeForSession failed:', error.message);
+        return false;
+      }
+      return true;
+    }
+    // Implicit flow fallback: tokens in URL fragment
+    const hashParams = new URLSearchParams(url.hash.replace('#', ''));
+    const accessToken = hashParams.get('access_token');
+    const refreshToken = hashParams.get('refresh_token');
+    if (accessToken && refreshToken) {
+      const { error } = await supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
+      if (error) {
+        console.error('[OAuth] setSession failed:', error.message);
+        return false;
+      }
+      return true;
+    }
+  } catch (err) {
+    console.error('[OAuth] handleOAuthCallbackUrl error:', err);
+  }
+  return false;
+}
 
 export default function LoginScreen() {
   const { t } = useTranslation('auth');
@@ -44,41 +83,73 @@ export default function LoginScreen() {
       });
       if (error) throw error;
       if (data.url) {
+        // On Android the WebBrowser polyfill races AppState vs Linking.
+        // AppState becomes active before the Linking URL event fires, so
+        // result.type is often 'dismiss' even when OAuth succeeded.
+        // We listen to Linking directly to catch the callback URL regardless.
+        const subscription = { current: null as { remove: () => void } | null };
+
+        const androidCallbackPromise = new Promise<string | null>((resolve) => {
+          if (Platform.OS !== 'android') {
+            resolve(null);
+            return;
+          }
+          subscription.current = Linking.addEventListener('url', ({ url }) => {
+            if (url.startsWith(redirectTo)) {
+              resolve(url);
+            }
+          });
+          // Timeout after 5 minutes — user may cancel
+          setTimeout(() => resolve(null), 5 * 60 * 1000);
+        });
+
         const result = await WebBrowser.openAuthSessionAsync(
           data.url,
           redirectTo,
           { preferEphemeralSession: true },
         );
+
+        console.log('[OAuth] Browser result:', result.type);
+
         if (result.type === 'success') {
-          const url = new URL(result.url);
-          // PKCE flow: code in query params
-          const code = url.searchParams.get('code');
-          if (code) {
-            const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-            if (exchangeError) {
-              console.error('[OAuth] exchangeCodeForSession failed:', exchangeError.message);
-              throw exchangeError;
-            }
-            return; // onAuthStateChange handles navigation
+          // iOS path (native ASWebAuthenticationSession returns URL directly)
+          subscription.current?.remove();
+          const handled = await handleOAuthCallbackUrl(result.url);
+          if (!handled) {
+            console.error('[OAuth] No code or tokens in callback URL:', result.url);
           }
-          // Implicit flow fallback: tokens in URL fragment
-          const hashParams = new URLSearchParams(url.hash.replace('#', ''));
-          const accessToken = hashParams.get('access_token');
-          const refreshToken = hashParams.get('refresh_token');
-          if (accessToken && refreshToken) {
-            const { error: sessionError } = await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken,
-            });
-            if (sessionError) {
-              console.error('[OAuth] setSession failed:', sessionError.message);
-              throw sessionError;
+          return;
+        }
+
+        if (Platform.OS === 'android') {
+          // Android path: AppState won the race. Check if Linking has the URL.
+          // Give it a short window to arrive before giving up.
+          const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 2000));
+          const callbackUrl = await Promise.race([androidCallbackPromise, timeoutPromise]);
+          subscription.current?.remove();
+
+          if (callbackUrl) {
+            console.log('[OAuth] Android: got callback URL via Linking');
+            const handled = await handleOAuthCallbackUrl(callbackUrl);
+            if (!handled) {
+              console.error('[OAuth] Android: No code or tokens in Linking URL:', callbackUrl);
             }
             return;
           }
-          console.error('[OAuth] No code or tokens in callback URL:', result.url);
-        } else {
-          console.log('[OAuth] Browser result:', result.type);
+
+          // Also check if the URL was delivered as the initial URL
+          // (app cold-started by the deep link intent)
+          const initialUrl = await Linking.getInitialURL();
+          if (initialUrl && initialUrl.startsWith(redirectTo)) {
+            console.log('[OAuth] Android: got callback URL via getInitialURL');
+            const handled = await handleOAuthCallbackUrl(initialUrl);
+            if (!handled) {
+              console.error('[OAuth] Android: No code or tokens in initialUrl:', initialUrl);
+            }
+            return;
+          }
+
+          console.log('[OAuth] Android: no callback URL received, user may have cancelled');
         }
       }
     } catch (err) {
@@ -129,28 +200,57 @@ export default function LoginScreen() {
       });
       if (error) throw error;
       if (data.url) {
+        const subscription = { current: null as { remove: () => void } | null };
+
+        const androidCallbackPromise = new Promise<string | null>((resolve) => {
+          if (Platform.OS !== 'android') {
+            resolve(null);
+            return;
+          }
+          subscription.current = Linking.addEventListener('url', ({ url }) => {
+            if (url.startsWith(redirectTo)) {
+              resolve(url);
+            }
+          });
+          setTimeout(() => resolve(null), 5 * 60 * 1000);
+        });
+
         const result = await WebBrowser.openAuthSessionAsync(
           data.url,
           redirectTo,
           { preferEphemeralSession: true },
         );
+
+        console.log('[OAuth Apple] Browser result:', result.type);
+
         if (result.type === 'success') {
-          const url = new URL(result.url);
-          const code = url.searchParams.get('code');
-          if (code) {
-            const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-            if (exchangeError) throw exchangeError;
+          subscription.current?.remove();
+          const handled = await handleOAuthCallbackUrl(result.url);
+          if (!handled) {
+            console.error('[OAuth Apple] No code or tokens in callback URL:', result.url);
+          }
+          return;
+        }
+
+        if (Platform.OS === 'android') {
+          const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 2000));
+          const callbackUrl = await Promise.race([androidCallbackPromise, timeoutPromise]);
+          subscription.current?.remove();
+
+          if (callbackUrl) {
+            const handled = await handleOAuthCallbackUrl(callbackUrl);
+            if (!handled) {
+              console.error('[OAuth Apple] Android: No code or tokens in Linking URL:', callbackUrl);
+            }
             return;
           }
-          const hashParams = new URLSearchParams(url.hash.replace('#', ''));
-          const accessToken = hashParams.get('access_token');
-          const refreshToken = hashParams.get('refresh_token');
-          if (accessToken && refreshToken) {
-            const { error: sessionError } = await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken,
-            });
-            if (sessionError) throw sessionError;
+
+          const initialUrl = await Linking.getInitialURL();
+          if (initialUrl && initialUrl.startsWith(redirectTo)) {
+            const handled = await handleOAuthCallbackUrl(initialUrl);
+            if (!handled) {
+              console.error('[OAuth Apple] Android: No code or tokens in initialUrl:', initialUrl);
+            }
             return;
           }
         }
