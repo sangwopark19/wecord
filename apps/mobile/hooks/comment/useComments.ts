@@ -51,26 +51,51 @@ function buildCommentThread(
   return rootComments;
 }
 
+interface RawCommentRow {
+  id: string;
+  post_id: string;
+  author_id: string;
+  artist_member_id: string | null;
+  parent_comment_id: string | null;
+  content: string;
+  content_rating: string | null;
+  author_role: 'fan' | 'creator';
+  is_creator_reply: boolean;
+  like_count: number;
+  created_at: string;
+  author_nickname: string;
+  author_cm_id: string;
+  member_role: string;
+}
+
 export function useComments(postId: string) {
   const { user } = useAuthStore();
 
   return useQuery({
     queryKey: ['comments', postId],
     queryFn: async (): Promise<{ rootComments: CommentWithReplies[] }> => {
+      // Ensure Supabase client has a valid session before querying
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return { rootComments: [] };
+
       const { data, error } = await supabase
-        .from('comments')
-        .select('*, author:community_members!inner(community_nickname, id, role)')
+        .from('comments_with_nickname')
+        .select('*')
         .eq('post_id', postId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
 
-      const rawComments = (data ?? []) as Omit<Comment, 'isLiked'>[];
+      const rows = (data ?? []) as RawCommentRow[];
+
+      if (rows.length === 0) {
+        return { rootComments: [] };
+      }
 
       // Batch-fetch liked comment IDs for current user
       let likedSet = new Set<string>();
-      if (user && rawComments.length > 0) {
-        const commentIds = rawComments.map((c) => c.id);
+      if (user) {
+        const commentIds = rows.map((c) => c.id);
         const { data: likeData } = await supabase
           .from('likes')
           .select('target_id')
@@ -81,13 +106,28 @@ export function useComments(postId: string) {
         likedSet = new Set((likeData ?? []).map((l) => l.target_id));
       }
 
-      const comments: Comment[] = rawComments.map((c) => ({
-        ...c,
+      const comments: Comment[] = rows.map((c) => ({
+        id: c.id,
+        post_id: c.post_id,
+        author_id: c.author_id,
+        artist_member_id: c.artist_member_id,
+        parent_comment_id: c.parent_comment_id,
+        content: c.content,
+        content_rating: c.content_rating,
+        author_role: c.author_role,
+        is_creator_reply: c.is_creator_reply,
+        like_count: c.like_count,
+        created_at: c.created_at,
+        author: {
+          id: c.author_cm_id,
+          community_nickname: c.author_nickname,
+          role: c.member_role,
+        },
         isLiked: likedSet.has(c.id),
       }));
 
       return { rootComments: buildCommentThread(comments) };
     },
-    enabled: !!postId,
+    enabled: !!postId && !!user,
   });
 }

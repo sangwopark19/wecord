@@ -31,53 +31,61 @@ export function useJoinCommunity() {
     mutationFn: async ({ communityId, nickname }: JoinCommunityParams) => {
       if (!user) throw new Error('Not authenticated');
 
-      const { data, error } = await supabase
+      // INSERT without RETURNING to avoid SELECT RLS policy evaluation
+      // within the same statement (causes 42501 because is_community_member()
+      // cannot see the just-inserted row during the same statement).
+      const { error: insertError } = await supabase
         .from('community_members')
         .insert({
           user_id: user.id,
           community_id: communityId,
           community_nickname: nickname,
           role: 'member',
-        })
-        .select()
-        .single();
+        });
 
-      if (error) {
-        if (error.code === '23505') {
+      if (insertError) {
+        if (insertError.code === '23505') {
           // Determine if this is an already-member violation or a nickname collision
           const isAlreadyMember =
-            error.message?.includes('cm_user_community') ||
-            (error.details as string | undefined)?.includes('cm_user_community') ||
-            error.message?.includes('idx_cm_user_community');
+            insertError.message?.includes('cm_user_community') ||
+            (insertError.details as string | undefined)?.includes('cm_user_community') ||
+            insertError.message?.includes('idx_cm_user_community');
           if (isAlreadyMember) {
             // Already a member — fetch and return existing membership
-            const { data: existing } = await supabase
+            const { data: existing, error: existingError } = await supabase
               .from('community_members')
               .select()
               .eq('community_id', communityId)
               .eq('user_id', user.id)
               .single();
+            if (existingError) throw existingError;
             if (existing) return existing;
           }
           // Nickname collision — retry with new nickname
           const newNickname = await generateNickname();
-          const { data: retryData, error: retryError } = await supabase
+          const { error: retryError } = await supabase
             .from('community_members')
             .insert({
               user_id: user.id,
               community_id: communityId,
               community_nickname: newNickname,
               role: 'member',
-            })
-            .select()
-            .single();
+            });
           if (retryError) throw retryError;
-          return retryData;
+        } else {
+          throw insertError;
         }
-        throw error;
       }
 
-      return data;
+      // Fetch the inserted row in a separate statement (RLS now sees the committed row)
+      const { data: member, error: fetchError } = await supabase
+        .from('community_members')
+        .select()
+        .eq('community_id', communityId)
+        .eq('user_id', user.id)
+        .single();
+      if (fetchError) throw fetchError;
+      return member;
     },
     onSuccess: (_data, variables) => {
       void queryClient.invalidateQueries({

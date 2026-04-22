@@ -59,6 +59,7 @@ export default function JoinCommunityScreen() {
       router.replace(`/(community)/${id}` as never);
     } catch (err: unknown) {
       const error = err as { code?: string; message?: string };
+      console.error('[handleJoin] join error:', { code: error?.code, message: error?.message, err });
       if (error?.code === '23505') {
         // Nickname collision — inform user and regenerate
         Alert.alert('닉네임 중복', '이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.');
