@@ -20,17 +20,27 @@ interface OnboardingData {
   dateOfBirth: string | null;
 }
 
+type OnSignOutCallback = () => void | Promise<void>;
+
 interface AuthState {
   session: Session | null;
   user: User | null;
   profile: Profile | null;
   loading: boolean;
   onboardingData: OnboardingData | null;
+  onSignOut: OnSignOutCallback | null;
   setSession: (session: Session | null) => void;
   setProfile: (profile: Profile | null) => void;
   setOnboardingData: (data: OnboardingData) => void;
   initialize: () => Promise<void>;
   signOut: () => Promise<void>;
+  /**
+   * Register a one-shot cleanup callback invoked from inside `signOut()`
+   * after auth state has been cleared. Returned function unregisters.
+   * Used to wire `queryClient.clear` (T-7-05) without an authStore →
+   * TanStack import cycle.
+   */
+  registerOnSignOut: (cb: OnSignOutCallback) => () => void;
 }
 
 const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['ko', 'en', 'th', 'zh', 'ja'];
@@ -109,6 +119,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   profile: null,
   loading: true,
   onboardingData: null,
+  onSignOut: null,
 
   setSession: (session) => {
     set({ session, user: session?.user ?? null });
@@ -120,6 +131,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   setOnboardingData: (data) => {
     set({ onboardingData: data });
+  },
+
+  registerOnSignOut: (cb) => {
+    set({ onSignOut: cb });
+    return () => {
+      // Only clear if the registered cb is still the same one — avoids races
+      // where one consumer unregisters after another has registered.
+      if (get().onSignOut === cb) set({ onSignOut: null });
+    };
   },
 
   initialize: async () => {
@@ -162,7 +182,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   signOut: async () => {
-    await supabase.auth.signOut();
-    set({ session: null, user: null, profile: null, onboardingData: null });
+    // T-7-05: state and cache MUST be cleared even when network errors out
+    // mid-signout. We swallow the error from supabase.auth.signOut to avoid
+    // the user staying authenticated locally while the upstream call retries.
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.warn('[Auth] supabase.auth.signOut threw — clearing local state anyway', err);
+    } finally {
+      const cb = get().onSignOut;
+      set({ session: null, user: null, profile: null, onboardingData: null });
+      if (cb) {
+        try {
+          await cb();
+        } catch (err) {
+          // Logout MUST complete; never rethrow from cleanup.
+          console.warn('[Auth] onSignOut callback threw', err);
+        }
+      }
+    }
   },
 }));

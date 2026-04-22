@@ -16,10 +16,22 @@ function AuthGuard() {
   const router = useRouter();
   const segments = useSegments();
   const { session, profile, loading, initialize } = useAuthStore();
+  const registerOnSignOut = useAuthStore((s) => s.registerOnSignOut);
 
   useEffect(() => {
     initialize();
   }, []);
+
+  // T-7-05: register the queryClient.clear cleanup with the authStore so
+  // signOut() invokes it from inside the finally block. We avoid importing
+  // queryClient inside authStore.ts (which would create a Zustand ↔ TanStack
+  // import cycle).
+  useEffect(() => {
+    const unregister = registerOnSignOut(() => {
+      queryClient.clear();
+    });
+    return unregister;
+  }, [registerOnSignOut]);
 
   useEffect(() => {
     if (loading) return;
