@@ -28,3 +28,27 @@ The EAS schema does not permit arbitrary extra properties, so comments are kept 
 Used for ad-hoc developer / stakeholder demo builds. Requires the target
 device's UDID to be registered via `eas device:create` before building, or the
 install will fail the provisioning-profile check.
+
+## Web demo workflow (Vercel)
+
+The Expo web export (`expo export --platform web`) regenerates `dist/` from
+scratch, so any config placed inside `dist/` is lost on rebuild. `vercel.json`
+is kept at `apps/mobile/` as the source of truth and must be copied into
+`dist/` before deploy, since Vercel reads it from the deployment root.
+
+`vercel.json` enables `cleanUrls: true` — without it, Expo's per-route HTML
+files (`/login.html`, `/email-login.html`, …) would only respond to the full
+`.html` path, and requests like `/login` would 404.
+
+Rebuild and redeploy:
+
+```bash
+cd apps/mobile
+npx expo export --platform web
+cp vercel.json dist/
+cd dist && npx vercel deploy --prod --yes
+```
+
+The Vercel project (`wecord-demo`) is linked via `dist/.vercel/project.json`
+at deploy time. The linkage is ephemeral (regenerated with each `vercel`
+invocation after the first), so there is nothing to commit.
