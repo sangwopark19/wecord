@@ -15,13 +15,14 @@ import { useRouter, Stack } from 'expo-router';
 import { useTranslation } from '@wecord/shared/i18n';
 import { supabase } from '../../lib/supabase';
 
-export default function EmailLoginScreen() {
+export default function EmailSignupScreen() {
   const { t } = useTranslation('auth');
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [checkEmailSent, setCheckEmailSent] = useState(false);
 
   function showError(msg: string) {
     setError(msg);
@@ -29,7 +30,6 @@ export default function EmailLoginScreen() {
   }
 
   async function onSubmit() {
-    // Simple regex — Supabase server-side validation is the source of truth
     if (!/.+@.+\..+/.test(email.trim())) {
       showError(t('error.invalid_email'));
       return;
@@ -40,23 +40,80 @@ export default function EmailLoginScreen() {
     }
     setLoading(true);
     try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
       });
-      if (signInError) {
-        // Supabase returns 'Invalid login credentials' for both wrong email
-        // and wrong password (by design — avoids user enumeration).
-        showError(t('error.invalid_credentials'));
+      if (signUpError) {
+        // Supabase error messages we branch on:
+        //   - 'User already registered' / 'already been registered' -> email_in_use
+        //   - 'Password should be at least' -> weak_password (defensive — regex should catch)
+        //   - default -> auth_failed
+        const msg = signUpError.message.toLowerCase();
+        if (msg.includes('already') || msg.includes('registered')) {
+          showError(t('error.email_in_use'));
+        } else if (msg.includes('password')) {
+          showError(t('error.weak_password'));
+        } else {
+          showError(t('error.auth_failed'));
+        }
         return;
       }
-      // Success: onAuthStateChange fires -> AuthGuard routes to onboarding or tabs.
-      // No manual navigation needed.
+      if (!data.session) {
+        // Email confirmation is ON — user must click the link in email.
+        // Show 'check your email' state; AuthGuard will pick up the session
+        // once the user returns to the app after confirming.
+        setCheckEmailSent(true);
+        return;
+      }
+      // Email confirmation OFF — session is live.
+      // onAuthStateChange -> fetchOrCreateProfile UPSERTs (onboarding_completed=false)
+      // -> AuthGuard routes to /(onboarding)/tos. No manual navigation.
     } catch {
       showError(t('error.auth_failed'));
     } finally {
       setLoading(false);
     }
+  }
+
+  if (checkEmailSent) {
+    return (
+      <SafeAreaView className="flex-1 bg-background">
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            headerTitle: '',
+            headerBackTitle: '',
+            headerTransparent: true,
+            headerTintColor: '#FFFFFF',
+          }}
+        />
+        <LinearGradient
+          colors={['rgba(124,58,237,0.45)', 'rgba(139,92,246,0.18)', 'rgba(11,11,15,0)']}
+          locations={[0, 0.38, 0.82]}
+          style={StyleSheet.absoluteFillObject}
+          pointerEvents="none"
+        />
+        <View className="flex-1 px-6 items-center justify-center">
+          <Text className="text-display font-bold text-foreground text-center">
+            {t('email_signup.check_email_title')}
+          </Text>
+          <Text className="text-body text-muted-foreground text-center mt-4">
+            {t('email_signup.check_email_body', { email: email.trim() })}
+          </Text>
+          <TouchableOpacity
+            testID="back-to-login"
+            onPress={() => router.replace('/(auth)/email-login')}
+            className="mt-8"
+            activeOpacity={0.7}
+          >
+            <Text className="text-foreground font-semibold text-[14px]">
+              {t('email_signup.login_cta')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
   }
 
   return (
@@ -71,7 +128,6 @@ export default function EmailLoginScreen() {
         }}
       />
 
-      {/* Top purple radial glow — matches login.tsx aesthetic */}
       <LinearGradient
         colors={['rgba(124,58,237,0.45)', 'rgba(139,92,246,0.18)', 'rgba(11,11,15,0)']}
         locations={[0, 0.38, 0.82]}
@@ -85,14 +141,14 @@ export default function EmailLoginScreen() {
       >
         <View className="flex-1 px-6">
           <Text className="text-display font-bold text-foreground mt-12">
-            {t('email_login.title')}
+            {t('email_signup.title')}
           </Text>
 
           <TextInput
             testID="email-input"
             value={email}
             onChangeText={setEmail}
-            placeholder={t('email_login.email_placeholder')}
+            placeholder={t('email_signup.email_placeholder')}
             placeholderTextColor="#8A8A93"
             autoCapitalize="none"
             autoComplete="email"
@@ -105,10 +161,10 @@ export default function EmailLoginScreen() {
             testID="password-input"
             value={password}
             onChangeText={setPassword}
-            placeholder={t('email_login.password_placeholder')}
+            placeholder={t('email_signup.password_placeholder')}
             placeholderTextColor="#8A8A93"
             autoCapitalize="none"
-            autoComplete="password"
+            autoComplete="new-password"
             secureTextEntry
             editable={!loading}
             className="w-full bg-surface/60 border border-border rounded-[14px] h-[52px] px-4 text-foreground text-[16px] mt-3"
@@ -119,7 +175,7 @@ export default function EmailLoginScreen() {
           )}
 
           <TouchableOpacity
-            testID="email-login-submit"
+            testID="email-signup-submit"
             onPress={onSubmit}
             disabled={loading}
             className="w-full bg-foreground rounded-[28px] h-[54px] items-center justify-center mt-6"
@@ -129,37 +185,25 @@ export default function EmailLoginScreen() {
               <ActivityIndicator color="#000000" size="small" />
             ) : (
               <Text className="text-black font-semibold text-[16px]">
-                {t('email_login.submit')}
+                {t('email_signup.submit')}
               </Text>
             )}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            testID="forgot-password-link"
-            onPress={() => router.push('/(auth)/forgot-password')}
-            disabled={loading}
-            className="mt-4 items-center"
-            activeOpacity={0.7}
-          >
-            <Text className="text-muted-foreground text-[14px]">
-              {t('email_login.forgot_password')}
-            </Text>
           </TouchableOpacity>
 
           <View className="flex-1" />
 
           <View className="flex-row items-center justify-center mb-6">
             <Text className="text-muted-foreground text-[14px]">
-              {t('email_login.signup_prompt')}{' '}
+              {t('email_signup.login_prompt')}{' '}
             </Text>
             <TouchableOpacity
-              testID="email-signup-link"
-              onPress={() => router.replace('/(auth)/email-signup')}
+              testID="email-login-link"
+              onPress={() => router.replace('/(auth)/email-login')}
               disabled={loading}
               activeOpacity={0.7}
             >
               <Text className="text-foreground font-semibold text-[14px]">
-                {t('email_login.signup_cta')}
+                {t('email_signup.login_cta')}
               </Text>
             </TouchableOpacity>
           </View>
