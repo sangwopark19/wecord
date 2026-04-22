@@ -80,6 +80,10 @@ Plan: Not started
 
 ## Accumulated Context
 
+### Roadmap Evolution
+
+- Phase 8 added: Fetch design file from Anthropic and implement wecord.html (https://api.anthropic.com/v1/design/h/l00PLmrunZZdTLsxQ8ZYPw?open_file=wecord.html)
+
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
