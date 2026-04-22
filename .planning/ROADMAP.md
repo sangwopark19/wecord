@@ -147,9 +147,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Wave 0 test stubs + i18n + 5-tab expansion + More hub screen + profile-edit/settings/joined-communities/language screens + useUpdateProfile/useUploadAvatar/useMyCommunities hooks + authStore signOut cache-clear extension + Apple Sign-In prominence snapshot
-- [ ] 07-02-PLAN.md — Shop tab (WebView + hostname allowlist + error fallback), DM tab (Coming Soon + Notify Me + useDmLaunchNotify), 3 Supabase migrations (dm_launch_notify column, avatars bucket, delete_account RPC), delete-user Edge Function + 3-screen delete-account UI, [BLOCKING] local schema push
-- [ ] 07-03-PLAN.md — apps/admin public routes (/privacy /terms /account-delete-request) + Cloudflare Pages deploy, production Supabase cutover (link + db push + functions deploy + secrets + OAuth + redirect URIs), EAS production profile + app.json/eas.json updates, App Store Connect + Google Play Console submission checklist
+- [x] 07-01-PLAN.md — Wave 0 test stubs + i18n + 5-tab expansion + More hub screen + profile-edit/settings/joined-communities/language screens + useUpdateProfile/useUploadAvatar/useMyCommunities hooks + authStore signOut cache-clear extension + Apple Sign-In prominence snapshot
+- [x] 07-02-PLAN.md — Shop tab (WebView + hostname allowlist + error fallback), DM tab (Coming Soon + Notify Me + useDmLaunchNotify), 3 Supabase migrations (dm_launch_notify column, avatars bucket, delete_account RPC), delete-user Edge Function + 3-screen delete-account UI, [BLOCKING] local schema push
+- [x] 07-03-PLAN.md — apps/admin public routes (/privacy /terms /account-delete-request) + Cloudflare Pages deploy, production Supabase cutover (link + db push + functions deploy + secrets + OAuth + redirect URIs), EAS production profile + app.json/eas.json updates, App Store Connect + Google Play Console submission checklist
 
 ## Progress
 
