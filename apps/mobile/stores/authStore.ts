@@ -9,9 +9,11 @@ export interface Profile {
   userId: string;
   globalNickname: string;
   avatarUrl: string | null;
+  bio: string | null;
   language: SupportedLanguage;
   onboardingCompleted: boolean;
   dateOfBirth: string | null;
+  dmLaunchNotify: boolean;
 }
 
 interface OnboardingData {
@@ -47,7 +49,7 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
   // Try fetching existing profile
   const { data: existingProfile, error: fetchError } = await supabase
     .from('profiles')
-    .select('user_id, global_nickname, avatar_url, language, onboarding_completed, date_of_birth')
+    .select('user_id, global_nickname, avatar_url, bio, language, onboarding_completed, date_of_birth, dm_launch_notify')
     .eq('user_id', userId)
     .single();
 
@@ -58,9 +60,11 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
       userId: existingProfile.user_id,
       globalNickname: existingProfile.global_nickname,
       avatarUrl: existingProfile.avatar_url,
+      bio: existingProfile.bio ?? null,
       language: existingProfile.language as SupportedLanguage,
       onboardingCompleted: existingProfile.onboarding_completed,
       dateOfBirth: existingProfile.date_of_birth,
+      dmLaunchNotify: existingProfile.dm_launch_notify ?? false,
     };
   }
 
@@ -78,7 +82,7 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
       language,
       onboarding_completed: false,
     })
-    .select('user_id, global_nickname, avatar_url, language, onboarding_completed, date_of_birth')
+    .select('user_id, global_nickname, avatar_url, bio, language, onboarding_completed, date_of_birth, dm_launch_notify')
     .single();
 
   if (upsertError || !newProfile) {
@@ -91,9 +95,11 @@ async function fetchOrCreateProfile(userId: string): Promise<Profile | null> {
     userId: newProfile.user_id,
     globalNickname: newProfile.global_nickname,
     avatarUrl: newProfile.avatar_url,
+    bio: newProfile.bio ?? null,
     language: newProfile.language as SupportedLanguage,
     onboardingCompleted: newProfile.onboarding_completed,
     dateOfBirth: newProfile.date_of_birth,
+    dmLaunchNotify: newProfile.dm_launch_notify ?? false,
   };
 }
 

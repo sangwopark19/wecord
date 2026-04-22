@@ -24,6 +24,7 @@ export const profiles = pgTable(
     dateOfBirth: text('date_of_birth'),
     onboardingCompleted: boolean('onboarding_completed').notNull().default(false),
     settings: jsonb('settings'),
+    dmLaunchNotify: boolean('dm_launch_notify').notNull().default(false),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   },
   (table) => [
