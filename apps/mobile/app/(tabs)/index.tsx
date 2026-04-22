@@ -14,6 +14,34 @@ import { PostCard } from '../../components/post/PostCard';
 import { useTranslation } from '@wecord/shared/i18n';
 import type { PostWithNickname } from '../../hooks/post/useFanFeed';
 
+function HomeIconButton({
+  name,
+  onPress,
+  label,
+}: {
+  name: React.ComponentProps<typeof Ionicons>['name'];
+  onPress?: () => void;
+  label: string;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={{
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: 'rgba(255,255,255,0.06)',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Ionicons name={name} size={18} color="#FFFFFF" />
+    </Pressable>
+  );
+}
+
 function HomeNotificationBell() {
   const router = useRouter();
   const { user } = useAuthStore();
@@ -24,20 +52,28 @@ function HomeNotificationBell() {
       onPress={() => router.push('/(tabs)/notifications' as never)}
       accessibilityRole="button"
       accessibilityLabel={count > 0 ? `알림, ${count}개 읽지 않음` : '알림'}
-      style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}
+      style={{
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: 'rgba(255,255,255,0.06)',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
       <View style={{ position: 'relative' }}>
-        <Ionicons name="notifications-outline" size={24} color="#FFFFFF" />
+        <Ionicons name="notifications-outline" size={18} color="#FFFFFF" />
         {count > 0 && (
           <View
             style={{
               position: 'absolute',
-              top: -8,
-              right: -8,
-              width: 20,
-              height: 20,
-              borderRadius: 10,
-              backgroundColor: '#FF3B30',
+              top: -6,
+              right: -6,
+              minWidth: 16,
+              height: 16,
+              paddingHorizontal: 4,
+              borderRadius: 8,
+              backgroundColor: '#E11D48',
               alignItems: 'center',
               justifyContent: 'center',
             }}
@@ -45,9 +81,9 @@ function HomeNotificationBell() {
             <Text
               style={{
                 color: '#FFFFFF',
-                fontSize: 10,
-                fontWeight: '600',
-                lineHeight: 12,
+                fontSize: 9,
+                fontFamily: 'Pretendard-Bold',
+                lineHeight: 11,
               }}
             >
               {count > 99 ? '99+' : count}
@@ -78,10 +114,23 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      {/* Header */}
-      <View className="flex-row justify-between items-center px-4 pt-2 pb-2">
-        <Text className="text-display font-semibold text-foreground">Wecord</Text>
-        <HomeNotificationBell />
+      {/* Header — wecord wordmark + icon row (Variation A) */}
+      <View className="flex-row justify-between items-center px-4 pt-2 pb-3">
+        <Text
+          style={{
+            fontFamily: 'Pretendard-ExtraBold',
+            fontSize: 22,
+            letterSpacing: -0.5,
+            color: '#FFFFFF',
+          }}
+        >
+          wecord
+        </Text>
+        <View className="flex-row items-center" style={{ gap: 6 }}>
+          <HomeIconButton name="search-outline" label="검색" />
+          <HomeIconButton name="mail-outline" label="DM" />
+          <HomeNotificationBell />
+        </View>
       </View>
 
       {/* Body — conditional on community membership */}
@@ -93,8 +142,8 @@ export default function HomeScreen() {
             <RefreshControl
               refreshing={isRefetching}
               onRefresh={refetch}
-              tintColor="#00E5C3"
-              colors={['#00E5C3']}
+              tintColor="#8B5CF6"
+              colors={['#8B5CF6']}
             />
           }
         >
@@ -118,7 +167,7 @@ export default function HomeScreen() {
                 accessibilityLabel="다시 시도"
                 className="ml-2"
               >
-                <Text className="text-teal text-body font-semibold">다시 시도</Text>
+                <Text className="text-accent text-body font-semibold">다시 시도</Text>
               </Pressable>
             </View>
           )}
@@ -141,8 +190,8 @@ export default function HomeScreen() {
               <RefreshControl
                 refreshing={isRefetching}
                 onRefresh={refetch}
-                tintColor="#00E5C3"
-                colors={['#00E5C3']}
+                tintColor="#8B5CF6"
+                colors={['#8B5CF6']}
               />
             }
             contentContainerStyle={{ paddingBottom: 64 }}

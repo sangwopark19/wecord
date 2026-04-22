@@ -10,6 +10,7 @@ import {
   Animated,
 } from 'react-native';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -40,6 +41,35 @@ interface Community {
   name: string;
   cover_image_url: string | null;
   type: 'solo' | 'group';
+}
+
+// Pill icon button over hero cover
+function HeroIconButton({
+  icon,
+  onPress,
+  label,
+}: {
+  icon: React.ComponentProps<typeof Ionicons>['name'];
+  onPress: () => void;
+  label: string;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={{
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: 'rgba(0,0,0,0.35)',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Ionicons name={icon} size={20} color="#FFFFFF" />
+    </Pressable>
+  );
 }
 
 // Skeleton shimmer animation component
@@ -115,7 +145,7 @@ function HighlightScreen({ communityId, setActiveTab, router }: HighlightScreenP
           accessibilityRole="button"
           style={{ marginTop: 16, minHeight: 44, justifyContent: 'center' }}
         >
-          <Text style={{ color: '#00E5C3' }} className="text-body">
+          <Text style={{ color: '#8B5CF6' }} className="text-body">
             {t('retry')}
           </Text>
         </Pressable>
@@ -149,7 +179,7 @@ function HighlightScreen({ communityId, setActiveTab, router }: HighlightScreenP
         <RefreshControl
           refreshing={isRefetching}
           onRefresh={refetch}
-          tintColor="#00E5C3"
+          tintColor="#8B5CF6"
         />
       }
     >
@@ -310,52 +340,73 @@ export default function CommunityMainScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      {/* Header: cover image with community name overlay */}
-      <View className="relative">
+      {/* Hero — 420px dramatic cover (Variation A) */}
+      <View style={{ height: 420, overflow: 'hidden' }}>
         <Image
           source={{ uri: community.cover_image_url ?? undefined }}
-          style={{ width: '100%', height: 192 }}
+          style={{ width: '100%', height: '100%' }}
           contentFit="cover"
           transition={200}
         />
-        {/* Overlay */}
-        <View className="absolute inset-0 bg-black/40" />
-        {/* Header actions */}
-        <View className="absolute top-0 left-0 right-0 flex-row items-center justify-between px-4 pt-2">
-          <Pressable
-            onPress={() => router.back()}
-            accessibilityRole="button"
-            accessibilityLabel="뒤로가기"
-            className="w-10 h-10 items-center justify-center"
-          >
-            <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
-          </Pressable>
-          <View className="flex-row items-center gap-2">
+        {/* Feathered gradient overlay: top veil + deep bottom vignette */}
+        <LinearGradient
+          colors={[
+            'rgba(11,11,15,0.25)',
+            'rgba(11,11,15,0.00)',
+            'rgba(11,11,15,0.00)',
+            'rgba(11,11,15,0.92)',
+          ]}
+          locations={[0, 0.18, 0.35, 1]}
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        />
+        {/* Header actions — pill icon buttons */}
+        <View
+          className="absolute left-0 right-0 flex-row items-center justify-between px-3"
+          style={{ top: 8 }}
+        >
+          <HeroIconButton icon="arrow-back" onPress={() => router.back()} label="뒤로가기" />
+          <View className="flex-row items-center" style={{ gap: 6 }}>
             <NotificationBellBadge
               communityId={id!}
               onPress={() => router.push(`/(community)/${id}/notifications` as never)}
             />
-            <Pressable
+            <HeroIconButton
+              icon="settings-outline"
               onPress={() => router.push(`/(community)/${id}/settings/nickname` as never)}
-              accessibilityRole="button"
-              accessibilityLabel="닉네임 설정"
-              className="w-10 h-10 items-center justify-center"
-            >
-              <Ionicons name="settings-outline" size={24} color="#FFFFFF" />
-            </Pressable>
-            <Pressable
+              label="닉네임 설정"
+            />
+            <HeroIconButton
+              icon="ellipsis-horizontal"
               onPress={handleLeave}
-              accessibilityRole="button"
-              accessibilityLabel="커뮤니티 탈퇴"
-              className="w-10 h-10 items-center justify-center"
-            >
-              <Ionicons name="ellipsis-horizontal" size={24} color="#FFFFFF" />
-            </Pressable>
+              label="커뮤니티 탈퇴"
+            />
           </View>
         </View>
-        {/* Community name */}
-        <View className="absolute bottom-0 left-0 right-0 px-4 pb-3">
-          <Text className="text-display font-semibold text-white">{community.name}</Text>
+        {/* Community meta — label + hero name */}
+        <View className="absolute left-0 right-0 px-4" style={{ bottom: 72 }}>
+          <Text
+            style={{
+              fontFamily: 'Pretendard-SemiBold',
+              fontSize: 11,
+              letterSpacing: 2,
+              color: 'rgba(255,255,255,0.8)',
+              marginBottom: 8,
+            }}
+          >
+            COMMUNITY
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Pretendard-Black',
+              fontSize: 44,
+              lineHeight: 44,
+              letterSpacing: -1.5,
+              color: '#FFFFFF',
+            }}
+            numberOfLines={1}
+          >
+            {community.name}
+          </Text>
         </View>
       </View>
 

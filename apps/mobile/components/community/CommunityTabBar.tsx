@@ -25,10 +25,14 @@ export function CommunityTabBar({ activeTab, onTabChange }: CommunityTabBarProps
             accessibilityRole="button"
             accessibilityLabel={t(`tabs.${tab}`)}
             accessibilityState={{ selected: isActive }}
-            style={isActive ? { borderBottomWidth: 2, borderBottomColor: '#00E5C3' } : undefined}
+            style={isActive ? { borderBottomWidth: 2, borderBottomColor: '#8B5CF6' } : undefined}
           >
             <Text
-              className={isActive ? 'text-body font-semibold text-foreground' : 'text-body text-subtle'}
+              style={{
+                fontFamily: isActive ? 'Pretendard-Bold' : 'Pretendard',
+                fontSize: 15,
+                color: isActive ? '#FFFFFF' : 'rgba(235,235,245,0.38)',
+              }}
             >
               {t(`tabs.${tab}`)}
             </Text>
