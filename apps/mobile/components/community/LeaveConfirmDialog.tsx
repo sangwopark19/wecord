@@ -1,4 +1,4 @@
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { useTranslation } from '@wecord/shared/i18n';
 
 interface LeaveConfirmDialogOptions {
@@ -32,6 +32,12 @@ export function useLeaveConfirmDialog() {
   const { t } = useTranslation('community');
 
   const show = (onConfirm: () => void) => {
+    if (Platform.OS === 'web') {
+      const confirmed = window.confirm(t('leave.confirm.message'));
+      if (confirmed) onConfirm();
+      return;
+    }
+
     Alert.alert(
       t('leave.confirm.title'),
       t('leave.confirm.message'),
