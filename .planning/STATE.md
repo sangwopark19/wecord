@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: milestone_complete
 stopped_at: Phase 7 UI-SPEC approved
-last_updated: "2026-04-22T03:03:40.856Z"
+last_updated: "2026-04-22T08:17:51.000Z"
 progress:
   total_phases: 7
   completed_phases: 7
@@ -181,8 +181,9 @@ None yet.
 | 260422-m4b | fix PR CI pnpm version conflict | 2026-04-22 | 51a42f5 | [260422-m4b-fix-pr-ci-pnpm-version-conflict](./quick/260422-m4b-fix-pr-ci-pnpm-version-conflict/) |
 | 260422-naz | redesign login screen to match splash mock | 2026-04-22 | f70ef9e | [20260422-login-splash-redesign](./quick/20260422-login-splash-redesign/) |
 | 260422-nir | fix mobile logout in expo --web (Alert→confirm) + admin sidebar sign-out (incidental) | 2026-04-22 | c1828d6 | [260422-nir-logout](./quick/260422-nir-logout/) |
+| 260422-nm3 | add email/password login alongside social OAuth (signup + signin + forgot-password-request) | 2026-04-22 | 632ffbc | [260422-nm3-email-password-auth](./quick/260422-nm3-email-password-auth/) |
 
-Last activity: 2026-04-22 - Completed quick task 260422-nir: fix mobile logout in expo --web (RN Web Alert.alert multi-button polyfill bug) + admin sidebar sign-out button (incidental)
+Last activity: 2026-04-22 - Completed quick task 260422-nm3: 일반 로그인(이메일/비밀번호) 기능 추가 — signup/signin/forgot-password 3개 스크린 + 5개 로케일 i18n, OAuth 플로우 무변경
 
 ## Session Continuity
 
