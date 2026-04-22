@@ -1,0 +1,11 @@
+{
+  "tabLabel": "Shop",
+  "headerTitle": "Shop",
+  "aria": { "back": "Back", "refresh": "Refresh" },
+  "error": {
+    "heading": "Couldn't load Shop",
+    "body": "Check your connection and try again.",
+    "retryCta": "Retry"
+  },
+  "externalLinkToast": "Opening in external browser."
+}

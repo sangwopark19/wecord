@@ -1,0 +1,10 @@
+{
+  "tabLabel": "DM",
+  "comingSoon": {
+    "heading": "곧 보이게 될 고유한 공간입니다",
+    "body": "크리에이터와 가까이 연결될 수 있는 메시지 공간을 준비 중이에요."
+  },
+  "notifyMeCta": "출시되면 알려주세요",
+  "notifiedState": "알림 등록 완료",
+  "alreadyNotifiedToast": "이미 알림이 등록되어 있어요."
+}

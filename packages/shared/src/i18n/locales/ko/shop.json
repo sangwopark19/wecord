@@ -1,0 +1,11 @@
+{
+  "tabLabel": "Shop",
+  "headerTitle": "Shop",
+  "aria": { "back": "뒤로", "refresh": "새로고침" },
+  "error": {
+    "heading": "Shop을 불러올 수 없어요",
+    "body": "네트워크 연결을 확인하고 다시 시도해주세요.",
+    "retryCta": "다시 시도"
+  },
+  "externalLinkToast": "외부 브라우저로 이동합니다."
+}

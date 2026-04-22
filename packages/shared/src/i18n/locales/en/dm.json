@@ -1,0 +1,10 @@
+{
+  "tabLabel": "DM",
+  "comingSoon": {
+    "heading": "A unique space, coming soon",
+    "body": "We're building a message space to bring you closer to creators."
+  },
+  "notifyMeCta": "Notify me at launch",
+  "notifiedState": "You're on the list",
+  "alreadyNotifiedToast": "You're already on the list."
+}

@@ -1,0 +1,14 @@
+{
+  "deleteAccount": {
+    "rowLabel": "Delete account",
+    "warningHeading": "Delete your account?",
+    "warningBody": "This action cannot be undone. Your profile, joined communities, posts and comments will all be deleted.",
+    "continueCta": "Continue",
+    "confirmLabel": "Type `DELETE` to confirm",
+    "confirmPlaceholder": "DELETE",
+    "finalCta": "Delete account",
+    "processing": "Deleting your account...",
+    "successToast": "Your account has been deleted.",
+    "failureToast": "Couldn't delete account. Please contact support."
+  }
+}

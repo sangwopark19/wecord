@@ -1,0 +1,14 @@
+{
+  "deleteAccount": {
+    "rowLabel": "계정 삭제",
+    "warningHeading": "계정을 정말 삭제할까요?",
+    "warningBody": "이 작업은 되돌릴 수 없습니다. 프로필, 가입 커뮤니티, 작성한 글과 댓글이 모두 삭제됩니다.",
+    "continueCta": "계속",
+    "confirmLabel": "확인을 위해 `DELETE`를 입력하세요",
+    "confirmPlaceholder": "DELETE",
+    "finalCta": "계정 삭제",
+    "processing": "계정을 삭제하는 중...",
+    "successToast": "계정이 삭제되었습니다.",
+    "failureToast": "계정을 삭제하지 못했어요. 고객지원으로 문의해주세요."
+  }
+}
