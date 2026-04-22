@@ -174,6 +174,14 @@ None yet.
 - [02-01]: generate-nickname Edge Function needs manual deploy: `supabase functions deploy generate-nickname`
 - [02-01]: EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY env vars needed in .env.local for dev
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260422-m4b | fix PR CI pnpm version conflict | 2026-04-22 | 51a42f5 | [260422-m4b-fix-pr-ci-pnpm-version-conflict](./quick/260422-m4b-fix-pr-ci-pnpm-version-conflict/) |
+
+Last activity: 2026-04-22 - Completed quick task 260422-m4b: fix PR CI pnpm version conflict
+
 ## Session Continuity
 
 Last session: --stopped-at
