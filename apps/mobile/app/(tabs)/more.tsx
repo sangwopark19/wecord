@@ -22,9 +22,15 @@ import { SettingsRow } from '../../components/settings/SettingsRow';
 const APP_VERSION: string = (require('../../app.json') as { expo: { version: string } }).expo
   .version;
 
-// TODO(07-03): replace with production admin URL after Plan 07-03 hosts /privacy and /terms.
-const TERMS_URL_BASE = 'https://wecord-docs.pages.dev/terms';
-const PRIVACY_URL_BASE = 'https://wecord-docs.pages.dev/privacy';
+// 07-03 Task 3: production admin domain. Mirror constant in
+// apps/mobile/app/(more)/settings.tsx — both files must agree. Update both
+// after the Cloudflare Pages deploy in 07-03-MANUAL-FOLLOWUP.md returns a
+// stable URL (default project name `wecord-docs` → `wecord-docs.pages.dev`).
+// If a custom domain (e.g. `wecord.app`) is later wired, update both
+// constants in the same commit.
+const PROD_ADMIN_URL = 'https://wecord-docs.pages.dev';
+const TERMS_URL_BASE = `${PROD_ADMIN_URL}/terms`;
+const PRIVACY_URL_BASE = `${PROD_ADMIN_URL}/privacy`;
 
 export default function MoreScreen() {
   const router = useRouter();
