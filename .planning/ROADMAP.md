@@ -144,11 +144,12 @@ Plans:
   2. Shop tab loads x-square.kr in an in-app WebView with working back and refresh navigation controls
   3. DM tab shows a "Coming Soon" placeholder with a "Notify Me" button that saves the user's notification preference
   4. App is submitted to App Store and Play Store with 17+ content rating, live privacy policy URL, and Apple OAuth requirements met
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 07-01: More tab (global profile edit, language setting, joined communities list, notification prefs, logout)
-- [ ] 07-02: Shop tab WebView (x-square.kr, back/refresh), DM placeholder screen (coming soon + notify me), App Store/Play Store submission checklist (17+ rating, privacy policy URL, Apple OAuth audit)
+- [ ] 07-01-PLAN.md — Wave 0 test stubs + i18n + 5-tab expansion + More hub screen + profile-edit/settings/joined-communities/language screens + useUpdateProfile/useUploadAvatar/useMyCommunities hooks + authStore signOut cache-clear extension + Apple Sign-In prominence snapshot
+- [ ] 07-02-PLAN.md — Shop tab (WebView + hostname allowlist + error fallback), DM tab (Coming Soon + Notify Me + useDmLaunchNotify), 3 Supabase migrations (dm_launch_notify column, avatars bucket, delete_account RPC), delete-user Edge Function + 3-screen delete-account UI, [BLOCKING] local schema push
+- [ ] 07-03-PLAN.md — apps/admin public routes (/privacy /terms /account-delete-request) + Cloudflare Pages deploy, production Supabase cutover (link + db push + functions deploy + secrets + OAuth + redirect URIs), EAS production profile + app.json/eas.json updates, App Store Connect + Google Play Console submission checklist
 
 ## Progress
 
@@ -163,4 +164,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Highlights, Notices, Notifications & Translation | 6/8 | Gap closure | 2026-03-21 |
 | 5. Home Feed, Search & Community Social | 4/4 | Complete | 2026-03-22 |
 | 6. Safety & Admin Dashboard | 7/7 | Complete |  |
-| 7. Launch Polish | 0/2 | Not started | - |
+| 7. Launch Polish | 0/3 | Planned | - |
