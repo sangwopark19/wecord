@@ -5,6 +5,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { initI18n } from '@wecord/shared';
 import { useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { queryClient } from '../lib/queryClient';
 import { useAuthStore } from '../stores/authStore';
 
@@ -55,17 +56,19 @@ function AuthGuard() {
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <View className="flex-1 bg-background">
-        <StatusBar style="light" />
-        <AuthGuard />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: '#000000' },
-          }}
-        />
-      </View>
-    </QueryClientProvider>
+    <ActionSheetProvider>
+      <QueryClientProvider client={queryClient}>
+        <View className="flex-1 bg-background">
+          <StatusBar style="light" />
+          <AuthGuard />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: '#000000' },
+            }}
+          />
+        </View>
+      </QueryClientProvider>
+    </ActionSheetProvider>
   );
 }
