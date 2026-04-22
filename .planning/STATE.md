@@ -180,8 +180,9 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260422-m4b | fix PR CI pnpm version conflict | 2026-04-22 | 51a42f5 | [260422-m4b-fix-pr-ci-pnpm-version-conflict](./quick/260422-m4b-fix-pr-ci-pnpm-version-conflict/) |
 | 260422-naz | redesign login screen to match splash mock | 2026-04-22 | f70ef9e | [20260422-login-splash-redesign](./quick/20260422-login-splash-redesign/) |
+| 260422-nir | add admin sidebar sign-out button (web logout) | 2026-04-22 | b0c6424 | [260422-nir-logout](./quick/260422-nir-logout/) |
 
-Last activity: 2026-04-22 - Completed quick task 260422-naz: redesign login screen to match splash mock
+Last activity: 2026-04-22 - Completed quick task 260422-nir: add admin sidebar sign-out button (web logout)
 
 ## Session Continuity
 
