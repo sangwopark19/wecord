@@ -7,10 +7,12 @@ import {
   Platform,
   SafeAreaView,
   Linking,
+  StyleSheet,
 } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from '@wecord/shared/i18n';
 import { supabase } from '../../lib/supabase';
 
@@ -18,14 +20,9 @@ WebBrowser.maybeCompleteAuthSession();
 
 const redirectTo = makeRedirectUri({ scheme: 'wecord', path: 'auth/callback' });
 
-/**
- * Extract and exchange OAuth code/tokens from a callback URL string.
- * Returns true if auth was completed, false otherwise.
- */
 async function handleOAuthCallbackUrl(urlString: string): Promise<boolean> {
   try {
     const url = new URL(urlString);
-    // PKCE flow: code in query params
     const code = url.searchParams.get('code');
     if (code) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
@@ -35,7 +32,6 @@ async function handleOAuthCallbackUrl(urlString: string): Promise<boolean> {
       }
       return true;
     }
-    // Implicit flow fallback: tokens in URL fragment
     const hashParams = new URLSearchParams(url.hash.replace('#', ''));
     const accessToken = hashParams.get('access_token');
     const refreshToken = hashParams.get('refresh_token');
@@ -83,10 +79,6 @@ export default function LoginScreen() {
       });
       if (error) throw error;
       if (data.url) {
-        // On Android the WebBrowser polyfill races AppState vs Linking.
-        // AppState becomes active before the Linking URL event fires, so
-        // result.type is often 'dismiss' even when OAuth succeeded.
-        // We listen to Linking directly to catch the callback URL regardless.
         const subscription = { current: null as { remove: () => void } | null };
 
         const androidCallbackPromise = new Promise<string | null>((resolve) => {
@@ -99,7 +91,6 @@ export default function LoginScreen() {
               resolve(url);
             }
           });
-          // Timeout after 5 minutes — user may cancel
           setTimeout(() => resolve(null), 5 * 60 * 1000);
         });
 
@@ -112,7 +103,6 @@ export default function LoginScreen() {
         console.log('[OAuth] Browser result:', result.type);
 
         if (result.type === 'success') {
-          // iOS path (native ASWebAuthenticationSession returns URL directly)
           subscription.current?.remove();
           const handled = await handleOAuthCallbackUrl(result.url);
           if (!handled) {
@@ -122,8 +112,6 @@ export default function LoginScreen() {
         }
 
         if (Platform.OS === 'android') {
-          // Android path: AppState won the race. Check if Linking has the URL.
-          // Give it a short window to arrive before giving up.
           const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 2000));
           const callbackUrl = await Promise.race([androidCallbackPromise, timeoutPromise]);
           subscription.current?.remove();
@@ -137,8 +125,6 @@ export default function LoginScreen() {
             return;
           }
 
-          // Also check if the URL was delivered as the initial URL
-          // (app cold-started by the deep link intent)
           const initialUrl = await Linking.getInitialURL();
           if (initialUrl && initialUrl.startsWith(redirectTo)) {
             console.log('[OAuth] Android: got callback URL via getInitialURL');
@@ -175,7 +161,6 @@ export default function LoginScreen() {
         });
       }
     } catch (err: any) {
-      // Skip error if user cancelled
       if (err?.code !== 'ERR_REQUEST_CANCELED') {
         showError(t('error.auth_failed'));
       }
@@ -266,33 +251,73 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-1 items-center px-4">
-        {/* Wordmark — 48px from top (2xl spacing) */}
+      {/* Top purple radial glow */}
+      <LinearGradient
+        colors={['rgba(124,58,237,0.45)', 'rgba(139,92,246,0.18)', 'rgba(11,11,15,0)']}
+        locations={[0, 0.38, 0.82]}
+        style={StyleSheet.absoluteFillObject}
+        pointerEvents="none"
+      />
+
+      <View className="flex-1 px-6">
+        {/* Hero block — wordmark + tagline */}
         <View className="mt-12">
-          <Text className="text-display font-semibold text-foreground">Wecord</Text>
+          <Text className="text-mono font-semibold text-muted-foreground uppercase">
+            {t('login.fandom_label')}
+          </Text>
+
+          <View className="mt-5 flex-row items-end">
+            <Text
+              className="text-foreground font-black"
+              style={styles.wordmark}
+            >
+              wecord
+            </Text>
+            <Text
+              className="font-black"
+              style={styles.wordmarkDot}
+            >
+              .
+            </Text>
+          </View>
+
+          <Text className="mt-5 text-body text-muted-foreground leading-[22px]">
+            {t('login.tagline')}
+          </Text>
         </View>
 
-        {/* Spacer — push buttons toward center */}
+        {/* LIVE activity teaser card */}
+        <View className="mt-6 flex-row items-center bg-surface/60 border border-border rounded-[14px] px-3 py-3">
+          <View className="flex-row items-center bg-live rounded-[6px] px-2 py-[3px]">
+            <View className="w-1.5 h-1.5 rounded-full bg-white mr-1.5" />
+            <Text className="text-white text-[10px] font-bold tracking-[1.2px]">LIVE</Text>
+          </View>
+          <Text className="ml-3 text-body text-muted-foreground flex-1">
+            {t('login.live_teaser')}
+          </Text>
+        </View>
+
+        {/* Flexible spacer pushes CTA stack toward bottom */}
         <View className="flex-1" />
 
-        {/* OAuth Buttons — Apple FIRST (T-7-07 / Apple Guideline 4.8) */}
-        <View className="w-full gap-y-3 mb-4">
-          {/* Apple OAuth button — must render at or above Google */}
+        {/* OAuth buttons — Apple FIRST (T-7-07 / Apple Guideline 4.8).
+            Apple is the white primary CTA; Google is outlined secondary. */}
+        <View className="w-full gap-y-3 mb-2">
           {Platform.OS === 'ios' ? (
             <TouchableOpacity
               testID="apple-signin-button"
               accessibilityLabel={t('login.apple_cta')}
               onPress={signInWithApple}
               disabled={isLoading}
-              className="w-full flex-row items-center justify-center bg-black border border-white rounded-[28px] h-[52px] px-4"
-              activeOpacity={0.8}
+              className="w-full flex-row items-center justify-center bg-foreground rounded-[28px] h-[54px] px-4"
+              activeOpacity={0.85}
             >
               {loadingApple ? (
-                <ActivityIndicator color="#FFFFFF" size="small" />
+                <ActivityIndicator color="#000000" size="small" />
               ) : (
                 <>
-                  <Text className="text-white font-semibold text-[16px] mr-2"></Text>
-                  <Text className="text-white font-semibold text-[16px]">
+                  <Text className="text-black font-semibold text-[16px] mr-2"></Text>
+                  <Text className="text-black font-semibold text-[16px]">
                     {t('login.apple_cta')}
                   </Text>
                 </>
@@ -304,15 +329,15 @@ export default function LoginScreen() {
               accessibilityLabel={t('login.apple_cta')}
               onPress={signInWithAppleWeb}
               disabled={isLoading}
-              className="w-full flex-row items-center justify-center bg-black border border-white rounded-[28px] h-[52px] px-4"
-              activeOpacity={0.8}
+              className="w-full flex-row items-center justify-center bg-foreground rounded-[28px] h-[54px] px-4"
+              activeOpacity={0.85}
             >
               {loadingApple ? (
-                <ActivityIndicator color="#FFFFFF" size="small" />
+                <ActivityIndicator color="#000000" size="small" />
               ) : (
                 <>
-                  <Text className="text-white font-semibold text-[16px] mr-2"></Text>
-                  <Text className="text-white font-semibold text-[16px]">
+                  <Text className="text-black font-semibold text-[16px] mr-2"></Text>
+                  <Text className="text-black font-semibold text-[16px]">
                     {t('login.apple_cta')}
                   </Text>
                 </>
@@ -320,21 +345,20 @@ export default function LoginScreen() {
             </TouchableOpacity>
           )}
 
-          {/* Google OAuth button */}
           <TouchableOpacity
             testID="google-signin-button"
             accessibilityLabel={t('login.google_cta')}
             onPress={signInWithGoogle}
             disabled={isLoading}
-            className="w-full flex-row items-center justify-center bg-white border border-[#1A1A1A] rounded-[28px] h-[52px] px-4"
-            activeOpacity={0.8}
+            className="w-full flex-row items-center justify-center bg-surface/60 border border-border rounded-[28px] h-[54px] px-4"
+            activeOpacity={0.85}
           >
             {loadingGoogle ? (
-              <ActivityIndicator color="#000000" size="small" />
+              <ActivityIndicator color="#FFFFFF" size="small" />
             ) : (
               <>
-                <Text className="text-black font-semibold text-[16px] mr-2">G</Text>
-                <Text className="text-[#8B5CF6] font-semibold text-[16px]">
+                <Text className="text-foreground font-semibold text-[16px] mr-2">G</Text>
+                <Text className="text-foreground font-semibold text-[16px]">
                   {t('login.google_cta')}
                 </Text>
               </>
@@ -342,16 +366,29 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Error message */}
         {error && (
-          <Text className="text-destructive text-[12px] text-center mb-2">{error}</Text>
+          <Text className="text-destructive text-[12px] text-center mt-2">{error}</Text>
         )}
 
-        {/* Legal note */}
-        <Text className="text-label font-regular text-muted-foreground text-center mt-4 mb-8 px-4">
+        <Text className="text-label font-regular text-dim text-center mt-4 mb-4 px-2">
           {t('login.legal_note')}
         </Text>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  wordmark: {
+    fontSize: 68,
+    lineHeight: 68,
+    letterSpacing: -2.5,
+  },
+  wordmarkDot: {
+    fontSize: 68,
+    lineHeight: 68,
+    letterSpacing: -2.5,
+    color: '#8B5CF6',
+    marginLeft: -2,
+  },
+});
