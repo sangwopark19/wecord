@@ -6,6 +6,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { MediaGrid } from './MediaGrid';
 import { CreatorBadge } from './CreatorBadge';
 import { LikeButton } from './LikeButton';
+import { Avatar, getSeedFromString } from '../common/CoverGrad';
 import { useTranslate } from '../../hooks/post/useTranslate';
 import { TranslateButton } from './TranslateButton';
 import { TranslatedTextBlock } from './TranslatedTextBlock';
@@ -84,8 +85,14 @@ export function PostCard({ post, onLike, onDelete, onReport, clampLines = 3, com
         accessibilityRole="link"
         accessibilityLabel={post.author_nickname}
       >
-        {/* Avatar placeholder */}
-        <View className="w-10 h-10 rounded-full bg-input mr-3 flex-shrink-0" />
+        {/* Avatar — initials on seeded color */}
+        <View style={{ marginRight: 12, flexShrink: 0 }}>
+          <Avatar
+            name={post.author_nickname}
+            seed={getSeedFromString(post.author_cm_id ?? post.author_id)}
+            size={40}
+          />
+        </View>
 
         {/* Author info */}
         <View className="flex-1">

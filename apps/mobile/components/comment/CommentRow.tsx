@@ -2,6 +2,7 @@ import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CreatorBadge } from '../post/CreatorBadge';
 import { LikeButton } from '../post/LikeButton';
+import { Avatar, getSeedFromString } from '../common/CoverGrad';
 import { showDeleteConfirmDialog } from '../post/DeleteConfirmDialog';
 import { useTranslate } from '../../hooks/post/useTranslate';
 import { TranslateButton } from '../post/TranslateButton';
@@ -50,8 +51,14 @@ export function CommentRow({
   return (
     <View className="py-3 px-4 border-b border-input">
       <View className="flex-row items-start">
-        {/* Avatar */}
-        <View className="w-8 h-8 rounded-full bg-card mr-3 flex-shrink-0" />
+        {/* Avatar — initials on seeded color */}
+        <View style={{ marginRight: 12, flexShrink: 0 }}>
+          <Avatar
+            name={comment.author.community_nickname}
+            seed={getSeedFromString(comment.author_id)}
+            size={34}
+          />
+        </View>
 
         {/* Content column */}
         <View className="flex-1">
